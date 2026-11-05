@@ -1508,7 +1508,7 @@
                     <i class="fa-solid fa-bucket text-amber-400 mr-1"></i> Jam Kerja Bucket
                   </label>
                   <div class="relative">
-                    <input type="number" step="0.1" min="0" max="24" id="logBucketHours" oninput="calculateTotalAttachmentHours()" required placeholder="0.0" value="6.0" class="w-full bg-amber-500/10 border-2 border-amber-500/40 rounded-lg py-2 px-3 text-sm font-bold text-amber-400 focus:outline-none focus:border-amber-400">
+                    <input type="number" step="0.1" min="0" max="24" id="logBucketHours" oninput="calculateTotalAttachmentHours()" required placeholder="0.0" value="0" class="w-full bg-amber-500/10 border-2 border-amber-500/40 rounded-lg py-2 px-3 text-sm font-bold text-amber-400 focus:outline-none focus:border-amber-400">
                     <span class="absolute right-3 top-2.5 text-xs text-amber-400/80 font-semibold">Jam</span>
                   </div>
                   <p class="text-[10px] text-slate-400 mt-1">Galian / loading standar</p>
@@ -1519,7 +1519,7 @@
                     <i class="fa-solid fa-hammer text-orange-400 mr-1"></i> Jam Kerja Breaker
                   </label>
                   <div class="relative">
-                    <input type="number" step="0.1" min="0" max="24" id="logBreakerHours" oninput="calculateTotalAttachmentHours()" required placeholder="0.0" value="2.0" class="w-full bg-orange-500/10 border-2 border-orange-500/40 rounded-lg py-2 px-3 text-sm font-bold text-orange-400 focus:outline-none focus:border-orange-400">
+                    <input type="number" step="0.1" min="0" max="24" id="logBreakerHours" oninput="calculateTotalAttachmentHours()" required placeholder="0.0" value="0" class="w-full bg-orange-500/10 border-2 border-orange-500/40 rounded-lg py-2 px-3 text-sm font-bold text-orange-400 focus:outline-none focus:border-orange-400">
                     <span class="absolute right-3 top-2.5 text-xs text-orange-400/80 font-semibold">Jam</span>
                   </div>
                   <p class="text-[10px] text-slate-400 mt-1">Pemecahan batu / cor beton</p>
@@ -1528,7 +1528,7 @@
                 <div>
                   <label class="block text-[11px] text-slate-400 mb-1">Total Jam Attachment</label>
                   <div class="w-full bg-slate-900 border border-slate-700 rounded-lg py-2 px-3 text-sm font-bold text-white flex items-center justify-between">
-                    <span id="logTotalAttachmentHoursDisplay">8.0</span>
+                    <span id="logTotalAttachmentHoursDisplay">0.0</span>
                     <span class="text-xs text-slate-500 font-normal">Jam</span>
                   </div>
                   <p class="text-[10px] text-slate-400 mt-1">Otomatis (Bucket + Breaker)</p>
@@ -2150,7 +2150,7 @@
       <!-- ================= TAB: DAFTAR UNIT & LOG HISTORI (ADMIN ONLY) ================= -->
       <section id="tab-equipmentList" class="tab-content hidden space-y-6">
         <!-- Action bar -->
-        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-slate-900 border border-slate-800 p-4 sm:p-5 rounded-2xl">
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-slate-900 border border-slate-800 p-4 sm:p-5 rounded-2xl shadow-xl">
           <div>
             <h2 class="text-base sm:text-lg font-bold text-white flex items-center gap-2">
               <i class="fa-solid fa-list-check text-amber-500"></i> Histori Log Operasional & Data Unit
@@ -2160,6 +2160,9 @@
           <div class="flex flex-wrap items-center gap-2 w-full sm:w-auto">
             <button onclick="openManageEquipmentModal()" class="flex-1 sm:flex-initial justify-center bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold px-3.5 py-2.5 rounded-xl text-xs flex items-center gap-1.5 transition shadow">
               <i class="fa-solid fa-truck-monster"></i> Kelola & Lihat Unit
+            </button>
+            <button onclick="recalculateSequentialHM()" title="Koreksi otomatis HM awal & akhir berantai per unit alat berdasarkan tanggal" class="role-admin-only flex-1 sm:flex-initial justify-center bg-indigo-600 hover:bg-indigo-500 text-white font-medium px-3.5 py-2.5 rounded-xl text-xs flex items-center gap-1.5 transition shadow">
+              <i class="fa-solid fa-wand-magic-sparkles text-amber-300"></i> Perbaiki Urutan HM
             </button>
             <button onclick="sendDailySummaryWhatsApp()" class="flex-1 sm:flex-initial justify-center bg-emerald-600 hover:bg-emerald-500 text-white font-medium px-3.5 py-2.5 rounded-xl text-xs flex items-center gap-1.5 transition shadow">
               <i class="fa-brands fa-whatsapp text-sm"></i> Kirim Rekap WA
@@ -2176,11 +2179,11 @@
           </div>
         </div>
 
-        <!-- Filter Bar -->
+        <!-- Filter & Search Bar -->
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
           <div class="relative sm:col-span-2">
             <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-3 text-slate-500 text-xs"></i>
-            <input type="text" id="logFilterSearch" oninput="renderDailyLogsTable()" placeholder="Cari operator, kode unit, lokasi..." class="w-full bg-slate-900 border border-slate-800 rounded-xl py-2.5 pl-9 pr-4 text-xs text-white focus:outline-none focus:border-amber-500">
+            <input type="text" id="logFilterSearch" oninput="renderDailyLogsTable()" placeholder="Cari berdasarkan nama operator, lokasi, atau kode unit..." class="w-full bg-slate-900 border border-slate-800 rounded-xl py-2.5 pl-9 pr-4 text-xs text-white focus:outline-none focus:border-amber-500">
           </div>
           <div>
             <select id="logFilterEquipment" onchange="renderDailyLogsTable()" class="w-full bg-slate-900 border border-slate-800 rounded-xl py-2.5 px-3 text-xs text-white focus:outline-none focus:border-amber-500">
@@ -2189,15 +2192,15 @@
           </div>
         </div>
 
+        <!-- Tampilan Kartu Khusus Mobile -->
         <div id="dailyLogsCardsMobile" class="md:hidden space-y-3"></div>
 
-        <!-- Desktop Log Table -->
-        <div id="printableArea" class="hidden md:block bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden shadow-xl p-1">
-          <div class="p-4 border-b border-slate-800 flex justify-between items-center bg-slate-850/50">
-            <div>
-              <h3 class="font-bold text-white text-sm">Laporan Rekapitulasi Hour Meter (HM) & Jam Attachment</h3>
-              <p class="text-[11px] text-slate-400">Data tersimpan di database lokal & cloud Firestore</p>
-            </div>
+        <!-- Tabel Log Operasional (Desktop & Printable Area) -->
+        <div id="printableArea" class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden shadow-xl">
+          <div class="p-4 bg-slate-850 border-b border-slate-800 flex justify-between items-center no-print">
+            <span class="text-xs font-bold text-slate-300 uppercase tracking-wider flex items-center gap-2">
+              <i class="fa-solid fa-table-list text-amber-500"></i> Rincian Entri Log Lapangan
+            </span>
             <span id="logCounterBadge" class="text-xs bg-amber-500/10 text-amber-400 border border-amber-500/20 px-2.5 py-1 rounded-full font-semibold">0 Entri</span>
           </div>
 
@@ -2828,11 +2831,11 @@ function doPost(e) {
     </div>
   </div>
 
-  <!-- Modal: Tambah Unit Alat Berat Baru (Ditingkatkan ke z-[60] agar berada di atas modal Kelola Master Data) -->
+  <!-- Modal: Tambah & Edit Unit Alat Berat Baru (Ditingkatkan ke z-[60] agar berada di atas modal Kelola Master Data) -->
   <div id="modalAddEquipment" class="fixed inset-0 z-[60] bg-black/80 backdrop-blur-sm hidden items-center justify-center p-4">
     <div class="bg-slate-900 border border-slate-700/80 rounded-2xl w-full max-w-md p-6 shadow-2xl relative">
       <div class="flex items-center justify-between pb-3 border-b border-slate-800 mb-4">
-        <h3 class="text-base font-bold text-white flex items-center gap-2">
+        <h3 id="modalAddEquipmentTitle" class="text-base font-bold text-white flex items-center gap-2">
           <i class="fa-solid fa-truck-ramp-box text-amber-500"></i> Tambah Unit Alat Berat
         </h3>
         <button onclick="closeModal('modalAddEquipment')" class="text-slate-400 hover:text-white text-lg">
@@ -2840,7 +2843,8 @@ function doPost(e) {
         </button>
       </div>
 
-      <form onsubmit="handleSaveEquipment(event)" class="space-y-4">
+      <form id="equipmentMasterForm" onsubmit="handleSaveEquipment(event)" class="space-y-4">
+        <input type="hidden" id="editEquipId" value="">
         <div>
           <label class="block text-xs font-semibold text-slate-300 mb-1">Kode / ID Unit (Nomor Lambung)</label>
           <input type="text" id="newEquipCode" required placeholder="Contoh: EX-201, BD-05, DT-12" class="w-full bg-slate-950 border border-slate-700 rounded-xl py-2 px-3 text-xs text-white focus:outline-none focus:border-amber-500">
@@ -2867,14 +2871,123 @@ function doPost(e) {
         </div>
         <div class="pt-2 flex justify-end gap-2">
           <button type="button" onclick="closeModal('modalAddEquipment')" class="px-4 py-2 bg-slate-800 text-slate-300 rounded-xl text-xs font-semibold">Batal</button>
-          <button type="submit" class="px-5 py-2 bg-amber-500 hover:bg-amber-400 text-slate-950 rounded-xl text-xs font-bold transition">Simpan Unit</button>
+          <button type="submit" id="btnSubmitEquipForm" class="px-5 py-2 bg-amber-500 hover:bg-amber-400 text-slate-950 rounded-xl text-xs font-bold transition">Simpan Unit</button>
         </div>
       </form>
     </div>
   </div>
 
-  <!-- Modal: Kelola Daftar Unit Alat Berat (z-50) -->
-  <div id="modalManageEquipment" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-4">
+  <!-- Modal: Edit Laporan Rekapitulasi HM Operasional (Khusus Admin) -->
+  <div id="modalEditDailyLog" class="fixed inset-0 z-[60] bg-black/80 backdrop-blur-sm hidden items-center justify-center p-4">
+    <div class="bg-slate-900 border border-slate-700/80 rounded-2xl w-full max-w-2xl p-5 sm:p-6 shadow-2xl relative max-h-[92vh] overflow-y-auto">
+      <div class="flex items-center justify-between pb-3 border-b border-slate-800 mb-4">
+        <div>
+          <h3 class="text-base font-bold text-white flex items-center gap-2">
+            <i class="fa-solid fa-pen-to-square text-amber-500"></i> Edit Laporan Rekapitulasi HM
+          </h3>
+          <p class="text-xs text-slate-400">Ubah rincian jam kerja operasional atau koreksi pembacaan Hour Meter (Khusus Admin).</p>
+        </div>
+        <button type="button" onclick="closeModal('modalEditDailyLog')" class="text-slate-400 hover:text-white text-lg">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <form id="editDailyLogForm" onsubmit="handleSaveEditDailyLog(event)" class="space-y-4">
+        <input type="hidden" id="editLogId" value="">
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+          <div>
+            <label class="block text-[11px] font-semibold text-slate-300 mb-1">Tanggal Operasi</label>
+            <input type="date" id="editLogDate" required class="w-full bg-slate-950 border border-slate-700 rounded-xl py-2 px-3 text-xs text-white focus:outline-none focus:border-amber-500">
+          </div>
+          <div>
+            <label class="block text-[11px] font-semibold text-slate-300 mb-1">Nama Operator</label>
+            <input type="text" id="editLogOperator" required class="w-full bg-slate-950 border border-slate-700 rounded-xl py-2 px-3 text-xs text-white focus:outline-none focus:border-amber-500">
+          </div>
+          <div>
+            <label class="block text-[11px] font-semibold text-slate-300 mb-1">Lokasi / Site Kerja</label>
+            <input type="text" id="editLogLocation" required class="w-full bg-slate-950 border border-slate-700 rounded-xl py-2 px-3 text-xs text-white focus:outline-none focus:border-amber-500">
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-[11px] font-semibold text-slate-300 mb-1">Unit Alat Berat Terkait</label>
+          <input type="text" id="editLogEquipmentDisplay" readonly class="w-full bg-slate-950/70 border border-slate-800 rounded-xl py-2 px-3 text-xs font-bold text-amber-400 cursor-not-allowed">
+        </div>
+
+        <!-- Rincian Shift & Attachment Hours -->
+        <div class="p-3.5 rounded-xl bg-slate-950 border border-slate-800 space-y-3">
+          <div class="text-xs font-bold text-amber-400 flex items-center justify-between">
+            <span><i class="fa-regular fa-clock mr-1"></i> Jam Shift & Jam Kerja Attachment</span>
+            <span class="text-[10px] text-slate-400">Bucket & Breaker</span>
+          </div>
+
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+            <div>
+              <label class="block text-[10px] text-slate-400 mb-1">Jam Mulai</label>
+              <input type="time" id="editLogStartTime" required class="w-full bg-slate-900 border border-slate-700 rounded-lg py-1.5 px-2.5 text-xs text-white focus:outline-none focus:border-amber-500">
+            </div>
+            <div>
+              <label class="block text-[10px] text-slate-400 mb-1">Jam Selesai</label>
+              <input type="time" id="editLogEndTime" required class="w-full bg-slate-900 border border-slate-700 rounded-lg py-1.5 px-2.5 text-xs text-white focus:outline-none focus:border-amber-500">
+            </div>
+            <div>
+              <label class="block text-[10px] text-amber-300 font-bold mb-1">Jam Bucket</label>
+              <input type="number" step="0.1" min="0" max="24" id="editLogBucketHours" oninput="calculateEditLogHours()" required class="w-full bg-amber-500/10 border border-amber-500/40 rounded-lg py-1.5 px-2.5 text-xs font-bold text-amber-400 focus:outline-none focus:border-amber-400">
+            </div>
+            <div>
+              <label class="block text-[10px] text-orange-300 font-bold mb-1">Jam Breaker</label>
+              <input type="number" step="0.1" min="0" max="24" id="editLogBreakerHours" oninput="calculateEditLogHours()" required class="w-full bg-orange-500/10 border border-orange-500/40 rounded-lg py-1.5 px-2.5 text-xs font-bold text-orange-400 focus:outline-none focus:border-orange-400">
+            </div>
+          </div>
+        </div>
+
+        <!-- Pembacaan Hour Meter (HM) -->
+        <div class="p-3.5 rounded-xl bg-slate-950 border border-slate-800 space-y-3">
+          <div class="text-xs font-bold text-slate-300 flex items-center justify-between">
+            <span><i class="fa-solid fa-gauge-high mr-1 text-amber-500"></i> Pembacaan Hour Meter (HM)</span>
+            <span class="text-[10px] text-slate-400">Kalkulasi Otomatis</span>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 items-end">
+            <div>
+              <label class="block text-[10px] text-slate-400 mb-1">HM Awal</label>
+              <input type="number" step="0.1" min="0" id="editLogHmAwal" oninput="calculateEditLogHours()" required class="w-full bg-slate-900 border border-slate-700 rounded-lg py-1.5 px-2.5 text-xs text-white focus:outline-none focus:border-amber-500">
+            </div>
+            <div>
+              <label class="block text-[10px] text-slate-400 mb-1">HM Akhir</label>
+              <input type="number" step="0.1" min="0" id="editLogHmAkhir" oninput="calculateEditLogHours()" required class="w-full bg-slate-900 border border-slate-700 rounded-lg py-1.5 px-2.5 text-xs text-white focus:outline-none focus:border-amber-500">
+            </div>
+            <div>
+              <label class="block text-[10px] text-slate-400 mb-1">Selisih HM</label>
+              <div class="w-full bg-slate-900 border border-slate-800 rounded-lg py-1.5 px-2.5 text-xs font-bold text-amber-400 flex items-center justify-between">
+                <span id="editLogTotalHmDisplay">0.0</span>
+                <span class="text-[10px] font-normal text-slate-500">HM</span>
+              </div>
+            </div>
+          </div>
+          <p id="editHmWarningMsg" class="hidden text-xs text-rose-400 font-medium">
+            <i class="fa-solid fa-triangle-exclamation"></i> Peringatan: HM Akhir tidak boleh lebih kecil dari HM Awal!
+          </p>
+        </div>
+
+        <div>
+          <label class="block text-[11px] font-semibold text-slate-300 mb-1">Catatan Operasi Lapangan</label>
+          <textarea id="editLogNotes" rows="2" class="w-full bg-slate-950 border border-slate-700 rounded-xl py-2 px-3 text-xs text-white focus:outline-none focus:border-amber-500"></textarea>
+        </div>
+
+        <div class="pt-2 flex justify-end gap-2">
+          <button type="button" onclick="closeModal('modalEditDailyLog')" class="px-4 py-2 bg-slate-800 text-slate-300 rounded-xl text-xs font-semibold">Batal</button>
+          <button type="submit" class="px-5 py-2 bg-amber-500 hover:bg-amber-400 text-slate-950 rounded-xl text-xs font-bold transition flex items-center gap-1.5 shadow">
+            <i class="fa-solid fa-floppy-disk"></i> Simpan Perubahan
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal: Kelola Daftar Unit Alat Berat (z-[55]) -->
+  <div id="modalManageEquipment" class="fixed inset-0 z-[55] bg-black/80 backdrop-blur-sm hidden items-center justify-center p-4">
     <div class="bg-slate-900 border border-slate-800 rounded-2xl w-full max-w-2xl p-5 sm:p-6 shadow-2xl relative max-h-[90vh] flex flex-col">
       <div class="flex items-center justify-between pb-3 border-b border-slate-800 mb-4">
         <div>
@@ -2883,7 +2996,7 @@ function doPost(e) {
           </h3>
           <p class="text-xs text-slate-400" id="manageEquipmentSubtitle">Tambah armada baru atau hapus unit yang sudah tidak beroperasi.</p>
         </div>
-        <button onclick="closeModal('modalManageEquipment')" class="text-slate-400 hover:text-white text-lg">
+        <button type="button" onclick="closeModal('modalManageEquipment')" class="text-slate-400 hover:text-white text-lg">
           <i class="fa-solid fa-xmark"></i>
         </button>
       </div>
@@ -5544,7 +5657,7 @@ function doPost(e) {
       return total;
     }
 
-    function calculateTotalHm() {
+    function calculateTotalHm(isManualEndEdit = false) {
       const awal = parseFloat(document.getElementById('logHmAwal')?.value) || 0;
       const akhirInput = document.getElementById('logHmAkhir');
       const warning = document.getElementById('hmWarningMsg');
@@ -5555,10 +5668,19 @@ function doPost(e) {
       const totalJamAttachment = bkt + brk;
 
       let akhir;
-      if (!akhirInput || akhirInput.value === '' || isNaN(parseFloat(akhirInput.value))) {
+      if (!isManualEndEdit) {
+        // Selalu perbarui HM Akhir otomatis: HM Awal + Jam Kerja Attachment
         akhir = parseFloat((awal + totalJamAttachment).toFixed(1));
+        if (akhirInput) {
+          akhirInput.value = akhir;
+        }
       } else {
-        akhir = parseFloat(akhirInput.value);
+        if (!akhirInput || akhirInput.value === '' || isNaN(parseFloat(akhirInput.value))) {
+          akhir = parseFloat((awal + totalJamAttachment).toFixed(1));
+          if (akhirInput) akhirInput.value = akhir;
+        } else {
+          akhir = parseFloat(akhirInput.value);
+        }
       }
 
       if (akhir < awal && akhir !== 0) {
@@ -5636,6 +5758,11 @@ function doPost(e) {
       if (startTime) startTime.value = '08:00';
       if (endTime) endTime.value = '17:00';
 
+      const bktInput = document.getElementById('logBucketHours');
+      const brkInput = document.getElementById('logBreakerHours');
+      if (bktInput) bktInput.value = '0';
+      if (brkInput) brkInput.value = '0';
+
       const opInput = document.getElementById('logOperatorName');
       if (currentUser && currentUser.role === 'operator' && opInput) {
         opInput.value = currentUser.name;
@@ -5655,21 +5782,22 @@ function doPost(e) {
       }
 
       const hmAwal = parseFloat(document.getElementById('logHmAwal').value) || 0;
-      const akhirInputVal = document.getElementById('logHmAkhir')?.value;
-
       const bkt = parseFloat(document.getElementById('logBucketHours').value) || 0;
       const brk = parseFloat(document.getElementById('logBreakerHours').value) || 0;
       const totalJamAttachment = bkt + brk;
       const totalJam = totalJamAttachment.toFixed(1);
 
+      let akhirInputVal = document.getElementById('logHmAkhir')?.value;
       let hmAkhir;
       if (akhirInputVal === '' || akhirInputVal === null || isNaN(parseFloat(akhirInputVal))) {
         hmAkhir = parseFloat((hmAwal + totalJamAttachment).toFixed(1));
+        const akhirInput = document.getElementById('logHmAkhir');
+        if (akhirInput) akhirInput.value = hmAkhir;
       } else {
         hmAkhir = parseFloat(akhirInputVal);
       }
 
-      const totalHm = calculateTotalHm();
+      const totalHm = calculateTotalHm(true);
 
       if (hmAkhir < hmAwal) {
         showToast('HM Akhir tidak boleh lebih kecil dari HM Awal!', 'warning');
@@ -5723,46 +5851,104 @@ function doPost(e) {
 
       resetLogForm();
     }
+    function calculateEditLogHours(isManualEndEdit = false) {
+      const awal = parseFloat(document.getElementById('editLogHmAwal')?.value) || 0;
+      const akhirInp = document.getElementById('editLogHmAkhir');
+      const bkt = parseFloat(document.getElementById('editLogBucketHours')?.value) || 0;
+      const brk = parseFloat(document.getElementById('editLogBreakerHours')?.value) || 0;
+      const warning = document.getElementById('editHmWarningMsg');
+      const display = document.getElementById('editLogTotalHmDisplay');
 
-    function handleSaveFuelLog(e) {
-      e.preventDefault();
-      const equipId = document.getElementById('fuelEquipSelect').value;
-      const equip = equipments.find(eq => eq.id === equipId);
-      if (!equip) {
-        showToast('Pilih unit alat berat terlebih dahulu!', 'warning');
+      let akhir;
+      if (!isManualEndEdit) {
+        akhir = parseFloat((awal + bkt + brk).toFixed(1));
+        if (akhirInp) akhirInp.value = akhir;
+      } else {
+        if (!akhirInp || akhirInp.value === '' || isNaN(parseFloat(akhirInp.value))) {
+          akhir = parseFloat((awal + bkt + brk).toFixed(1));
+          if (akhirInp) akhirInp.value = akhir;
+        } else {
+          akhir = parseFloat(akhirInp.value);
+        }
+      }
+
+      if (akhir < awal && akhir !== 0) {
+        if (warning) warning.classList.remove('hidden');
+        if (display) display.innerText = '0.0';
+      } else {
+        if (warning) warning.classList.add('hidden');
+        const diff = Math.max(0, akhir - awal).toFixed(1);
+        if (display) display.innerText = diff;
+      }
+    }
+
+    /* ================= FITUR AUTO-RECHAIN & KOREKSI HM BERDASARKAN TANGGAL ================= */
+    function recalculateSequentialHM() {
+      if (!currentUser || currentUser.role !== 'admin') {
+        showToast('Akses ditolak: Hanya Admin yang dapat merekonstruksi urutan HM!', 'warning');
         return;
       }
 
-      const liters = parseFloat(document.getElementById('fuelAmountLiters').value) || 0;
-      if (liters <= 0) {
-        showToast('Jumlah solar harus lebih dari 0 liter!', 'warning');
+      if (!dailyLogs || dailyLogs.length === 0) {
+        showToast('Tidak ada data log harian untuk diperbaiki.', 'warning');
         return;
       }
 
-      const newFuel = {
-        id: 'FUEL-' + new Date().getTime(),
-        date: document.getElementById('fuelDate').value,
-        time: document.getElementById('fuelTime').value,
-        equipmentId: equip.id,
-        equipmentCode: `${equip.code} (${equip.category} - ${equip.model})`,
-        liters: liters,
-        location: document.getElementById('fuelLocation').value.trim(),
-        operatorName: document.getElementById('fuelOperatorName').value.trim(),
-        helperName: document.getElementById('fuelHelperName').value.trim(),
-        voucherNo: document.getElementById('fuelVoucherNo').value.trim() || '-',
-        notes: document.getElementById('fuelNotes').value.trim()
-      };
+      let totalFixedLogs = 0;
 
-      fuelLogs.push(newFuel);
+      // Proses perbaikan per unit alat berat
+      equipments.forEach(eq => {
+        // Ambil semua log untuk unit ini dan urutkan secara kronologis berdasarkan tanggal
+        const unitLogs = dailyLogs.filter(l => l.equipmentId === eq.id || (l.equipmentCode && l.equipmentCode.includes(eq.code)));
+
+        if (unitLogs.length === 0) return;
+
+        // Urutkan berdasarkan tanggal menaik (lama ke baru)
+        unitLogs.sort((a, b) => {
+          const dateCmp = (a.date || '').localeCompare(b.date || '');
+          if (dateCmp !== 0) return dateCmp;
+          return (a.startTime || '').localeCompare(b.startTime || '');
+        });
+
+        // Tentukan titik awal HM dari log pertama atau currentHM yang ada
+        let runningHM = parseFloat(unitLogs[0].hmAwal) || 0;
+
+        unitLogs.forEach((log, idx) => {
+          const bkt = parseFloat(log.bucketHours) || 0;
+          const brk = parseFloat(log.breakerHours) || 0;
+          const totalJam = parseFloat((bkt + brk).toFixed(1));
+
+          // Set HM Awal bersambung dari log sebelumnya
+          const oldAwal = log.hmAwal;
+          const oldAkhir = log.hmAkhir;
+
+          log.hmAwal = parseFloat(runningHM.toFixed(1));
+          log.hmAkhir = parseFloat((log.hmAwal + totalJam).toFixed(1));
+          log.totalHm = parseFloat(totalJam.toFixed(1));
+          log.totalHours = totalJam.toFixed(1);
+
+          if (oldAwal !== log.hmAwal || oldAkhir !== log.hmAkhir) {
+            totalFixedLogs++;
+            cloudSaveDocument('daily_logs', log.id, log);
+          }
+
+          // Perbarui runningHM untuk iterasi shift berikutnya
+          runningHM = log.hmAkhir;
+        });
+
+        // Perbarui currentHM pada master data alat ke HM akhir paling baru
+        eq.currentHM = parseFloat(runningHM.toFixed(1));
+        cloudSaveDocument('equipments', eq.id, eq);
+      });
+
       saveAllToStorage();
-
-      cloudSaveDocument('fuel_logs', newFuel.id, newFuel);
-
+      populateEquipmentDropdowns();
+      renderDailyLogsTable();
+      renderDashboardRecentLogs();
       updateDashboardKPIs();
-      updateHelperDashboard();
-      renderFuelLogsTable();
-      resetFuelLogForm();
-      showToast(`Pengisian solar ${liters} Liter untuk ${equip.code} berhasil disimpan!`, 'success');
+      generateInvoicePreview();
+
+      showToast(`Sukses merekonstruksi urutan HM! ${totalFixedLogs} entri diperbaiki secara otomatis.`, 'success');
     }
 
     /* Recalculate and Render KPI Logic */
@@ -6082,10 +6268,15 @@ function doPost(e) {
               </td>
               <td class="py-3 px-3 text-right no-print whitespace-nowrap">
                 ${currentUser && currentUser.role === 'admin' ? `
-                  <button onclick="deleteDailyLog('${log.id}')" title="Hapus Log" class="p-1.5 text-slate-500 hover:text-rose-400 transition">
-                    <i class="fa-solid fa-trash-can"></i>
-                  </button>
-                ` : ''}
+                  <div class="inline-flex items-center gap-1">
+                    <button type="button" onclick="editDailyLog('${log.id}')" title="Edit Log Operasional (Admin Saja)" class="p-1.5 text-slate-400 hover:text-amber-400 transition">
+                      <i class="fa-solid fa-pen-to-square"></i>
+                    </button>
+                    <button type="button" onclick="deleteDailyLog('${log.id}')" title="Hapus Log (Admin Saja)" class="p-1.5 text-slate-500 hover:text-rose-400 transition">
+                      <i class="fa-solid fa-trash-can"></i>
+                    </button>
+                  </div>
+                ` : '<span class="text-slate-600">-</span>'}
               </td>
             `;
             tbody.appendChild(tr);
@@ -6109,6 +6300,17 @@ function doPost(e) {
             <div class="text-xs text-slate-300">
               Op: <strong>${log.operator}</strong> | HM: ${log.hmAwal} &rarr; ${log.hmAkhir} (${log.totalHm} HM)
             </div>
+            ${currentUser && currentUser.role === 'admin' ? `
+              <div class="flex justify-end items-center gap-2 pt-2 border-t border-slate-850">
+                <button type="button" onclick="editDailyLog('${log.id}')" class="text-xs text-amber-400 hover:text-amber-300 flex items-center gap-1 font-semibold">
+                  <i class="fa-solid fa-pen-to-square"></i> Edit
+                </button>
+                <span class="text-slate-700">|</span>
+                <button type="button" onclick="deleteDailyLog('${log.id}')" class="text-xs text-rose-400 hover:text-rose-300 flex items-center gap-1 font-semibold">
+                  <i class="fa-solid fa-trash-can"></i> Hapus
+                </button>
+              </div>
+            ` : ''}
           `;
           mobileList.appendChild(card);
         });
@@ -6758,14 +6960,64 @@ function doPost(e) {
     }
 
     function openAddEquipmentModal() {
+      const form = document.getElementById('equipmentMasterForm');
+      if (form) form.reset();
+      const editId = document.getElementById('editEquipId');
+      if (editId) editId.value = '';
+      const title = document.getElementById('modalAddEquipmentTitle');
+      if (title) title.innerHTML = '<i class="fa-solid fa-truck-ramp-box text-amber-500"></i> Tambah Unit Alat Berat';
+      const btnSubmit = document.getElementById('btnSubmitEquipForm');
+      if (btnSubmit) btnSubmit.innerText = 'Simpan Unit';
+
+      const m = document.getElementById('modalAddEquipment');
+      if (m) { m.classList.remove('hidden'); m.classList.add('flex'); }
+    }
+
+    function editEquipment(equipId) {
+      if (!currentUser || currentUser.role !== 'admin') {
+        showToast('Akses ditolak: Hanya Admin yang dapat mengedit master data unit!', 'warning');
+        return;
+      }
+
+      const eq = equipments.find(e => e.id === equipId);
+      if (!eq) {
+        showToast('Data unit alat tidak ditemukan!', 'warning');
+        return;
+      }
+
+      const editId = document.getElementById('editEquipId');
+      const codeInp = document.getElementById('newEquipCode');
+      const catInp = document.getElementById('newEquipCategory');
+      const modelInp = document.getElementById('newEquipModel');
+      const hmInp = document.getElementById('newEquipCurrentHM');
+      const title = document.getElementById('modalAddEquipmentTitle');
+      const btnSubmit = document.getElementById('btnSubmitEquipForm');
+
+      if (editId) editId.value = eq.id;
+      if (codeInp) codeInp.value = eq.code || '';
+      if (catInp) catInp.value = eq.category || 'Excavator';
+      if (modelInp) modelInp.value = eq.model || '';
+      if (hmInp) hmInp.value = eq.currentHM !== undefined ? eq.currentHM : 0;
+      if (title) title.innerHTML = '<i class="fa-solid fa-pen-to-square text-amber-500"></i> Ubah Data Unit Alat Berat';
+      if (btnSubmit) btnSubmit.innerText = 'Perbarui Data Unit';
+
       const m = document.getElementById('modalAddEquipment');
       if (m) { m.classList.remove('hidden'); m.classList.add('flex'); }
     }
 
     function openManageEquipmentModal() {
-      renderManageEquipmentList();
+      try {
+        renderManageEquipmentList();
+      } catch (err) {
+        console.error("Gagal merender list unit:", err);
+      }
       const m = document.getElementById('modalManageEquipment');
-      if (m) { m.classList.remove('hidden'); m.classList.add('flex'); }
+      if (m) {
+        m.classList.remove('hidden');
+        m.classList.add('flex');
+      } else {
+        console.error("Modal #modalManageEquipment tidak ditemukan di DOM!");
+      }
     }
 
     function renderManageEquipmentList() {
@@ -6777,16 +7029,31 @@ function doPost(e) {
 
       const isAdmin = currentUser && currentUser.role === 'admin';
 
+      if (!equipments || equipments.length === 0) {
+        container.innerHTML = '<div class="p-6 text-center text-slate-500 text-xs">Belum ada unit alat berat yang terdaftar.</div>';
+        return;
+      }
+
       equipments.forEach(eq => {
         const div = document.createElement('div');
-        div.className = 'py-3 flex items-center justify-between text-xs';
+        div.className = 'py-3 flex items-center justify-between text-xs hover:bg-slate-800/40 px-2 rounded-xl transition';
         div.innerHTML = `
           <div>
-            <div class="font-bold text-white">${eq.code} <span class="text-slate-400 font-normal">(${eq.category})</span></div>
-            <div class="text-[11px] text-slate-400">${eq.model} | HM: ${eq.currentHM}</div>
+            <div class="font-bold text-white flex items-center gap-1.5">
+              <span>${eq.code}</span>
+              <span class="text-[10px] text-slate-400 font-normal">(${eq.category})</span>
+            </div>
+            <div class="text-[11px] text-slate-400">${eq.model} | <strong class="text-amber-400/90 font-mono">HM: ${eq.currentHM}</strong></div>
           </div>
           ${isAdmin ? `
-            <button onclick="deleteEquipment('${eq.id}')" class="px-2 py-1 bg-rose-500/10 text-rose-400 rounded-lg text-xs hover:bg-rose-500/20 transition">Hapus</button>
+            <div class="inline-flex items-center gap-1.5">
+              <button type="button" onclick="editEquipment('${eq.id}')" title="Edit Data Unit (Admin Saja)" class="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-amber-400 border border-slate-700 rounded-lg text-xs font-semibold transition flex items-center gap-1">
+                <i class="fa-solid fa-pen-to-square"></i> Edit
+              </button>
+              <button type="button" onclick="deleteEquipment('${eq.id}')" title="Hapus Unit (Admin Saja)" class="px-2.5 py-1 bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 border border-rose-500/30 rounded-lg text-xs font-semibold transition flex items-center gap-1">
+                <i class="fa-solid fa-trash-can"></i> Hapus
+              </button>
+            </div>
           ` : `
             <span class="text-[10px] text-slate-500 bg-slate-950 px-2 py-0.5 rounded border border-slate-800">Aktif</span>
           `}
@@ -6798,22 +7065,68 @@ function doPost(e) {
     function handleSaveEquipment(e) {
       e.preventDefault();
       if (!currentUser || currentUser.role !== 'admin') {
-        showToast('Akses ditolak: Hanya Admin yang dapat menambahkan unit alat!', 'warning');
+        showToast('Akses ditolak: Hanya Admin yang dapat mengelola unit alat!', 'warning');
         return;
       }
-      const code = document.getElementById('newEquipCode').value.trim();
-      const category = document.getElementById('newEquipCategory').value;
-      const model = document.getElementById('newEquipModel').value.trim();
-      const hm = parseFloat(document.getElementById('newEquipCurrentHM').value) || 0;
 
-      const newEquip = {
-        id: 'EQ-' + new Date().getTime(),
-        code, category, model, currentHM: hm
-      };
+      const editId = document.getElementById('editEquipId')?.value;
+      const code = document.getElementById('newEquipCode')?.value.trim();
+      const category = document.getElementById('newEquipCategory')?.value;
+      const model = document.getElementById('newEquipModel')?.value.trim();
+      const hm = parseFloat(document.getElementById('newEquipCurrentHM')?.value) || 0;
 
-      equipments.push(newEquip);
-      saveAllToStorage();
-      cloudSaveDocument('equipments', newEquip.id, newEquip);
+      if (!code || !model) {
+        showToast('Kode unit dan model alat wajib diisi!', 'warning');
+        return;
+      }
+
+      if (editId) {
+        // Mode Perbarui / Edit Unit
+        const eq = equipments.find(item => item.id === editId);
+        if (eq) {
+          const oldFullCode = `${eq.code} (${eq.category} - ${eq.model})`;
+          const newFullCode = `${code} (${category} - ${model})`;
+
+          eq.code = code;
+          eq.category = category;
+          eq.model = model;
+          eq.currentHM = hm;
+
+          // Sinkronkan nama unit pada log operasional dan solar bila ada
+          dailyLogs.forEach(l => {
+            if (l.equipmentId === eq.id || l.equipmentCode === oldFullCode) {
+              l.equipmentCode = newFullCode;
+            }
+          });
+          fuelLogs.forEach(f => {
+            if (f.equipmentId === eq.id || f.equipmentCode === oldFullCode) {
+              f.equipmentCode = newFullCode;
+            }
+          });
+
+          saveAllToStorage();
+          cloudSaveDocument('equipments', eq.id, eq);
+          showToast(`Data unit ${code} berhasil diperbarui!`, 'success');
+        }
+      } else {
+        // Mode Tambah Unit Baru
+        // Cek duplikasi kode
+        const exists = equipments.some(item => item.code.toLowerCase() === code.toLowerCase());
+        if (exists) {
+          showToast(`Unit dengan kode "${code}" sudah terdaftar! Gunakan kode lain.`, 'warning');
+          return;
+        }
+
+        const newEquip = {
+          id: 'EQ-' + new Date().getTime(),
+          code, category, model, currentHM: hm
+        };
+
+        equipments.push(newEquip);
+        saveAllToStorage();
+        cloudSaveDocument('equipments', newEquip.id, newEquip);
+        showToast(`Unit ${code} berhasil ditambahkan!`, 'success');
+      }
 
       populateEquipmentDropdowns();
       populateInvoiceFilters();
@@ -6824,11 +7137,11 @@ function doPost(e) {
       const codeInp = document.getElementById('newEquipCode');
       const modelInp = document.getElementById('newEquipModel');
       const hmInp = document.getElementById('newEquipCurrentHM');
+      const editIdInp = document.getElementById('editEquipId');
       if (codeInp) codeInp.value = '';
       if (modelInp) modelInp.value = '';
       if (hmInp) hmInp.value = '';
-
-      showToast(`Unit ${code} berhasil ditambahkan!`, 'success');
+      if (editIdInp) editIdInp.value = '';
     }
 
     function deleteEquipment(id) {
@@ -6836,12 +7149,140 @@ function doPost(e) {
         showToast('Akses ditolak: Hanya Admin yang dapat menghapus unit alat!', 'warning');
         return;
       }
+      const target = equipments.find(e => e.id === id);
+      const code = target ? target.code : 'Unit';
       equipments = equipments.filter(e => e.id !== id);
       saveAllToStorage();
       cloudDeleteDocument('equipments', id);
       renderManageEquipmentList();
       populateEquipmentDropdowns();
-      showToast('Unit alat berhasil dihapus.', 'info');
+      populateInvoiceFilters();
+      showToast(`Unit alat ${code} berhasil dihapus.`, 'info');
+    }
+
+    /* ================= FUNGSI EDIT LAPORAN REKAPITULASI HM (KHUSUS ADMIN) ================= */
+    function editDailyLog(logId) {
+      if (!currentUser || currentUser.role !== 'admin') {
+        showToast('Akses ditolak: Hanya Supervisor / Admin yang dapat mengedit laporan HM!', 'warning');
+        return;
+      }
+
+      const log = dailyLogs.find(l => l.id === logId);
+      if (!log) {
+        showToast('Data log operasional tidak ditemukan!', 'warning');
+        return;
+      }
+
+      const idInp = document.getElementById('editLogId');
+      const dateInp = document.getElementById('editLogDate');
+      const opInp = document.getElementById('editLogOperator');
+      const locInp = document.getElementById('editLogLocation');
+      const equipDisplay = document.getElementById('editLogEquipmentDisplay');
+      const startInp = document.getElementById('editLogStartTime');
+      const endInp = document.getElementById('editLogEndTime');
+      const bktInp = document.getElementById('editLogBucketHours');
+      const brkInp = document.getElementById('editLogBreakerHours');
+      const hmAwalInp = document.getElementById('editLogHmAwal');
+      const hmAkhirInp = document.getElementById('editLogHmAkhir');
+      const notesInp = document.getElementById('editLogNotes');
+
+      if (idInp) idInp.value = log.id;
+      if (dateInp) dateInp.value = log.date || '';
+      if (opInp) opInp.value = log.operator || '';
+      if (locInp) locInp.value = log.location || '';
+      if (equipDisplay) equipDisplay.value = log.equipmentCode || '-';
+      if (startInp) startInp.value = log.startTime || '08:00';
+      if (endInp) endInp.value = log.endTime || '17:00';
+      if (bktInp) bktInp.value = log.bucketHours !== undefined ? log.bucketHours : 0;
+      if (brkInp) brkInp.value = log.breakerHours !== undefined ? log.breakerHours : 0;
+      if (hmAwalInp) hmAwalInp.value = log.hmAwal !== undefined ? log.hmAwal : 0;
+      if (hmAkhirInp) hmAkhirInp.value = log.hmAkhir !== undefined ? log.hmAkhir : 0;
+      if (notesInp) notesInp.value = log.notes || '';
+
+      calculateEditLogHours();
+
+      const modal = document.getElementById('modalEditDailyLog');
+      if (modal) {
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+      }
+    }
+
+    function calculateEditLogHours() {
+      const awal = parseFloat(document.getElementById('editLogHmAwal')?.value) || 0;
+      const akhir = parseFloat(document.getElementById('editLogHmAkhir')?.value) || 0;
+      const warning = document.getElementById('editHmWarningMsg');
+      const display = document.getElementById('editLogTotalHmDisplay');
+
+      if (akhir < awal && akhir !== 0) {
+        if (warning) warning.classList.remove('hidden');
+        if (display) display.innerText = '0.0';
+      } else {
+        if (warning) warning.classList.add('hidden');
+        const diff = Math.max(0, akhir - awal).toFixed(1);
+        if (display) display.innerText = diff;
+      }
+    }
+
+    function handleSaveEditDailyLog(e) {
+      e.preventDefault();
+      if (!currentUser || currentUser.role !== 'admin') {
+        showToast('Akses ditolak: Hanya Supervisor / Admin yang dapat menyimpan perubahan log!', 'warning');
+        return;
+      }
+
+      const logId = document.getElementById('editLogId')?.value;
+      const log = dailyLogs.find(l => l.id === logId);
+      if (!log) {
+        showToast('Data log operasional tidak ditemukan!', 'warning');
+        return;
+      }
+
+      const hmAwal = parseFloat(document.getElementById('editLogHmAwal')?.value) || 0;
+      const hmAkhir = parseFloat(document.getElementById('editLogHmAkhir')?.value) || 0;
+
+      if (hmAkhir < hmAwal) {
+        showToast('HM Akhir tidak boleh lebih kecil dari HM Awal!', 'warning');
+        return;
+      }
+
+      const bkt = parseFloat(document.getElementById('editLogBucketHours')?.value) || 0;
+      const brk = parseFloat(document.getElementById('editLogBreakerHours')?.value) || 0;
+      const totalJam = (bkt + brk).toFixed(1);
+      const totalHm = Math.max(0, hmAkhir - hmAwal).toFixed(1);
+
+      log.date = document.getElementById('editLogDate')?.value;
+      log.operator = document.getElementById('editLogOperator')?.value.trim();
+      log.location = document.getElementById('editLogLocation')?.value.trim();
+      log.startTime = document.getElementById('editLogStartTime')?.value;
+      log.endTime = document.getElementById('editLogEndTime')?.value;
+      log.bucketHours = bkt;
+      log.breakerHours = brk;
+      log.totalHours = totalJam;
+      log.hmAwal = hmAwal;
+      log.hmAkhir = hmAkhir;
+      log.totalHm = parseFloat(totalHm);
+      log.notes = (document.getElementById('editLogNotes')?.value || '').trim();
+
+      // Sinkronkan HM unit jika log ini merupakan entri HM terbaru
+      const eq = equipments.find(item => item.id === log.equipmentId);
+      if (eq && hmAkhir > (eq.currentHM || 0)) {
+        eq.currentHM = hmAkhir;
+        cloudSaveDocument('equipments', eq.id, eq);
+      }
+
+      saveAllToStorage();
+      cloudSaveDocument('daily_logs', log.id, log);
+
+      renderDailyLogsTable();
+      renderDashboardRecentLogs();
+      updateDashboardKPIs();
+      if (typeof updateOperatorDashboard === 'function') updateOperatorDashboard();
+      if (typeof updateKasirDashboard === 'function') updateKasirDashboard();
+      generateInvoicePreview();
+
+      closeModal('modalEditDailyLog');
+      showToast('Laporan rekapitulasi HM berhasil diperbarui!', 'success');
     }
 
     function openAddServiceModal() {
