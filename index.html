@@ -4934,11 +4934,11 @@ function doPost(e) {
                 </button>
               </td>
               <td class="py-3 px-3 text-right whitespace-nowrap">
-                ${(currentUser && (currentUser.role === 'admin' || currentUser.name === fl.helperName)) ? `
-                  <button onclick="deleteFuelLog('${fl.id}')" title="Hapus Catatan Solar" class="p-1.5 text-slate-500 hover:text-rose-400 transition">
+                ${(currentUser && currentUser.role === 'admin') ? `
+                  <button type="button" onclick="deleteFuelLog('${fl.id}')" title="Hapus Catatan Solar (Admin Saja)" class="p-1.5 text-slate-500 hover:text-rose-400 transition">
                     <i class="fa-solid fa-trash-can"></i>
                   </button>
-                ` : ''}
+                ` : '<span class="text-slate-600">-</span>'}
               </td>
             `;
             tbody.appendChild(tr);
@@ -4974,8 +4974,8 @@ function doPost(e) {
               </div>
               ${fl.notes ? `<p class="text-xs text-slate-400 italic">"${fl.notes}"</p>` : ''}
               <div class="flex justify-end pt-1">
-                ${(currentUser && (currentUser.role === 'admin' || currentUser.name === fl.helperName)) ? `
-                  <button onclick="deleteFuelLog('${fl.id}')" class="text-xs text-rose-400 hover:text-rose-300 flex items-center gap-1">
+                ${(currentUser && currentUser.role === 'admin') ? `
+                  <button type="button" onclick="deleteFuelLog('${fl.id}')" class="text-xs text-rose-400 hover:text-rose-300 flex items-center gap-1">
                     <i class="fa-solid fa-trash-can"></i> Hapus
                   </button>
                 ` : ''}
@@ -4988,20 +4988,27 @@ function doPost(e) {
     }
 
     function deleteFuelLog(id) {
-      const fl = fuelLogs.find(f => f.id === id);
-      if (!fl) return;
+      if (!currentUser || currentUser.role !== 'admin') {
+        showToast('Akses ditolak: Hanya Supervisor / Admin yang berhak menghapus data pengisian solar!', 'warning');
+        return;
+      }
 
-      if (currentUser && currentUser.role !== 'admin' && currentUser.name !== fl.helperName) {
-        showToast('Anda tidak memiliki hak untuk menghapus data ini.', 'warning');
+      const fl = fuelLogs.find(f => f.id === id);
+      if (!fl) {
+        showToast('Data pengisian solar tidak ditemukan!', 'warning');
         return;
       }
 
       fuelLogs = fuelLogs.filter(f => f.id !== id);
       saveAllToStorage();
       cloudDeleteDocument('fuel_logs', id);
-      updateDashboardKPIs();
+
       renderFuelLogsTable();
-      showToast('Catatan pengisian solar berhasil dihapus.', 'info');
+      updateDashboardKPIs();
+      if (typeof updateHelperDashboard === 'function') updateHelperDashboard();
+      if (typeof updateKasirDashboard === 'function') updateKasirDashboard();
+
+      showToast(`Catatan pengisian solar ${fl.liters}L (${fl.equipmentCode}) berhasil dihapus.`, 'info');
     }
 
     function exportFuelLogsToCSV() {
@@ -7484,8 +7491,8 @@ function doPost(e) {
                 </button>
               </td>
               <td class="py-3 px-3 text-right whitespace-nowrap">
-                ${(currentUser && (currentUser.role === 'admin' || currentUser.role === 'kasir')) ? `
-                  <button type="button" onclick="deleteTruckShipment('${s.id}')" title="Hapus Kiriman" class="p-1.5 text-slate-500 hover:text-rose-400 transition">
+                ${(currentUser && currentUser.role === 'admin') ? `
+                  <button type="button" onclick="deleteTruckShipment('${s.id}')" title="Hapus Kiriman (Admin Saja)" class="p-1.5 text-slate-500 hover:text-rose-400 transition">
                     <i class="fa-solid fa-trash-can"></i>
                   </button>
                 ` : '<span class="text-slate-600">-</span>'}
@@ -7535,7 +7542,7 @@ function doPost(e) {
                     <i class="fa-brands fa-whatsapp"></i> WA
                   </button>
                 </div>
-                ${(currentUser && (currentUser.role === 'admin' || currentUser.role === 'kasir')) ? `
+                ${(currentUser && currentUser.role === 'admin') ? `
                   <button type="button" onclick="deleteTruckShipment('${s.id}')" class="text-xs text-rose-400 hover:text-rose-300">
                     <i class="fa-solid fa-trash-can mr-1"></i> Hapus
                   </button>
@@ -7549,8 +7556,8 @@ function doPost(e) {
     }
 
     function deleteTruckShipment(id) {
-      if (currentUser && currentUser.role !== 'admin' && currentUser.role !== 'kasir') {
-        showToast('Akses ditolak: Anda tidak memiliki izin menghapus kiriman.', 'warning');
+      if (!currentUser || currentUser.role !== 'admin') {
+        showToast('Akses ditolak: Hanya Supervisor / Admin yang berhak menghapus data kiriman truk!', 'warning');
         return;
       }
       truckShipments = truckShipments.filter(s => s.id !== id);
