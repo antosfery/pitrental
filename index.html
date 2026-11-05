@@ -188,19 +188,6 @@
         <p class="text-sm text-slate-400 mt-1">Sistem Manajemen Operasional, Servis & Solar</p>
       </div>
 
-      <!-- Quick Role Selection Selector for Demo (Admin, Operator, Helper) -->
-      <div class="bg-slate-900/90 p-1.5 rounded-xl border border-slate-700 grid grid-cols-3 gap-1 mb-6">
-        <button type="button" onclick="setPresetRole('admin')" id="roleBtnAdmin" class="py-2 px-1 text-[11px] font-semibold rounded-lg transition-all flex items-center justify-center gap-1.5 bg-amber-500 text-slate-950 shadow">
-          <i class="fa-solid fa-user-shield"></i> Admin
-        </button>
-        <button type="button" onclick="setPresetRole('operator')" id="roleBtnOperator" class="py-2 px-1 text-[11px] font-semibold rounded-lg transition-all flex items-center justify-center gap-1.5 text-slate-400 hover:text-white">
-          <i class="fa-solid fa-helmet-safety"></i> Operator
-        </button>
-        <button type="button" onclick="setPresetRole('helper')" id="roleBtnHelper" class="py-2 px-1 text-[11px] font-semibold rounded-lg transition-all flex items-center justify-center gap-1.5 text-slate-400 hover:text-white">
-          <i class="fa-solid fa-gas-pump"></i> Helper
-        </button>
-      </div>
-
       <form id="loginForm" onsubmit="handleLogin(event)" class="space-y-4">
         <div>
           <label class="block text-xs font-medium text-slate-300 mb-1.5">Username / ID Pegawai</label>
@@ -208,7 +195,7 @@
             <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-slate-500">
               <i class="fa-regular fa-user"></i>
             </span>
-            <input type="text" id="usernameInput" required value="admin_site" class="w-full bg-slate-900/90 border border-slate-700 rounded-xl py-2.5 pl-10 pr-4 text-sm text-white focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition">
+            <input type="text" id="usernameInput" required placeholder="Masukkan username Anda" autocomplete="username" class="w-full bg-slate-900/90 border border-slate-700 rounded-xl py-2.5 pl-10 pr-4 text-sm text-white focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition">
           </div>
         </div>
 
@@ -218,7 +205,7 @@
             <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-slate-500">
               <i class="fa-solid fa-lock"></i>
             </span>
-            <input type="password" id="passwordInput" required value="password123" class="w-full bg-slate-900/90 border border-slate-700 rounded-xl py-2.5 pl-10 pr-4 text-sm text-white focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition">
+            <input type="password" id="passwordInput" required placeholder="Masukkan kata sandi" autocomplete="current-password" class="w-full bg-slate-900/90 border border-slate-700 rounded-xl py-2.5 pl-10 pr-4 text-sm text-white focus:outline-none focus:border-amber-500 focus:border-amber-500 transition">
           </div>
         </div>
 
@@ -237,7 +224,7 @@
       </form>
 
       <div class="mt-6 pt-4 border-t border-slate-700/60 text-center text-xs text-slate-500">
-        Klik preset tombol di atas untuk beralih otomatis ke akun demo Admin, Operator, atau Helper.
+        Hak akses menu akan disesuaikan secara otomatis berdasarkan akun Anda.
       </div>
     </div>
   </div>
@@ -276,26 +263,32 @@
           <button onclick="switchTab('helperDashboard')" id="navTabHelperDashboard" class="role-nav-helper tab-btn px-3 py-1.5 rounded-lg text-xs font-semibold transition bg-amber-500 text-slate-950 flex items-center gap-1.5 hidden">
             <i class="fa-solid fa-gas-pump"></i> Dashboard Helper
           </button>
-          <!-- Tab Input HM (Admin & Operator) -->
-          <button onclick="switchTab('inputLog')" id="navTabInputLog" class="role-nav-operator-input role-nav-admin tab-btn px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-400 hover:text-white transition flex items-center gap-1.5">
+          <!-- Tab Dashboard Kasir -->
+          <button onclick="switchTab('kasirDashboard')" id="navTabKasirDashboard" class="role-nav-kasir tab-btn px-3 py-1.5 rounded-lg text-xs font-semibold transition bg-amber-500 text-slate-950 flex items-center gap-1.5 hidden">
+            <i class="fa-solid fa-cash-register"></i> Dashboard Kasir
+          </button>
+          <!-- Tab Input HM (Admin, Operator, Kasir) -->
+          <button onclick="switchTab('inputLog')" id="navTabInputLog" class="role-nav-operator-input role-nav-admin role-nav-kasir-item tab-btn px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-400 hover:text-white transition flex items-center gap-1.5">
             <i class="fa-solid fa-file-circle-plus"></i> Input HM
           </button>
-          <!-- Tab Pengisian Solar (Admin & Helper) -->
-          <button onclick="switchTab('fuelLog')" id="navTabFuelLog" class="role-nav-helper-input role-nav-admin tab-btn px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-400 hover:text-white transition flex items-center gap-1.5">
+          <!-- Tab Pengisian Solar (Admin, Helper, Kasir) -->
+          <button onclick="switchTab('fuelLog')" id="navTabFuelLog" class="role-nav-helper-input role-nav-admin role-nav-kasir-item tab-btn px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-400 hover:text-white transition flex items-center gap-1.5">
             <i class="fa-solid fa-droplet text-amber-400"></i> Pengisian Solar
           </button>
-          <!-- Tab Admin Only -->
+          <!-- Tab Pengeluaran Unit (Admin & Kasir) -->
+          <button onclick="switchTab('expenseTab')" id="navTabExpenseTab" class="role-admin-only role-nav-kasir-item tab-btn px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-400 hover:text-white transition flex items-center gap-1.5">
+            <i class="fa-solid fa-receipt text-rose-400"></i> Pengeluaran Unit
+          </button>
+          <!-- Tab Unit & Log (Admin & Kasir) -->
+          <button onclick="switchTab('equipmentList')" id="navTabEquipment" class="role-admin-only role-nav-kasir-item tab-btn px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-400 hover:text-white transition flex items-center gap-1.5">
+            <i class="fa-solid fa-boxes-stacked"></i> Unit & Log
+          </button>
+          <!-- Tab Khusus Admin Saja -->
           <button onclick="switchTab('serviceLog')" id="navTabServiceLog" class="role-admin-only tab-btn px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-400 hover:text-white transition flex items-center gap-1.5">
             <i class="fa-solid fa-oil-can text-amber-400"></i> Catat Servis
           </button>
-          <button onclick="switchTab('expenseTab')" id="navTabExpenseTab" class="role-admin-only tab-btn px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-400 hover:text-white transition flex items-center gap-1.5">
-            <i class="fa-solid fa-receipt text-rose-400"></i> Pengeluaran Unit
-          </button>
           <button onclick="switchTab('maintenance')" id="navTabMaintenance" class="role-admin-only tab-btn px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-400 hover:text-white transition flex items-center gap-1.5">
             <i class="fa-solid fa-screwdriver-wrench"></i> Jadwal Servis
-          </button>
-          <button onclick="switchTab('equipmentList')" id="navTabEquipment" class="role-admin-only tab-btn px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-400 hover:text-white transition flex items-center gap-1.5">
-            <i class="fa-solid fa-boxes-stacked"></i> Unit & Log
           </button>
           <button onclick="switchTab('invoice')" id="navTabInvoice" class="role-admin-only tab-btn px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-400 hover:text-white transition flex items-center gap-1.5">
             <i class="fa-solid fa-file-invoice-dollar text-amber-400"></i> Invoice
@@ -361,24 +354,34 @@
           <i class="fa-solid fa-gauge-high text-base"></i>
           <span>Dashboard</span>
         </button>
-        <button onclick="switchTab('inputLog')" id="mobileNavInputLog" class="mobile-role-operator mobile-role-admin mobile-tab-btn flex-1 py-1.5 flex flex-col items-center justify-center gap-1 text-[11px] font-medium text-slate-400 transition">
-          <i class="fa-solid fa-file-circle-plus text-base"></i>
-          <span>Input HM</span>
-        </button>
         <!-- Mobile: Helper items -->
         <button onclick="switchTab('helperDashboard')" id="mobileNavHelperDashboard" class="mobile-role-helper mobile-tab-btn flex-1 py-1.5 flex flex-col items-center justify-center gap-1 text-[11px] font-semibold text-amber-400 transition hidden">
           <i class="fa-solid fa-gas-pump text-base"></i>
           <span>Dashboard</span>
         </button>
-        <button onclick="switchTab('fuelLog')" id="mobileNavFuelLog" class="mobile-role-helper mobile-role-admin mobile-tab-btn flex-1 py-1.5 flex flex-col items-center justify-center gap-1 text-[11px] font-medium text-slate-400 transition">
+        <!-- Mobile: Kasir items -->
+        <button onclick="switchTab('kasirDashboard')" id="mobileNavKasirDashboard" class="mobile-role-kasir mobile-tab-btn flex-1 py-1.5 flex flex-col items-center justify-center gap-1 text-[11px] font-semibold text-amber-400 transition hidden">
+          <i class="fa-solid fa-cash-register text-base"></i>
+          <span>Dashboard</span>
+        </button>
+        <!-- Mobile: Shared items -->
+        <button onclick="switchTab('inputLog')" id="mobileNavInputLog" class="mobile-role-operator mobile-role-admin mobile-role-kasir mobile-tab-btn flex-1 py-1.5 flex flex-col items-center justify-center gap-1 text-[11px] font-medium text-slate-400 transition">
+          <i class="fa-solid fa-file-circle-plus text-base"></i>
+          <span>Input HM</span>
+        </button>
+        <button onclick="switchTab('fuelLog')" id="mobileNavFuelLog" class="mobile-role-helper mobile-role-admin mobile-role-kasir mobile-tab-btn flex-1 py-1.5 flex flex-col items-center justify-center gap-1 text-[11px] font-medium text-slate-400 transition">
           <i class="fa-solid fa-droplet text-base text-amber-400"></i>
           <span>Solar</span>
         </button>
-        <!-- Mobile: Admin Exclusive -->
-        <button onclick="switchTab('expenseTab')" id="mobileNavExpense" class="mobile-role-admin mobile-tab-btn flex-1 py-1.5 flex flex-col items-center justify-center gap-1 text-[11px] font-medium text-slate-400 transition">
+        <button onclick="switchTab('expenseTab')" id="mobileNavExpense" class="mobile-role-admin mobile-role-kasir mobile-tab-btn flex-1 py-1.5 flex flex-col items-center justify-center gap-1 text-[11px] font-medium text-slate-400 transition">
           <i class="fa-solid fa-receipt text-base text-rose-400"></i>
           <span>Belanja</span>
         </button>
+        <button onclick="switchTab('equipmentList')" id="mobileNavEquipmentList" class="mobile-role-admin mobile-role-kasir mobile-tab-btn flex-1 py-1.5 flex flex-col items-center justify-center gap-1 text-[11px] font-medium text-slate-400 transition">
+          <i class="fa-solid fa-list-check text-base"></i>
+          <span>Histori</span>
+        </button>
+        <!-- Mobile: Admin Exclusive -->
         <button onclick="switchTab('serviceLog')" id="mobileNavServiceLog" class="mobile-role-admin mobile-tab-btn flex-1 py-1.5 flex flex-col items-center justify-center gap-1 text-[11px] font-medium text-slate-400 transition">
           <i class="fa-solid fa-oil-can text-base"></i>
           <span>Servis</span>
@@ -386,10 +389,6 @@
         <button onclick="switchTab('invoice')" id="mobileNavInvoice" class="mobile-role-admin mobile-tab-btn flex-1 py-1.5 flex flex-col items-center justify-center gap-1 text-[11px] font-medium text-slate-400 transition">
           <i class="fa-solid fa-file-invoice-dollar text-base text-amber-400"></i>
           <span>Invoice</span>
-        </button>
-        <button onclick="switchTab('equipmentList')" id="mobileNavEquipmentList" class="mobile-role-admin mobile-tab-btn flex-1 py-1.5 flex flex-col items-center justify-center gap-1 text-[11px] font-medium text-slate-400 transition">
-          <i class="fa-solid fa-list-check text-base"></i>
-          <span>Histori</span>
         </button>
       </nav>
     </header>
@@ -866,7 +865,155 @@
         </div>
       </section>
 
-      <!-- ================= TAB: FORM INPUT LOG HARIAN / HM (ADMIN & OPERATOR) ================= -->
+      <!-- ================= TAB: DASHBOARD KHUSUS KASIR (BARU) ================= -->
+      <section id="tab-kasirDashboard" class="tab-content hidden space-y-6">
+        <!-- Welcome Banner Kasir -->
+        <div class="relative overflow-hidden bg-gradient-to-r from-slate-900 via-slate-850 to-slate-900 border border-slate-800 rounded-2xl p-6 shadow-xl">
+          <div class="relative z-10 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+            <div>
+              <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 mb-2">
+                <i class="fa-solid fa-cash-register text-xs"></i> Portal Kasir & Operasional Finansial
+              </span>
+              <h2 class="text-xl sm:text-2xl font-bold text-white">Ringkasan Operasional & Keuangan Kasir</h2>
+              <p class="text-sm text-slate-400">Pantau akumulasi jam kerja HM, distribusi solar, serta rincian belanja pengeluaran armada.</p>
+            </div>
+            <div class="flex items-center gap-2">
+              <button onclick="switchTab('expenseTab')" class="bg-rose-600 hover:bg-rose-500 text-white font-bold px-3.5 py-2.5 rounded-xl text-xs sm:text-sm flex items-center gap-1.5 transition shadow">
+                <i class="fa-solid fa-receipt"></i> Catat Pengeluaran
+              </button>
+              <button onclick="switchTab('fuelLog')" class="bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold px-3.5 py-2.5 rounded-xl text-xs sm:text-sm flex items-center gap-1.5 transition shadow">
+                <i class="fa-solid fa-droplet"></i> Pengisian Solar
+              </button>
+            </div>
+          </div>
+          <i class="fa-solid fa-coins absolute -bottom-6 -right-6 text-slate-800/30 text-9xl pointer-events-none select-none"></i>
+        </div>
+
+        <!-- KPI Kartu Kasir -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <!-- Total Jam HM Operasional -->
+          <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-sm hover:border-amber-500/40 transition">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-medium text-slate-400 uppercase tracking-wider">Total Jam Kerja (HM)</span>
+              <div class="w-10 h-10 rounded-xl bg-amber-500/10 text-amber-400 flex items-center justify-center">
+                <i class="fa-solid fa-gauge-high text-base"></i>
+              </div>
+            </div>
+            <div class="mt-3 flex items-baseline gap-2">
+              <span id="kasirKpiTotalHm" class="text-3xl font-extrabold text-amber-400">0.0</span>
+              <span class="text-xs text-slate-400 font-semibold">Jam</span>
+            </div>
+            <div class="mt-2 text-xs text-slate-500 flex items-center gap-1">
+              <i class="fa-solid fa-clock text-amber-400"></i> Akumulasi Seluruh Shift
+            </div>
+          </div>
+
+          <!-- Total Pengisian Solar (Liter) -->
+          <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-sm hover:border-amber-500/40 transition">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-medium text-slate-400 uppercase tracking-wider">Total Suplai Solar</span>
+              <div class="w-10 h-10 rounded-xl bg-amber-500/10 text-amber-400 flex items-center justify-center">
+                <i class="fa-solid fa-droplet text-base"></i>
+              </div>
+            </div>
+            <div class="mt-3 flex items-baseline gap-2">
+              <span id="kasirKpiTotalFuel" class="text-3xl font-extrabold text-amber-300">0</span>
+              <span class="text-xs text-slate-400 font-semibold">Liter</span>
+            </div>
+            <div class="mt-2 text-xs text-slate-500 flex items-center gap-1">
+              <i class="fa-solid fa-gas-pump text-amber-400"></i> Log Distribusi Bahan Bakar
+            </div>
+          </div>
+
+          <!-- Total Pengeluaran Unit (Nominal) -->
+          <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-sm hover:border-rose-500/40 transition">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-medium text-slate-400 uppercase tracking-wider">Total Pengeluaran</span>
+              <div class="w-10 h-10 rounded-xl bg-rose-500/10 text-rose-400 flex items-center justify-center">
+                <i class="fa-solid fa-receipt text-base"></i>
+              </div>
+            </div>
+            <div class="mt-3 flex items-baseline gap-1">
+              <span id="kasirKpiTotalExpenses" class="text-2xl font-extrabold text-rose-400">Rp 0</span>
+            </div>
+            <div class="mt-2 text-xs text-slate-500 flex items-center gap-1">
+              <i class="fa-solid fa-money-bill-wave text-rose-400"></i> Belanja Part & Selang
+            </div>
+          </div>
+
+          <!-- Total Log Aktivitas Terdata -->
+          <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-sm hover:border-emerald-500/40 transition">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-medium text-slate-400 uppercase tracking-wider">Total Entri Log</span>
+              <div class="w-10 h-10 rounded-xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center">
+                <i class="fa-solid fa-clipboard-check text-base"></i>
+              </div>
+            </div>
+            <div class="mt-3 flex items-baseline gap-2">
+              <span id="kasirKpiTotalLogs" class="text-3xl font-extrabold text-white">0</span>
+              <span class="text-xs text-slate-400 font-semibold">Entri</span>
+            </div>
+            <div class="mt-2 text-xs text-slate-500 flex items-center gap-1">
+              <i class="fa-regular fa-calendar-check text-emerald-400"></i> Rekaman Shift Alat
+            </div>
+          </div>
+        </div>
+
+        <!-- Panel Pintasan & Log Terbaru untuk Kasir -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <!-- Tabel Ringkas Log Jam Kerja Terkini -->
+          <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 sm:p-5 shadow-xl">
+            <div class="flex items-center justify-between mb-3 pb-2 border-b border-slate-800">
+              <h3 class="text-xs font-bold text-white flex items-center gap-2">
+                <i class="fa-solid fa-clock-rotate-left text-amber-500"></i> Log Jam Kerja Terbaru
+              </h3>
+              <button onclick="switchTab('equipmentList')" class="text-xs text-amber-400 hover:text-amber-300">
+                Lihat Semua &rarr;
+              </button>
+            </div>
+            <div class="overflow-x-auto">
+              <table class="w-full text-left text-xs">
+                <thead class="text-slate-400 border-b border-slate-800 uppercase tracking-wider text-[10px]">
+                  <tr>
+                    <th class="py-2">Tanggal</th>
+                    <th class="py-2">Unit</th>
+                    <th class="py-2">Operator</th>
+                    <th class="py-2 text-right">Total Jam</th>
+                  </tr>
+                </thead>
+                <tbody id="kasirRecentLogsTable" class="divide-y divide-slate-800 text-slate-300"></tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Tabel Ringkas Pengeluaran Terkini -->
+          <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 sm:p-5 shadow-xl">
+            <div class="flex items-center justify-between mb-3 pb-2 border-b border-slate-800">
+              <h3 class="text-xs font-bold text-white flex items-center gap-2">
+                <i class="fa-solid fa-receipt text-rose-400"></i> Pengeluaran Belanja Terkini
+              </h3>
+              <button onclick="switchTab('expenseTab')" class="text-xs text-rose-400 hover:text-rose-300">
+                Lihat Semua &rarr;
+              </button>
+            </div>
+            <div class="overflow-x-auto">
+              <table class="w-full text-left text-xs">
+                <thead class="text-slate-400 border-b border-slate-800 uppercase tracking-wider text-[10px]">
+                  <tr>
+                    <th class="py-2">Tanggal</th>
+                    <th class="py-2">Barang / Komponen</th>
+                    <th class="py-2">Unit</th>
+                    <th class="py-2 text-right">Biaya (Rp)</th>
+                  </tr>
+                </thead>
+                <tbody id="kasirRecentExpensesTable" class="divide-y divide-slate-800 text-slate-300"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= TAB: FORM INPUT LOG HARIAN / HM (ADMIN, OPERATOR & KASIR) ================= -->
       <section id="tab-inputLog" class="tab-content hidden space-y-6">
         
         <div class="max-w-3xl mx-auto bg-slate-900 border border-slate-800 rounded-2xl p-6 sm:p-8 shadow-xl">
@@ -949,7 +1096,7 @@
                     <i class="fa-solid fa-bucket text-amber-400 mr-1"></i> Jam Kerja Bucket
                   </label>
                   <div class="relative">
-                    <input type="number" step="0.1" min="0" max="24" id="logBucketHours" oninput="calculateTotalAttachmentHours()" required placeholder="0.0" value="6.0" class="w-full bg-amber-500/10 border-2 border-amber-500/40 rounded-lg py-2 px-3 text-sm font-bold text-amber-400 focus:outline-none focus:border-amber-400">
+                    <input type="number" step="0.1" min="0" max="24" id="logBucketHours" oninput="calculateTotalAttachmentHours()" required placeholder="0.0" value="0" class="w-full bg-amber-500/10 border-2 border-amber-500/40 rounded-lg py-2 px-3 text-sm font-bold text-amber-400 focus:outline-none focus:border-amber-400">
                     <span class="absolute right-3 top-2.5 text-xs text-amber-400/80 font-semibold">Jam</span>
                   </div>
                   <p class="text-[10px] text-slate-400 mt-1">Galian / loading standar</p>
@@ -960,7 +1107,7 @@
                     <i class="fa-solid fa-hammer text-orange-400 mr-1"></i> Jam Kerja Breaker
                   </label>
                   <div class="relative">
-                    <input type="number" step="0.1" min="0" max="24" id="logBreakerHours" oninput="calculateTotalAttachmentHours()" required placeholder="0.0" value="2.0" class="w-full bg-orange-500/10 border-2 border-orange-500/40 rounded-lg py-2 px-3 text-sm font-bold text-orange-400 focus:outline-none focus:border-orange-400">
+                    <input type="number" step="0.1" min="0" max="24" id="logBreakerHours" oninput="calculateTotalAttachmentHours()" required placeholder="0.0" value="0" class="w-full bg-orange-500/10 border-2 border-orange-500/40 rounded-lg py-2 px-3 text-sm font-bold text-orange-400 focus:outline-none focus:border-orange-400">
                     <span class="absolute right-3 top-2.5 text-xs text-orange-400/80 font-semibold">Jam</span>
                   </div>
                   <p class="text-[10px] text-slate-400 mt-1">Pemecahan batu / cor beton</p>
@@ -1590,7 +1737,7 @@
 
       <!-- ================= TAB: DAFTAR UNIT & LOG HISTORI (ADMIN ONLY) ================= -->
       <section id="tab-equipmentList" class="tab-content hidden space-y-6">
-        
+        <!-- Action bar -->
         <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-slate-900 border border-slate-800 p-4 sm:p-5 rounded-2xl">
           <div>
             <h2 class="text-base sm:text-lg font-bold text-white flex items-center gap-2">
@@ -1600,12 +1747,12 @@
           </div>
           <div class="flex flex-wrap items-center gap-2 w-full sm:w-auto">
             <button onclick="openManageEquipmentModal()" class="flex-1 sm:flex-initial justify-center bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold px-3.5 py-2.5 rounded-xl text-xs flex items-center gap-1.5 transition shadow">
-              <i class="fa-solid fa-truck-monster"></i> Kelola & Tambah Unit
+              <i class="fa-solid fa-truck-monster"></i> Kelola & Lihat Unit
             </button>
             <button onclick="sendDailySummaryWhatsApp()" class="flex-1 sm:flex-initial justify-center bg-emerald-600 hover:bg-emerald-500 text-white font-medium px-3.5 py-2.5 rounded-xl text-xs flex items-center gap-1.5 transition shadow">
               <i class="fa-brands fa-whatsapp text-sm"></i> Kirim Rekap WA
             </button>
-            <button onclick="syncAllPendingToGoogleSheets()" class="flex-1 sm:flex-initial justify-center bg-teal-700 hover:bg-teal-600 text-white font-medium px-3.5 py-2.5 rounded-xl text-xs flex items-center gap-1.5 transition shadow">
+            <button onclick="syncAllPendingToGoogleSheets()" class="role-admin-only flex-1 sm:flex-initial justify-center bg-teal-700 hover:bg-teal-600 text-white font-medium px-3.5 py-2.5 rounded-xl text-xs flex items-center gap-1.5 transition shadow">
               <i class="fa-solid fa-cloud-arrow-up"></i> Sync G-Sheets
             </button>
             <button onclick="printLogTable()" class="bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 font-medium px-3.5 py-2.5 rounded-xl text-xs flex items-center gap-1.5 transition">
@@ -2263,7 +2410,7 @@ function doPost(e) {
           <h3 class="text-base font-bold text-white flex items-center gap-2">
             <i class="fa-solid fa-truck-monster text-amber-500"></i> Kelola Master Data Unit Alat
           </h3>
-          <p class="text-xs text-slate-400">Tambah armada baru atau hapus unit yang sudah tidak beroperasi.</p>
+          <p class="text-xs text-slate-400" id="manageEquipmentSubtitle">Tambah armada baru atau hapus unit yang sudah tidak beroperasi.</p>
         </div>
         <button onclick="closeModal('modalManageEquipment')" class="text-slate-400 hover:text-white text-lg">
           <i class="fa-solid fa-xmark"></i>
@@ -2272,7 +2419,7 @@ function doPost(e) {
 
       <div class="flex justify-between items-center mb-3">
         <span id="manageEquipmentCountText" class="text-xs font-semibold text-slate-300">Total: 0 Unit Terdaftar</span>
-        <button type="button" onclick="openAddEquipmentModal()" class="px-3.5 py-1.5 bg-amber-500 hover:bg-amber-400 text-slate-950 rounded-xl text-xs font-bold transition flex items-center gap-1.5 shadow">
+        <button type="button" onclick="openAddEquipmentModal()" id="btnManageAddNewEquip" class="role-admin-only px-3.5 py-1.5 bg-amber-500 hover:bg-amber-400 text-slate-950 rounded-xl text-xs font-bold transition flex items-center gap-1.5 shadow">
           <i class="fa-solid fa-plus"></i> Tambah Unit Baru
         </button>
       </div>
@@ -2392,6 +2539,17 @@ function doPost(e) {
           </div>
           <i class="fa-solid fa-chevron-right text-xs text-slate-600 group-hover:text-amber-400"></i>
         </button>
+
+        <button onclick="applyRole('kasir')" class="w-full p-3 rounded-xl border border-slate-700 hover:border-amber-500 bg-slate-950 flex items-center justify-between text-left transition group">
+          <div class="flex items-center gap-3">
+            <i class="fa-solid fa-cash-register text-emerald-400 group-hover:scale-110 transition"></i>
+            <div>
+              <div class="text-xs font-bold text-white">Kasir / Finance</div>
+              <div class="text-[10px] text-slate-400">Akses HM, Solar, Belanja & Unit (Lihat Saja)</div>
+            </div>
+          </div>
+          <i class="fa-solid fa-chevron-right text-xs text-slate-600 group-hover:text-amber-400"></i>
+        </button>
       </div>
 
       <button onclick="closeModal('modalSwitchRole')" class="mt-4 text-xs text-slate-400 hover:text-white">Tutup</button>
@@ -2406,7 +2564,7 @@ function doPost(e) {
           <h3 class="text-base font-bold text-white flex items-center gap-2">
             <i class="fa-solid fa-users-gear text-amber-500"></i> Kelola Akun & Hak Akses
           </h3>
-          <p class="text-xs text-slate-400">Atur pengguna untuk Admin, Operator, dan Helper.</p>
+          <p class="text-xs text-slate-400">Atur pengguna untuk Admin, Operator, Helper, dan Kasir.</p>
         </div>
         <button onclick="closeModal('modalManageUsers')" class="text-slate-400 hover:text-white text-lg">
           <i class="fa-solid fa-xmark"></i>
@@ -2433,6 +2591,7 @@ function doPost(e) {
             <label class="block text-[11px] font-semibold text-slate-300 mb-1">Peran / Hak Akses</label>
             <select id="manageUserRole" required class="w-full bg-slate-900 border border-slate-700 rounded-lg py-2 px-3 text-xs text-white focus:outline-none focus:border-amber-500">
               <option value="admin">Supervisor / Admin (Akses Penuh)</option>
+              <option value="kasir">Kasir (Input HM, Solar, Belanja, Lihat Unit)</option>
               <option value="operator">Operator Lapangan (Hanya Menu HM)</option>
               <option value="helper">Helper Lapangan (Hanya Menu Solar)</option>
             </select>
@@ -2488,11 +2647,12 @@ function doPost(e) {
 
   <!-- ================= JAVASCRIPT APPLICATION LOGIC ================= -->
   <script>
-    /* Default Master Akun Pengguna (Admin, Operator, Helper) */
+    /* Default Master Akun Pengguna (Admin, Operator, Helper, Kasir) */
     const DEFAULT_USERS = [
       { id: 'USR-01', username: 'admin_site', password: 'password123', name: 'Supervisor Site', role: 'admin' },
       { id: 'USR-02', username: 'operator_field1', password: 'password123', name: 'Operator Lapangan 1', role: 'operator' },
-      { id: 'USR-03', username: 'helper_site', password: 'password123', name: 'Helper Lapangan 1', role: 'helper' }
+      { id: 'USR-03', username: 'helper_site', password: 'password123', name: 'Helper Lapangan 1', role: 'helper' },
+      { id: 'USR-04', username: 'kasir_site', password: 'password123', name: 'Kasir Operasional', role: 'kasir' }
     ];
 
     /* Default Equipments */
@@ -2568,7 +2728,6 @@ function doPost(e) {
 
     // Current State
     let currentUser = null;
-    let selectedLoginPresetRole = 'admin';
     let appUsers = [];
     let equipments = [];
     let dailyLogs = [];
@@ -3233,37 +3392,6 @@ function doPost(e) {
     }
 
     /* Auth & Role Access Control */
-    function setPresetRole(role) {
-      selectedLoginPresetRole = role;
-      const btnAdmin = document.getElementById('roleBtnAdmin');
-      const btnOp = document.getElementById('roleBtnOperator');
-      const btnHlp = document.getElementById('roleBtnHelper');
-      const userInp = document.getElementById('usernameInput');
-      const passInp = document.getElementById('passwordInput');
-
-      [btnAdmin, btnOp, btnHlp].forEach(b => {
-        b.className = 'py-2 px-1 text-[11px] font-semibold rounded-lg transition-all flex items-center justify-center gap-1.5 text-slate-400 hover:text-white';
-      });
-
-      const activeClasses = 'py-2 px-1 text-[11px] font-semibold rounded-lg transition-all flex items-center justify-center gap-1.5 bg-amber-500 text-slate-950 shadow';
-
-      let targetUsername = 'admin_site';
-      if (role === 'admin') {
-        btnAdmin.className = activeClasses;
-        targetUsername = 'admin_site';
-      } else if (role === 'operator') {
-        btnOp.className = activeClasses;
-        targetUsername = 'operator_field1';
-      } else if (role === 'helper') {
-        btnHlp.className = activeClasses;
-        targetUsername = 'helper_site';
-      }
-
-      const foundUser = appUsers.find(u => u.username === targetUsername) || appUsers.find(u => u.role === role);
-      if (userInp) userInp.value = foundUser ? foundUser.username : targetUsername;
-      if (passInp && foundUser) passInp.value = foundUser.password;
-    }
-
     function handleLogin(e) {
       e.preventDefault();
       const usernameInput = (document.getElementById('usernameInput')?.value || '').trim();
@@ -3272,12 +3400,12 @@ function doPost(e) {
       const matchedUser = appUsers.find(u => u.username.toLowerCase() === usernameInput.toLowerCase());
 
       if (!matchedUser) {
-        showToast('Username tidak ditemukan!', 'warning');
+        showToast('Username tidak ditemukan di sistem!', 'warning');
         return;
       }
 
       if (matchedUser.password !== passwordInput) {
-        showToast('Kata sandi salah!', 'warning');
+        showToast('Kata sandi yang dimasukkan salah!', 'warning');
         return;
       }
 
@@ -3350,11 +3478,12 @@ function doPost(e) {
       const roleLabels = {
         'admin': 'Supervisor / Administrator',
         'operator': 'Operator Lapangan',
-        'helper': 'Helper Lapangan'
+        'helper': 'Helper Lapangan',
+        'kasir': 'Kasir / Finance'
       };
       if (userRoleBadge) userRoleBadge.innerText = roleLabels[role] || role;
 
-      // Atur Nama Operator / Helper otomatis jika form dibuka & kunci input jika bukan admin
+      // Atur Nama Operator / Helper otomatis jika form dibuka & kunci input jika role operator/helper
       const opInput = document.getElementById('logOperatorName');
       if (opInput) {
         if (role === 'operator') {
@@ -3378,24 +3507,40 @@ function doPost(e) {
         }
       }
 
-      // 1. Sembunyikan elemen admin-only di header (termasuk tombol switch role)
+      // 1. Sembunyikan elemen admin-only di header (termasuk tombol switch role & settings)
       const adminOnlyElements = document.querySelectorAll('.role-admin-only');
       adminOnlyElements.forEach(el => {
         if (role === 'admin') el.classList.remove('hidden');
         else el.classList.add('hidden');
       });
 
-      // Kontrol visibilitas tombol "Unit Baru" di form log
+      // Kontrol visibilitas tombol "Unit Baru" di form log (Hanya Admin)
       const btnAddEquip = document.getElementById('btnAddNewEquipInLog');
       if (btnAddEquip) {
         if (role === 'admin') btnAddEquip.classList.remove('hidden');
         else btnAddEquip.classList.add('hidden');
       }
 
+      // Kontrol tombol Tambah Unit Baru di modal kelola unit (Kasir TIDAK BISA menambah unit)
+      const btnManageAdd = document.getElementById('btnManageAddNewEquip');
+      const manageSubtitle = document.getElementById('manageEquipmentSubtitle');
+      if (btnManageAdd) {
+        if (role === 'admin') btnManageAdd.classList.remove('hidden');
+        else btnManageAdd.classList.add('hidden');
+      }
+      if (manageSubtitle) {
+        if (role === 'kasir') {
+          manageSubtitle.innerText = 'Daftar armada alat berat terdaftar (Mode Lihat Saja).';
+        } else {
+          manageSubtitle.innerText = 'Tambah armada baru atau hapus unit yang sudah tidak beroperasi.';
+        }
+      }
+
       // 2. Tampilkan HANYA tab desktop yang sesuai untuk peran tersebut
       const navAdmin = document.getElementById('navTabDashboard');
       const navOpDash = document.getElementById('navTabOperatorDashboard');
       const navHlpDash = document.getElementById('navTabHelperDashboard');
+      const navKasirDash = document.getElementById('navTabKasirDashboard');
       const navInputLog = document.getElementById('navTabInputLog');
       const navFuelLog = document.getElementById('navTabFuelLog');
       const navService = document.getElementById('navTabServiceLog');
@@ -3408,6 +3553,7 @@ function doPost(e) {
         if (navAdmin) navAdmin.classList.remove('hidden');
         if (navOpDash) navOpDash.classList.add('hidden');
         if (navHlpDash) navHlpDash.classList.add('hidden');
+        if (navKasirDash) navKasirDash.classList.add('hidden');
         if (navInputLog) navInputLog.classList.remove('hidden');
         if (navFuelLog) navFuelLog.classList.remove('hidden');
         if (navService) navService.classList.remove('hidden');
@@ -3420,6 +3566,7 @@ function doPost(e) {
         if (navAdmin) navAdmin.classList.add('hidden');
         if (navOpDash) navOpDash.classList.remove('hidden');
         if (navHlpDash) navHlpDash.classList.add('hidden');
+        if (navKasirDash) navKasirDash.classList.add('hidden');
         if (navInputLog) navInputLog.classList.remove('hidden');
         if (navFuelLog) navFuelLog.classList.add('hidden');
         if (navService) navService.classList.add('hidden');
@@ -3432,6 +3579,7 @@ function doPost(e) {
         if (navAdmin) navAdmin.classList.add('hidden');
         if (navOpDash) navOpDash.classList.add('hidden');
         if (navHlpDash) navHlpDash.classList.remove('hidden');
+        if (navKasirDash) navKasirDash.classList.add('hidden');
         if (navInputLog) navInputLog.classList.add('hidden');
         if (navFuelLog) navFuelLog.classList.remove('hidden');
         if (navService) navService.classList.add('hidden');
@@ -3439,12 +3587,26 @@ function doPost(e) {
         if (navMaint) navMaint.classList.add('hidden');
         if (navEquip) navEquip.classList.add('hidden');
         if (navInvoice) navInvoice.classList.add('hidden');
+      } else if (role === 'kasir') {
+        // Kasir HANYA melihat: Dashboard Kasir, Input HM, Pengisian Solar, Pengeluaran Unit, dan Unit & Log
+        if (navAdmin) navAdmin.classList.add('hidden');
+        if (navOpDash) navOpDash.classList.add('hidden');
+        if (navHlpDash) navHlpDash.classList.add('hidden');
+        if (navKasirDash) navKasirDash.classList.remove('hidden');
+        if (navInputLog) navInputLog.classList.remove('hidden');
+        if (navFuelLog) navFuelLog.classList.remove('hidden');
+        if (navExpense) navExpense.classList.remove('hidden');
+        if (navEquip) navEquip.classList.remove('hidden');
+        if (navService) navService.classList.add('hidden');
+        if (navMaint) navMaint.classList.add('hidden');
+        if (navInvoice) navInvoice.classList.add('hidden');
       }
 
       // 3. Tampilkan HANYA bottom nav mobile yang sesuai untuk peran tersebut
       const mAdmin = document.querySelectorAll('.mobile-role-admin');
       const mOp = document.querySelectorAll('.mobile-role-operator');
       const mHlp = document.querySelectorAll('.mobile-role-helper');
+      const mKasir = document.querySelectorAll('.mobile-role-kasir');
 
       mAdmin.forEach(el => {
         if (role === 'admin') el.classList.remove('hidden');
@@ -3452,11 +3614,15 @@ function doPost(e) {
       });
       mOp.forEach(el => {
         if (role === 'operator') el.classList.remove('hidden');
-        else if (role !== 'admin') el.classList.add('hidden');
+        else if (role !== 'admin' && role !== 'kasir') el.classList.add('hidden');
       });
       mHlp.forEach(el => {
         if (role === 'helper') el.classList.remove('hidden');
-        else if (role !== 'admin') el.classList.add('hidden');
+        else if (role !== 'admin' && role !== 'kasir') el.classList.add('hidden');
+      });
+      mKasir.forEach(el => {
+        if (role === 'kasir') el.classList.remove('hidden');
+        else el.classList.add('hidden');
       });
 
       // 4. Selalu arahkan ke Dashboard peran masing-masing saat direfresh atau login
@@ -3464,6 +3630,8 @@ function doPost(e) {
         switchTab('operatorDashboard');
       } else if (role === 'helper') {
         switchTab('helperDashboard');
+      } else if (role === 'kasir') {
+        switchTab('kasirDashboard');
       } else {
         switchTab('dashboard');
       }
@@ -3476,6 +3644,7 @@ function doPost(e) {
         updateDashboardKPIs();
         if (role === 'operator') updateOperatorDashboard();
         if (role === 'helper') updateHelperDashboard();
+        if (role === 'kasir') updateKasirDashboard();
         renderDashboardRecentLogs();
         renderServiceChecklistUI();
         renderServiceTable();
@@ -3491,6 +3660,7 @@ function doPost(e) {
       if (role === 'admin') return true;
       if (role === 'operator') return tabName === 'operatorDashboard' || tabName === 'inputLog';
       if (role === 'helper') return tabName === 'helperDashboard' || tabName === 'fuelLog';
+      if (role === 'kasir') return tabName === 'kasirDashboard' || tabName === 'inputLog' || tabName === 'fuelLog' || tabName === 'expenseTab' || tabName === 'equipmentList';
       return false;
     }
 
@@ -3548,6 +3718,12 @@ function doPost(e) {
           showToast('Akses ditolak: User Helper hanya dapat mengakses Dashboard Helper dan Pengisian Solar.', 'warning');
           tabName = 'helperDashboard';
         }
+      } else if (role === 'kasir') {
+        const allowedKasirTabs = ['kasirDashboard', 'inputLog', 'fuelLog', 'expenseTab', 'equipmentList'];
+        if (!allowedKasirTabs.includes(tabName)) {
+          showToast('Akses ditolak: Menu ini tidak tersedia untuk peran Kasir.', 'warning');
+          tabName = 'kasirDashboard';
+        }
       }
 
       // Simpan tab aktif agar saat refresh tetap berada pada tab yang sama
@@ -3576,6 +3752,7 @@ function doPost(e) {
         'dashboard': 'mobileNavDashboard',
         'operatorDashboard': 'mobileNavOperatorDashboard',
         'helperDashboard': 'mobileNavHelperDashboard',
+        'kasirDashboard': 'mobileNavKasirDashboard',
         'inputLog': 'mobileNavInputLog',
         'fuelLog': 'mobileNavFuelLog',
         'expenseTab': 'mobileNavExpense',
@@ -3604,6 +3781,8 @@ function doPost(e) {
         updateOperatorDashboard();
       } else if (tabName === 'helperDashboard') {
         updateHelperDashboard();
+      } else if (tabName === 'kasirDashboard') {
+        updateKasirDashboard();
       } else if (tabName === 'fuelLog') {
         populateEquipmentDropdowns();
         renderFuelLogsTable();
@@ -3642,45 +3821,44 @@ function doPost(e) {
       opLogs.forEach(l => {
         const b = parseFloat(l.bucketHours) || 0;
         const br = parseFloat(l.breakerHours) || 0;
-        const tot = parseFloat(l.totalHours) || (b + br);
         totalBucket += b;
         totalBreaker += br;
-        totalHours += tot;
+        totalHours += (parseFloat(l.totalHours) || (b + br));
       });
 
-      const kpiTot = document.getElementById('opKpiTotalHours');
-      const kpiBkt = document.getElementById('opKpiBucketHours');
-      const kpiBrk = document.getElementById('opKpiBreakerHours');
+      const kpiTotal = document.getElementById('opKpiTotalHours');
+      const kpiBucket = document.getElementById('opKpiBucketHours');
+      const kpiBreaker = document.getElementById('opKpiBreakerHours');
       const kpiLogs = document.getElementById('opKpiTotalLogs');
 
-      if (kpiTot) kpiTot.innerText = totalHours.toFixed(1);
-      if (kpiBkt) kpiBkt.innerText = totalBucket.toFixed(1);
-      if (kpiBrk) kpiBrk.innerText = totalBreaker.toFixed(1);
+      if (kpiTotal) kpiTotal.innerText = totalHours.toFixed(1);
+      if (kpiBucket) kpiBucket.innerText = totalBucket.toFixed(1);
+      if (kpiBreaker) kpiBreaker.innerText = totalBreaker.toFixed(1);
       if (kpiLogs) kpiLogs.innerText = opLogs.length;
 
-      // Render Tabel Riwayat Khusus Operator
+      // Render Tabel Riwayat Operator
       const tbody = document.getElementById('operatorLogsTableBody');
       const mobileList = document.getElementById('operatorLogsListMobile');
 
       if (tbody) {
         tbody.innerHTML = '';
         if (opLogs.length === 0) {
-          tbody.innerHTML = '<tr><td colspan="8" class="py-6 text-center text-slate-500">Belum ada riwayat jam kerja yang Anda input atas nama <strong>' + currentUser.name + '</strong>.</td></tr>';
+          tbody.innerHTML = '<tr><td colspan="8" class="py-6 text-center text-slate-500">Belum ada catatan jam kerja yang Anda input.</td></tr>';
         } else {
           opLogs.slice().reverse().forEach(log => {
             const tr = document.createElement('tr');
             tr.className = 'hover:bg-slate-800/40';
             tr.innerHTML = `
-              <td class="py-3 px-3 font-mono text-slate-300">${log.date}</td>
-              <td class="py-3 px-3 font-bold text-amber-400">${log.equipmentCode}</td>
-              <td class="py-3 px-3 text-slate-300">${log.location || '-'}</td>
-              <td class="py-3 px-3 text-amber-300 font-bold">${log.bucketHours || 0} Jam</td>
-              <td class="py-3 px-3 text-orange-400 font-bold">${log.breakerHours || 0} Jam</td>
-              <td class="py-3 px-3 text-white font-bold">${log.totalHours || (parseFloat(log.bucketHours||0)+parseFloat(log.breakerHours||0)).toFixed(1)} Jam</td>
-              <td class="py-3 px-3 font-mono text-xs text-slate-300">${log.hmAwal} &rarr; ${log.hmAkhir} (${log.totalHm} HM)</td>
-              <td class="py-3 px-3 text-right">
+              <td class="py-2.5 px-3 font-mono text-slate-300">${log.date}</td>
+              <td class="py-2.5 px-3 font-bold text-amber-400">${log.equipmentCode}</td>
+              <td class="py-2.5 px-3 text-slate-300">${log.location || '-'}</td>
+              <td class="py-2.5 px-3 text-amber-400 font-bold">${log.bucketHours || 0}</td>
+              <td class="py-2.5 px-3 text-orange-400 font-bold">${log.breakerHours || 0}</td>
+              <td class="py-2.5 px-3 text-white font-bold">${log.totalHours || (parseFloat(log.bucketHours||0) + parseFloat(log.breakerHours||0)).toFixed(1)}</td>
+              <td class="py-2.5 px-3 font-mono text-slate-300">${log.hmAwal} &rarr; ${log.hmAkhir} (${log.totalHm})</td>
+              <td class="py-2.5 px-3 text-right">
                 <span class="px-2 py-0.5 rounded text-[10px] font-bold ${log.synced ? 'bg-emerald-500/10 text-emerald-400' : 'bg-slate-800 text-slate-400'}">
-                  ${log.synced ? 'Tersimpan' : 'Pending'}
+                  ${log.synced ? 'Synced' : 'Pending'}
                 </span>
               </td>
             `;
@@ -3692,7 +3870,7 @@ function doPost(e) {
       if (mobileList) {
         mobileList.innerHTML = '';
         if (opLogs.length === 0) {
-          mobileList.innerHTML = '<div class="p-4 text-center text-xs text-slate-500">Belum ada jam kerja yang diinput atas nama Anda.</div>';
+          mobileList.innerHTML = '<div class="p-4 text-center text-xs text-slate-500">Belum ada catatan jam kerja.</div>';
         } else {
           opLogs.slice().reverse().forEach(log => {
             const card = document.createElement('div');
@@ -3702,13 +3880,93 @@ function doPost(e) {
                 <div class="text-xs font-bold text-amber-400">${log.equipmentCode}</div>
                 <span class="text-xs font-bold text-white">${log.totalHours || (parseFloat(log.bucketHours||0)+parseFloat(log.breakerHours||0)).toFixed(1)} Jam</span>
               </div>
-              <div class="text-[11px] text-slate-400">${log.date} &bull; ${log.location || '-'}</div>
+              <div class="text-[11px] text-slate-400 font-mono">${log.date} &bull; ${log.location || '-'}</div>
               <div class="flex justify-between text-xs text-slate-300 pt-1 border-t border-slate-850">
-                <span>Bucket: <strong class="text-amber-400">${log.bucketHours || 0}j</strong> | Breaker: <strong class="text-orange-400">${log.breakerHours || 0}j</strong></span>
-                <span class="font-mono text-slate-400">HM: ${log.totalHm}</span>
+                <span>Bkt: <strong class="text-amber-400">${log.bucketHours||0}j</strong> | Brk: <strong class="text-orange-400">${log.breakerHours||0}j</strong></span>
+                <span>HM: ${log.hmAwal}&rarr;${log.hmAkhir}</span>
               </div>
             `;
             mobileList.appendChild(card);
+          });
+        }
+      }
+    }
+
+    /* ================= LOGIKA DASHBOARD KHUSUS KASIR (BARU) ================= */
+    function updateKasirDashboard() {
+      if (!currentUser) return;
+
+      // 1. Hitung total jam kerja
+      let totalHmHours = 0;
+      dailyLogs.forEach(l => {
+        const b = parseFloat(l.bucketHours) || 0;
+        const br = parseFloat(l.breakerHours) || 0;
+        totalHmHours += (parseFloat(l.totalHours) || (b + br));
+      });
+
+      // 2. Hitung total solar diisi
+      let totalFuelLiters = 0;
+      fuelLogs.forEach(fl => {
+        totalFuelLiters += (parseFloat(fl.liters) || 0);
+      });
+
+      // 3. Hitung total belanja/pengeluaran unit
+      let totalExpenseNominal = 0;
+      equipmentExpenses.forEach(exp => {
+        totalExpenseNominal += (parseFloat(exp.amount) || 0);
+      });
+
+      // Update KPI Elements
+      const kpiHm = document.getElementById('kasirKpiTotalHm');
+      const kpiFuel = document.getElementById('kasirKpiTotalFuel');
+      const kpiExp = document.getElementById('kasirKpiTotalExpenses');
+      const kpiLogs = document.getElementById('kasirKpiTotalLogs');
+
+      if (kpiHm) kpiHm.innerText = totalHmHours.toFixed(1);
+      if (kpiFuel) kpiFuel.innerText = totalFuelLiters.toLocaleString('id-ID');
+      if (kpiExp) kpiExp.innerText = formatRupiah(totalExpenseNominal);
+      if (kpiLogs) kpiLogs.innerText = dailyLogs.length;
+
+      // Render Tabel Log Terbaru di Dashboard Kasir
+      const logsTbody = document.getElementById('kasirRecentLogsTable');
+      if (logsTbody) {
+        logsTbody.innerHTML = '';
+        const recentLogs = dailyLogs.slice(-5).reverse();
+        if (recentLogs.length === 0) {
+          logsTbody.innerHTML = '<tr><td colspan="4" class="py-4 text-center text-slate-500">Belum ada catatan log.</td></tr>';
+        } else {
+          recentLogs.forEach(l => {
+            const tr = document.createElement('tr');
+            tr.className = 'hover:bg-slate-800/40';
+            tr.innerHTML = `
+              <td class="py-2 font-mono text-slate-300">${l.date}</td>
+              <td class="py-2 font-bold text-amber-400">${(l.equipmentCode || '').split(' ')[0]}</td>
+              <td class="py-2 text-slate-300">${l.operator}</td>
+              <td class="py-2 text-right font-bold text-white">${l.totalHours || (parseFloat(l.bucketHours||0)+parseFloat(l.breakerHours||0)).toFixed(1)}j</td>
+            `;
+            logsTbody.appendChild(tr);
+          });
+        }
+      }
+
+      // Render Tabel Pengeluaran Terbaru di Dashboard Kasir
+      const expTbody = document.getElementById('kasirRecentExpensesTable');
+      if (expTbody) {
+        expTbody.innerHTML = '';
+        const recentExpenses = equipmentExpenses.slice(-5).reverse();
+        if (recentExpenses.length === 0) {
+          expTbody.innerHTML = '<tr><td colspan="4" class="py-4 text-center text-slate-500">Belum ada catatan pengeluaran.</td></tr>';
+        } else {
+          recentExpenses.forEach(exp => {
+            const tr = document.createElement('tr');
+            tr.className = 'hover:bg-slate-800/40';
+            tr.innerHTML = `
+              <td class="py-2 font-mono text-slate-300">${exp.date}</td>
+              <td class="py-2 text-white truncate max-w-[120px]" title="${exp.itemName}">${exp.itemName}</td>
+              <td class="py-2 font-bold text-amber-400">${(exp.equipmentCode || '').split(' ')[0]}</td>
+              <td class="py-2 text-right font-mono font-bold text-rose-400">${formatRupiah(exp.amount)}</td>
+            `;
+            expTbody.appendChild(tr);
           });
         }
       }
@@ -4215,6 +4473,25 @@ function doPost(e) {
 
     function formatRupiah(num) {
       return 'Rp' + Math.round(num).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    }
+
+    /* Handler Saat Unit Alat Dipilih di Form Input HM */
+    function onEquipmentSelectChange() {
+      const select = document.getElementById('logEquipmentSelect');
+      const selectedId = select ? select.value : '';
+      if (!selectedId) return;
+
+      const equip = equipments.find(e => e.id === selectedId);
+      if (equip) {
+        const hmAwalInput = document.getElementById('logHmAwal');
+        if (hmAwalInput) {
+          // Isi otomatis HM Awal dari currentHM unit yang dipilih
+          hmAwalInput.value = equip.currentHM !== undefined && equip.currentHM !== null ? equip.currentHM : 0;
+          
+          // Hitung ulang HM akhir & selisih secara otomatis
+          calculateTotalHm();
+        }
+      }
     }
 
     /* Mengisi Dropdown Filter Invoice Berdasarkan Data Alat yang Ada */
@@ -5732,6 +6009,8 @@ function doPost(e) {
       if (!container) return;
       container.innerHTML = '';
 
+      const isAdmin = currentUser && currentUser.role === 'admin';
+
       equipments.forEach(eq => {
         const div = document.createElement('div');
         div.className = 'py-3 flex items-center justify-between text-xs';
@@ -5740,7 +6019,11 @@ function doPost(e) {
             <div class="font-bold text-white">${eq.code} <span class="text-slate-400 font-normal">(${eq.category})</span></div>
             <div class="text-[11px] text-slate-400">${eq.model} | HM: ${eq.currentHM}</div>
           </div>
-          <button onclick="deleteEquipment('${eq.id}')" class="px-2 py-1 bg-rose-500/10 text-rose-400 rounded-lg text-xs">Hapus</button>
+          ${isAdmin ? `
+            <button onclick="deleteEquipment('${eq.id}')" class="px-2 py-1 bg-rose-500/10 text-rose-400 rounded-lg text-xs hover:bg-rose-500/20 transition">Hapus</button>
+          ` : `
+            <span class="text-[10px] text-slate-500 bg-slate-950 px-2 py-0.5 rounded border border-slate-800">Aktif</span>
+          `}
         `;
         container.appendChild(div);
       });
@@ -5748,6 +6031,10 @@ function doPost(e) {
 
     function handleSaveEquipment(e) {
       e.preventDefault();
+      if (!currentUser || currentUser.role !== 'admin') {
+        showToast('Akses ditolak: Hanya Admin yang dapat menambahkan unit alat!', 'warning');
+        return;
+      }
       const code = document.getElementById('newEquipCode').value.trim();
       const category = document.getElementById('newEquipCategory').value;
       const model = document.getElementById('newEquipModel').value.trim();
@@ -5779,6 +6066,10 @@ function doPost(e) {
     }
 
     function deleteEquipment(id) {
+      if (!currentUser || currentUser.role !== 'admin') {
+        showToast('Akses ditolak: Hanya Admin yang dapat menghapus unit alat!', 'warning');
+        return;
+      }
       equipments = equipments.filter(e => e.id !== id);
       saveAllToStorage();
       cloudDeleteDocument('equipments', id);
