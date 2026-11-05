@@ -118,6 +118,54 @@
         max-width: 100% !important;
       }
 
+      /* Mode Cetak Surat Jalan Truk (PDF) */
+      body.printing-delivery-note #mainAppView > header,
+      body.printing-delivery-note #mainAppView > nav,
+      body.printing-delivery-note #tab-dashboard,
+      body.printing-delivery-note #tab-operatorDashboard,
+      body.printing-delivery-note #tab-helperDashboard,
+      body.printing-delivery-note #tab-kasirDashboard,
+      body.printing-delivery-note #tab-truckMaster,
+      body.printing-delivery-note #tab-inputLog,
+      body.printing-delivery-note #tab-fuelLog,
+      body.printing-delivery-note #tab-serviceLog,
+      body.printing-delivery-note #tab-expenseTab,
+      body.printing-delivery-note #tab-maintenance,
+      body.printing-delivery-note #tab-equipmentList,
+      body.printing-delivery-note #tab-invoice,
+      body.printing-delivery-note #tab-truckShipments > div:first-child,
+      body.printing-delivery-note #tab-truckShipments > div:nth-child(2),
+      body.printing-delivery-note #truckShipmentForm,
+      body.printing-delivery-note .no-print,
+      body.printing-delivery-note #authView {
+        display: none !important;
+      }
+
+      body.printing-delivery-note #tab-truckShipments {
+        display: block !important;
+        background: transparent !important;
+        padding: 0 !important;
+        margin: 0 !important;
+      }
+
+      body.printing-delivery-note #truckDeliveryNotePrintDocument {
+        display: block !important;
+        visibility: visible !important;
+        box-shadow: none !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        position: static !important;
+        background: #ffffff !important;
+        color: #000000 !important;
+      }
+
+      body.printing-delivery-note #truckDeliveryNotePrintDocument * {
+        visibility: visible !important;
+        color: #000000 !important;
+      }
+
       /* Mode Cetak Log Operasional */
       body.printing-logs #mainAppView > header,
       body.printing-logs #mainAppView > nav,
@@ -249,64 +297,74 @@
           </div>
         </div>
 
-        <!-- Navigation Tabs (Desktop) -->
-        <div id="desktopNavTabsWrapper" class="hidden md:flex items-center space-x-1 bg-slate-950/60 p-1 rounded-xl border border-slate-800">
+        <!-- Navigation Tabs (Desktop) Responsif dengan scroll horizontal halus -->
+        <div class="hidden md:flex flex-1 items-center justify-center px-4 overflow-hidden">
+          <div id="desktopNavTabsWrapper" class="flex items-center space-x-1 bg-slate-950/60 p-1 rounded-xl border border-slate-800 overflow-x-auto max-w-full whitespace-nowrap scrollbar-none py-1">
           <!-- Tab Dashboard Admin -->
-          <button onclick="switchTab('dashboard')" id="navTabDashboard" class="role-nav-admin tab-btn px-3 py-1.5 rounded-lg text-xs font-semibold transition bg-amber-500 text-slate-950 flex items-center gap-1.5">
+          <button onclick="switchTab('dashboard')" id="navTabDashboard" class="role-nav-admin tab-btn flex-shrink-0 px-3 py-1.5 rounded-lg text-xs font-semibold transition bg-amber-500 text-slate-950 flex items-center gap-1.5">
             <i class="fa-solid fa-chart-pie"></i> Dashboard Admin
           </button>
           <!-- Tab Dashboard Operator -->
-          <button onclick="switchTab('operatorDashboard')" id="navTabOperatorDashboard" class="role-nav-operator tab-btn px-3 py-1.5 rounded-lg text-xs font-semibold transition bg-amber-500 text-slate-950 flex items-center gap-1.5 hidden">
+          <button onclick="switchTab('operatorDashboard')" id="navTabOperatorDashboard" class="role-nav-operator tab-btn flex-shrink-0 px-3 py-1.5 rounded-lg text-xs font-semibold transition bg-amber-500 text-slate-950 flex items-center gap-1.5 hidden">
             <i class="fa-solid fa-gauge-high"></i> Dashboard Operator
           </button>
           <!-- Tab Dashboard Helper -->
-          <button onclick="switchTab('helperDashboard')" id="navTabHelperDashboard" class="role-nav-helper tab-btn px-3 py-1.5 rounded-lg text-xs font-semibold transition bg-amber-500 text-slate-950 flex items-center gap-1.5 hidden">
+          <button onclick="switchTab('helperDashboard')" id="navTabHelperDashboard" class="role-nav-helper tab-btn flex-shrink-0 px-3 py-1.5 rounded-lg text-xs font-semibold transition bg-amber-500 text-slate-950 flex items-center gap-1.5 hidden">
             <i class="fa-solid fa-gas-pump"></i> Dashboard Helper
           </button>
           <!-- Tab Dashboard Kasir -->
-          <button onclick="switchTab('kasirDashboard')" id="navTabKasirDashboard" class="role-nav-kasir tab-btn px-3 py-1.5 rounded-lg text-xs font-semibold transition bg-amber-500 text-slate-950 flex items-center gap-1.5 hidden">
+          <button onclick="switchTab('kasirDashboard')" id="navTabKasirDashboard" class="role-nav-kasir tab-btn flex-shrink-0 px-3 py-1.5 rounded-lg text-xs font-semibold transition bg-amber-500 text-slate-950 flex items-center gap-1.5 hidden">
             <i class="fa-solid fa-cash-register"></i> Dashboard Kasir
           </button>
+          <!-- Tab Data Truk (Master Armada Truk) -->
+          <button onclick="switchTab('truckMaster')" id="navTabTruckMaster" class="role-admin-only role-nav-kasir-item tab-btn flex-shrink-0 px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-400 hover:text-white transition flex items-center gap-1.5">
+            <i class="fa-solid fa-truck-moving text-amber-400"></i> Data Truk
+          </button>
+          <!-- Tab Data Kiriman Truk (Logistik & Surat Jalan) -->
+          <button onclick="switchTab('truckShipments')" id="navTabTruckShipments" class="role-admin-only role-nav-kasir-item tab-btn flex-shrink-0 px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-400 hover:text-white transition flex items-center gap-1.5">
+            <i class="fa-solid fa-truck-ramp-box text-sky-400"></i> Data Kiriman Truk
+          </button>
           <!-- Tab Input HM (Admin, Operator, Kasir) -->
-          <button onclick="switchTab('inputLog')" id="navTabInputLog" class="role-nav-operator-input role-nav-admin role-nav-kasir-item tab-btn px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-400 hover:text-white transition flex items-center gap-1.5">
+          <button onclick="switchTab('inputLog')" id="navTabInputLog" class="role-nav-operator-input role-nav-admin role-nav-kasir-item tab-btn flex-shrink-0 px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-400 hover:text-white transition flex items-center gap-1.5">
             <i class="fa-solid fa-file-circle-plus"></i> Input HM
           </button>
           <!-- Tab Pengisian Solar (Admin, Helper, Kasir) -->
-          <button onclick="switchTab('fuelLog')" id="navTabFuelLog" class="role-nav-helper-input role-nav-admin role-nav-kasir-item tab-btn px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-400 hover:text-white transition flex items-center gap-1.5">
+          <button onclick="switchTab('fuelLog')" id="navTabFuelLog" class="role-nav-helper-input role-nav-admin role-nav-kasir-item tab-btn flex-shrink-0 px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-400 hover:text-white transition flex items-center gap-1.5">
             <i class="fa-solid fa-droplet text-amber-400"></i> Pengisian Solar
           </button>
           <!-- Tab Pengeluaran Unit (Admin & Kasir) -->
-          <button onclick="switchTab('expenseTab')" id="navTabExpenseTab" class="role-admin-only role-nav-kasir-item tab-btn px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-400 hover:text-white transition flex items-center gap-1.5">
+          <button onclick="switchTab('expenseTab')" id="navTabExpenseTab" class="role-admin-only role-nav-kasir-item tab-btn flex-shrink-0 px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-400 hover:text-white transition flex items-center gap-1.5">
             <i class="fa-solid fa-receipt text-rose-400"></i> Pengeluaran Unit
           </button>
           <!-- Tab Unit & Log (Admin & Kasir) -->
-          <button onclick="switchTab('equipmentList')" id="navTabEquipment" class="role-admin-only role-nav-kasir-item tab-btn px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-400 hover:text-white transition flex items-center gap-1.5">
+          <button onclick="switchTab('equipmentList')" id="navTabEquipment" class="role-admin-only role-nav-kasir-item tab-btn flex-shrink-0 px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-400 hover:text-white transition flex items-center gap-1.5">
             <i class="fa-solid fa-boxes-stacked"></i> Unit & Log
           </button>
           <!-- Tab Khusus Admin Saja -->
-          <button onclick="switchTab('serviceLog')" id="navTabServiceLog" class="role-admin-only tab-btn px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-400 hover:text-white transition flex items-center gap-1.5">
+          <button onclick="switchTab('serviceLog')" id="navTabServiceLog" class="role-admin-only tab-btn flex-shrink-0 px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-400 hover:text-white transition flex items-center gap-1.5">
             <i class="fa-solid fa-oil-can text-amber-400"></i> Catat Servis
           </button>
-          <button onclick="switchTab('maintenance')" id="navTabMaintenance" class="role-admin-only tab-btn px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-400 hover:text-white transition flex items-center gap-1.5">
+          <button onclick="switchTab('maintenance')" id="navTabMaintenance" class="role-admin-only tab-btn flex-shrink-0 px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-400 hover:text-white transition flex items-center gap-1.5">
             <i class="fa-solid fa-screwdriver-wrench"></i> Jadwal Servis
           </button>
-          <button onclick="switchTab('invoice')" id="navTabInvoice" class="role-admin-only tab-btn px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-400 hover:text-white transition flex items-center gap-1.5">
+          <button onclick="switchTab('invoice')" id="navTabInvoice" class="role-admin-only tab-btn flex-shrink-0 px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-400 hover:text-white transition flex items-center gap-1.5">
             <i class="fa-solid fa-file-invoice-dollar text-amber-400"></i> Invoice
           </button>
-          <button onclick="openWhatsAppConfigModal()" id="navTabWhatsApp" class="role-admin-only tab-btn px-3 py-1.5 rounded-lg text-xs font-semibold text-emerald-400 hover:bg-emerald-500/10 border border-emerald-500/30 transition flex items-center gap-1.5">
+          <button onclick="openWhatsAppConfigModal()" id="navTabWhatsApp" class="role-admin-only tab-btn flex-shrink-0 px-3 py-1.5 rounded-lg text-xs font-semibold text-emerald-400 hover:bg-emerald-500/10 border border-emerald-500/30 transition flex items-center gap-1.5">
             <i class="fa-brands fa-whatsapp text-emerald-400 text-sm"></i> WA
             <span id="waIndicatorDot" class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
           </button>
-          <button onclick="openGoogleSheetsModal()" id="navTabGSheets" class="role-admin-only tab-btn px-3 py-1.5 rounded-lg text-xs font-semibold text-emerald-400 hover:bg-emerald-500/10 border border-emerald-500/30 transition flex items-center gap-1.5">
+          <button onclick="openGoogleSheetsModal()" id="navTabGSheets" class="role-admin-only tab-btn flex-shrink-0 px-3 py-1.5 rounded-lg text-xs font-semibold text-emerald-400 hover:bg-emerald-500/10 border border-emerald-500/30 transition flex items-center gap-1.5">
             <i class="fa-solid fa-table-cells text-emerald-400"></i> G-Sheets
             <span id="gsheetsIndicatorDot" class="w-2 h-2 rounded-full bg-slate-600"></span>
           </button>
-          <button onclick="openDatabaseConfigModal()" id="cloudDbIndicator" class="role-admin-only px-2.5 py-1.5 rounded-lg text-xs font-semibold bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 hover:bg-emerald-500/20 transition flex items-center gap-1.5 cursor-pointer">
+          <button onclick="openDatabaseConfigModal()" id="cloudDbIndicator" class="role-admin-only flex-shrink-0 px-2.5 py-1.5 rounded-lg text-xs font-semibold bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 hover:bg-emerald-500/20 transition flex items-center gap-1.5 cursor-pointer">
             <i class="fa-solid fa-database text-xs"></i>
             <span id="cloudDbStatusText" class="hidden lg:inline text-[11px]">Local DB</span>
             <span id="cloudDbPulseDot" class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
           </button>
         </div>
+      </div>
 
         <!-- User Role Profile & Logout -->
         <div class="flex items-center gap-3">
@@ -365,6 +423,10 @@
           <span>Dashboard</span>
         </button>
         <!-- Mobile: Shared items -->
+        <button onclick="switchTab('truckShipments')" id="mobileNavTruckShipments" class="mobile-role-admin mobile-role-kasir mobile-tab-btn flex-1 py-1.5 flex flex-col items-center justify-center gap-1 text-[11px] font-medium text-slate-400 transition">
+          <i class="fa-solid fa-truck-ramp-box text-base text-sky-400"></i>
+          <span>Kiriman</span>
+        </button>
         <button onclick="switchTab('inputLog')" id="mobileNavInputLog" class="mobile-role-operator mobile-role-admin mobile-role-kasir mobile-tab-btn flex-1 py-1.5 flex flex-col items-center justify-center gap-1 text-[11px] font-medium text-slate-400 transition">
           <i class="fa-solid fa-file-circle-plus text-base"></i>
           <span>Input HM</span>
@@ -1013,6 +1075,370 @@
         </div>
       </section>
 
+      <!-- ================= TAB: MASTER DATA TRUK (BARU) ================= -->
+      <section id="tab-truckMaster" class="tab-content hidden space-y-6">
+        
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-slate-900 border border-slate-800 p-4 sm:p-5 rounded-2xl shadow-xl">
+          <div>
+            <h2 class="text-base sm:text-lg font-bold text-white flex items-center gap-2">
+              <i class="fa-solid fa-truck-moving text-amber-500"></i> Database & Master Data Truk
+            </h2>
+            <p class="text-xs text-slate-400">Kelola master armada truk pengangkut material, nomor polisi, dan data supir utama.</p>
+          </div>
+          <button onclick="openAddTruckModal()" class="w-full sm:w-auto justify-center bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold px-4 py-2.5 rounded-xl text-xs sm:text-sm flex items-center gap-2 transition shadow-md shadow-amber-500/20">
+            <i class="fa-solid fa-plus"></i> Tambah Truk Baru
+          </button>
+        </div>
+
+        <!-- Filter & Search Truk -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+          <div class="relative sm:col-span-2">
+            <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-3 text-slate-500 text-xs"></i>
+            <input type="text" id="truckFilterSearch" oninput="renderTruckMasterTable()" placeholder="Cari nama truk, plat nomor, atau nama supir..." class="w-full bg-slate-900 border border-slate-800 rounded-xl py-2.5 pl-9 pr-4 text-xs text-white focus:outline-none focus:border-amber-500">
+          </div>
+          <div>
+            <select id="truckFilterStatus" onchange="renderTruckMasterTable()" class="w-full bg-slate-900 border border-slate-800 rounded-xl py-2.5 px-3 text-xs text-white focus:outline-none focus:border-amber-500">
+              <option value="ALL">Semua Status Truk</option>
+              <option value="Aktif">Aktif Beroperasi</option>
+              <option value="Standby">Standby / Parkir</option>
+              <option value="Perbaikan">Dalam Bengkel / Service</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Mobile Cards View for Trucks -->
+        <div id="truckCardsMobile" class="md:hidden space-y-3"></div>
+
+        <!-- Desktop Table View Master Truk -->
+        <div class="hidden md:block bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden shadow-xl">
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-xs">
+              <thead class="bg-slate-850 text-slate-400 border-b border-slate-800 uppercase tracking-wider text-[10px]">
+                <tr>
+                  <th class="py-3 px-4">Nama / Kode Truk</th>
+                  <th class="py-3 px-4">Plat Nomor Polisi</th>
+                  <th class="py-3 px-4">Tipe / Merk Truk</th>
+                  <th class="py-3 px-4">Supir Utama</th>
+                  <th class="py-3 px-4">No. HP / WA Supir</th>
+                  <th class="py-3 px-4 text-center">Status Armada</th>
+                  <th class="py-3 px-4 text-right">Aksi</th>
+                </tr>
+              </thead>
+              <tbody id="truckMasterTableBody" class="divide-y divide-slate-800 text-slate-300"></tbody>
+            </table>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- ================= TAB: DATA KIRIMAN TRUK (BARU - MULTI BARANG & STATUS BAYAR) ================= -->
+      <section id="tab-truckShipments" class="tab-content hidden space-y-6">
+        
+        <!-- Formulir Input Pengiriman Truk -->
+        <div class="max-w-4xl mx-auto bg-slate-900 border border-slate-800 rounded-2xl p-6 sm:p-8 shadow-xl">
+          <div class="border-b border-slate-800 pb-4 mb-6 flex flex-col sm:flex-row justify-between sm:items-center gap-2">
+            <div>
+              <h2 class="text-lg sm:text-xl font-bold text-white flex items-center gap-2">
+                <span class="p-2 bg-sky-500/10 text-sky-400 rounded-xl"><i class="fa-solid fa-truck-ramp-box"></i></span>
+                Input Data Kiriman Truk & Surat Jalan
+              </h2>
+              <p class="text-xs text-slate-400 mt-1">Pilih nama truk dari database, isi nama supir, tujuan, multi barang kiriman, dan status pembayaran.</p>
+            </div>
+            <span class="text-xs bg-sky-500/10 text-sky-400 border border-sky-500/20 px-3 py-1 rounded-full font-semibold self-start sm:self-auto">
+              Logistik & Pengiriman
+            </span>
+          </div>
+
+          <form id="truckShipmentForm" onsubmit="handleSaveTruckShipment(event)" class="space-y-5">
+            <input type="hidden" id="editShipmentId" value="">
+            
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              <!-- Tanggal Pengiriman -->
+              <div>
+                <label class="block text-xs font-semibold text-slate-300 mb-1.5">
+                  <i class="fa-regular fa-calendar text-sky-400 mr-1"></i> Tanggal Kirim
+                </label>
+                <input type="date" id="shipmentDate" required class="w-full bg-slate-950 border border-slate-700 rounded-xl py-2.5 px-3 text-sm text-white focus:outline-none focus:border-sky-500">
+              </div>
+
+              <!-- Pilihan Database Nama Truk -->
+              <div>
+                <label class="block text-xs font-semibold text-slate-300 mb-1.5">
+                  <i class="fa-solid fa-truck-moving text-sky-400 mr-1"></i> Nama Truk (Database)
+                </label>
+                <select id="shipmentTruckSelect" onchange="onShipmentTruckChange()" required class="w-full bg-slate-950 border border-slate-700 rounded-xl py-2.5 px-3 text-sm text-white focus:outline-none focus:border-sky-500">
+                  <option value="" disabled selected>Pilih Truk...</option>
+                </select>
+              </div>
+
+              <!-- Input Manual Nama Supir -->
+              <div>
+                <label class="block text-xs font-semibold text-slate-300 mb-1.5">
+                  <i class="fa-solid fa-user-astronaut text-sky-400 mr-1"></i> Nama Supir (Manual)
+                </label>
+                <input type="text" id="shipmentDriverName" required placeholder="Contoh: Wayan Supir / Budi" class="w-full bg-slate-950 border border-slate-700 rounded-xl py-2.5 px-3 text-sm text-white focus:outline-none focus:border-sky-500">
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              <!-- Tujuan Kiriman -->
+              <div class="sm:col-span-2">
+                <label class="block text-xs font-semibold text-slate-300 mb-1.5">
+                  <i class="fa-solid fa-location-dot text-sky-400 mr-1"></i> Tujuan Kiriman / Lokasi Proyek
+                </label>
+                <input type="text" id="shipmentDestination" required placeholder="Contoh: Proyek Tol Sta 18 / Batching Plant Jimbaran" class="w-full bg-slate-950 border border-slate-700 rounded-xl py-2.5 px-3 text-sm text-white focus:outline-none focus:border-sky-500">
+              </div>
+
+              <!-- No. Surat Jalan / DO -->
+              <div>
+                <label class="block text-xs font-semibold text-slate-300 mb-1.5">
+                  <i class="fa-solid fa-file-invoice text-sky-400 mr-1"></i> No. Surat Jalan / DO (Opsional)
+                </label>
+                <input type="text" id="shipmentDoNumber" placeholder="Contoh: SJ-2026/102" class="w-full bg-slate-950 border border-slate-700 rounded-xl py-2.5 px-3 text-sm text-white focus:outline-none focus:border-sky-500">
+              </div>
+            </div>
+
+            <!-- Bagian Multi Barang Kiriman Dinamis -->
+            <div class="bg-slate-950 p-4 sm:p-5 rounded-xl border border-slate-800 space-y-3">
+              <div class="flex items-center justify-between pb-2 border-b border-slate-850">
+                <div>
+                  <span class="text-xs font-bold text-sky-400 uppercase tracking-wider flex items-center gap-1.5">
+                    <i class="fa-solid fa-cubes-stacked"></i> Rincian Barang Kiriman (Bisa Multi Barang)
+                  </span>
+                  <p class="text-[11px] text-slate-400 mt-0.5">Tambahkan satu atau beberapa jenis barang dalam satu surat jalan pengiriman.</p>
+                </div>
+                <button type="button" onclick="addShipmentItemRow()" class="px-3 py-1.5 bg-sky-500/10 hover:bg-sky-500/20 text-sky-400 border border-sky-500/30 rounded-xl text-xs font-bold transition flex items-center gap-1 shadow">
+                  <i class="fa-solid fa-plus"></i> Tambah Barang
+                </button>
+              </div>
+
+              <!-- Kontainer Baris Barang Dinamis -->
+              <div id="shipmentItemsContainer" class="space-y-2.5 pt-1">
+                <!-- Diisi via JavaScript -->
+              </div>
+            </div>
+
+            <!-- Status Pembayaran & Tagihan -->
+            <div class="p-4 rounded-xl bg-slate-950 border border-slate-800 space-y-3">
+              <span class="text-xs font-bold text-slate-300 uppercase tracking-wider flex items-center gap-1.5">
+                <i class="fa-solid fa-money-bill-wave text-amber-400"></i> Status Pembayaran & Ongkos Angkut
+              </span>
+
+              <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-1">
+                <!-- Pilihan Status Pembayaran: LUNAS, BON, COD -->
+                <div>
+                  <label class="block text-[11px] font-semibold text-slate-300 mb-1">Status Pembayaran</label>
+                  <select id="shipmentPaymentStatus" onchange="onPaymentStatusChange()" required class="w-full bg-slate-900 border border-slate-700 rounded-xl py-2 px-3 text-xs font-bold text-white focus:outline-none focus:border-sky-500">
+                    <option value="Lunas" class="text-emerald-400">Lunas (Selesai Dibayar)</option>
+                    <option value="Bon" class="text-rose-400">Bon (Hutang / Tempo)</option>
+                    <option value="COD" class="text-amber-400">COD (Cash on Delivery)</option>
+                  </select>
+                </div>
+
+                <!-- Total Ongkos Angkut / Nilai Tagihan -->
+                <div>
+                  <label class="block text-[11px] font-semibold text-slate-300 mb-1">Nilai Tagihan / Ongkir (Rp)</label>
+                  <div class="relative">
+                    <span class="absolute left-3 top-2 text-xs text-slate-500 font-bold">Rp</span>
+                    <input type="number" step="1000" min="0" id="shipmentPaymentAmount" placeholder="Contoh: 850000" class="w-full bg-slate-900 border border-slate-700 rounded-xl py-2 pl-9 pr-3 text-xs font-bold text-emerald-400 focus:outline-none focus:border-sky-500">
+                  </div>
+                </div>
+
+                <!-- Keterangan Bon / Catatan Bayar -->
+                <div>
+                  <label class="block text-[11px] font-semibold text-slate-300 mb-1">Keterangan / Nama Pemesan</label>
+                  <input type="text" id="shipmentClientName" placeholder="Contoh: Pak Nyoman / Mandor Proyek" class="w-full bg-slate-900 border border-slate-700 rounded-xl py-2 px-3 text-xs text-white focus:outline-none focus:border-sky-500">
+                </div>
+              </div>
+
+              <div>
+                <label class="block text-[11px] text-slate-400 mb-1">Catatan Tambahan Pengiriman</label>
+                <textarea id="shipmentNotes" rows="1" placeholder="Catatan khusus sopir, nomor telepon penerima barang di lokasi, dsb..." class="w-full bg-slate-900 border border-slate-700 rounded-xl py-2 px-3 text-xs text-white focus:outline-none focus:border-sky-500"></textarea>
+              </div>
+            </div>
+
+            <div class="pt-2 flex gap-3">
+              <button type="submit" id="btnSaveShipment" class="flex-1 bg-sky-500 hover:bg-sky-400 text-slate-950 font-bold py-3 rounded-xl shadow-lg shadow-sky-500/20 active:scale-[0.99] transition flex items-center justify-center gap-2">
+                <i class="fa-solid fa-floppy-disk"></i> Simpan Data Kiriman Truk
+              </button>
+              <button type="button" onclick="resetShipmentForm()" class="px-5 bg-slate-800 hover:bg-slate-700 text-slate-300 font-semibold py-3 rounded-xl transition">
+                Reset
+              </button>
+            </div>
+
+          </form>
+        </div>
+
+        <!-- Tabel Riwayat Data Kiriman Truk -->
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden shadow-xl p-4 sm:p-5">
+          <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 pb-4 border-b border-slate-800">
+            <div>
+              <h3 class="text-sm font-bold text-white flex items-center gap-2">
+                <i class="fa-solid fa-list-check text-sky-400"></i> Histori Pengiriman Truk & Logistik
+              </h3>
+              <p class="text-[11px] text-slate-400">Arsip data kiriman barang, tujuan lokasi, dan status pembayaran</p>
+            </div>
+            <div class="flex flex-wrap items-center gap-2">
+              <span id="shipmentTotalCounterBadge" class="text-xs bg-sky-500/10 text-sky-400 border border-sky-500/30 px-3 py-1 rounded-full font-bold">0 Kiriman</span>
+              <button onclick="exportShipmentsToCSV()" class="bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 font-medium px-3 py-1 rounded-xl text-xs flex items-center gap-1.5 transition">
+                <i class="fa-solid fa-file-csv"></i> Unduh CSV
+              </button>
+            </div>
+          </div>
+
+          <!-- Filter & Pencarian Pengiriman -->
+          <div class="grid grid-cols-1 sm:grid-cols-4 gap-3 my-4">
+            <div class="relative sm:col-span-2">
+              <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-3 text-slate-500 text-xs"></i>
+              <input type="text" id="shipmentFilterSearch" oninput="renderTruckShipmentsTable()" placeholder="Cari nama truk, supir, tujuan, barang, DO..." class="w-full bg-slate-950 border border-slate-800 rounded-xl py-2 pl-9 pr-3 text-xs text-white focus:outline-none focus:border-sky-500">
+            </div>
+            <div>
+              <select id="shipmentFilterTruck" onchange="renderTruckShipmentsTable()" class="w-full bg-slate-950 border border-slate-800 rounded-xl py-2 px-3 text-xs text-white focus:outline-none focus:border-sky-500">
+                <option value="ALL">Semua Truk</option>
+              </select>
+            </div>
+            <div>
+              <select id="shipmentFilterPayment" onchange="renderTruckShipmentsTable()" class="w-full bg-slate-950 border border-slate-800 rounded-xl py-2 px-3 text-xs text-white focus:outline-none focus:border-sky-500">
+                <option value="ALL">Semua Status Bayar</option>
+                <option value="Lunas">Lunas</option>
+                <option value="Bon">Bon (Hutang)</option>
+                <option value="COD">COD</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Mobile Cards View for Shipments -->
+          <div id="shipmentCardsMobile" class="md:hidden space-y-3"></div>
+
+          <!-- Desktop Table View -->
+          <div class="hidden md:block overflow-x-auto">
+            <table class="w-full text-left text-xs">
+              <thead class="bg-slate-850 text-slate-400 border-b border-slate-800 uppercase tracking-wider text-[10px]">
+                <tr>
+                  <th class="py-2.5 px-3">Tanggal</th>
+                  <th class="py-2.5 px-3">Nama Truk</th>
+                  <th class="py-2.5 px-3">Nama Supir</th>
+                  <th class="py-2.5 px-3">Tujuan Kiriman</th>
+                  <th class="py-2.5 px-3">Barang Kiriman</th>
+                  <th class="py-2.5 px-3">Nilai Tagihan</th>
+                  <th class="py-2.5 px-3 text-center">Status Bayar</th>
+                  <th class="py-2.5 px-3 text-center">Cetak PDF</th>
+                  <th class="py-2.5 px-3 text-center">WhatsApp</th>
+                  <th class="py-2.5 px-3 text-right">Aksi</th>
+                </tr>
+              </thead>
+              <tbody id="truckShipmentsTableBody" class="divide-y divide-slate-800 text-slate-300"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- ================= TEMPLATE CETAK SURAT JALAN TRUK (BISA DI-PRINT / SIMPAN PDF) ================= -->
+        <div id="truckDeliveryNotePrintDocument" class="hidden bg-white text-black p-6 sm:p-10 max-w-4xl mx-auto rounded-xl shadow-2xl font-sans text-xs">
+          <!-- Kop Surat Pengiriman Material -->
+          <div class="flex justify-between items-start pb-4 border-b-2 border-black">
+            <div>
+              <div class="flex items-center gap-2.5">
+                <div class="h-10 w-10 bg-black text-white flex items-center justify-center rounded-lg font-black text-lg">
+                  <i class="fa-solid fa-store"></i>
+                </div>
+                <div>
+                  <h2 class="text-xl font-black tracking-tight uppercase text-black leading-tight">TOKO BANGUNAN UD PIT</h2>
+                  <p class="text-xs font-semibold text-gray-800">Menjual segala kebutuhan material anda</p>
+                </div>
+              </div>
+              <p class="text-[11px] text-gray-700 mt-1.5 leading-tight">
+                <i class="fa-brands fa-whatsapp font-bold text-black"></i> WhatsApp: <strong class="text-black font-bold">081936644452</strong>
+              </p>
+            </div>
+            <div class="text-right">
+              <span class="inline-block px-3 py-1 bg-black text-white text-xs font-black tracking-widest uppercase rounded">SURAT JALAN</span>
+              <div class="text-[11px] font-bold text-gray-800 mt-1.5 font-mono">
+                No: <span id="dnDocNumber" class="text-black">SJ-2026/001</span>
+              </div>
+              <div class="text-[11px] text-gray-600 font-medium">
+                Tgl: <span id="dnDocDate" class="text-black font-semibold">-</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Rincian Kendaraan & Penerima -->
+          <div class="grid grid-cols-2 gap-4 py-4 border-b border-gray-300">
+            <div class="space-y-1">
+              <div class="text-[10px] uppercase font-bold text-gray-500">KENDARAAN & PENGANGKUT:</div>
+              <div class="text-sm font-extrabold text-black uppercase" id="dnDocTruckName">-</div>
+              <div class="text-xs text-gray-800">Nama Supir: <strong id="dnDocDriverName" class="text-black">-</strong></div>
+              <div class="text-[11px] text-gray-600">No. Polisi / Plat: <span id="dnDocTruckPlate" class="font-mono font-bold text-black">-</span></div>
+            </div>
+            <div class="space-y-1">
+              <div class="text-[10px] uppercase font-bold text-gray-500">DITUJUKAN KEPADA / LOKASI:</div>
+              <div class="text-sm font-extrabold text-black uppercase" id="dnDocClientName">-</div>
+              <div class="text-xs text-gray-800">Tujuan / Site: <strong id="dnDocDestination" class="text-black">-</strong></div>
+              <div class="text-[11px] text-gray-600">Status Pembayaran: <span id="dnDocPaymentStatus" class="font-bold uppercase px-1.5 py-0.5 rounded bg-gray-100 border border-gray-300">-</span></div>
+            </div>
+          </div>
+
+          <!-- Tabel Rincian Multi Barang Kiriman -->
+          <div class="my-4 overflow-x-auto border border-black">
+            <table class="w-full text-xs border-collapse">
+              <thead>
+                <tr class="bg-gray-200 text-black border-b border-black font-extrabold">
+                  <th class="py-2 px-3 border-r border-black text-center w-12">No.</th>
+                  <th class="py-2 px-3 border-r border-black text-left">Nama Barang / Jenis Material</th>
+                  <th class="py-2 px-3 border-r border-black text-center w-28">Jumlah / Qty</th>
+                  <th class="py-2 px-3 border-r border-black text-center w-24">Satuan</th>
+                  <th class="py-2 px-3 text-left w-48">Keterangan / Kondisi</th>
+                </tr>
+              </thead>
+              <tbody id="dnDocItemsTableBody" class="divide-y divide-gray-300 text-gray-900">
+                <!-- Rendered dynamically -->
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Informasi Ongkos Angkut / Catatan -->
+          <div class="flex flex-col sm:flex-row justify-between items-start gap-4 p-3 bg-gray-50 border border-gray-300 rounded mb-6">
+            <div>
+              <span class="text-[10px] font-bold text-gray-500 uppercase block">Catatan Pengiriman:</span>
+              <p id="dnDocNotes" class="text-xs text-gray-800 italic mt-0.5">Barang telah diperiksa dalam kondisi baik dan volume sesuai pesanan.</p>
+            </div>
+            <div class="text-right whitespace-nowrap">
+              <span class="text-[10px] font-bold text-gray-500 uppercase block">Nilai Tagihan / Ongkir:</span>
+              <span id="dnDocAmount" class="text-sm font-extrabold text-black font-mono">Rp 0</span>
+            </div>
+          </div>
+
+          <!-- Bagian Tanda Tangan 3 Pihak -->
+          <div class="grid grid-cols-3 gap-4 text-center pt-2">
+            <div>
+              <div class="text-[11px] font-bold text-gray-700">Petugas Logistik / Pengirim</div>
+              <div class="h-16"></div>
+              <div class="border-t border-black pt-1">
+                <span class="text-xs font-bold text-black uppercase" id="dnDocSignerSender">( Bag. Logistik )</span>
+              </div>
+            </div>
+            <div>
+              <div class="text-[11px] font-bold text-gray-700">Supir / Pengangkut</div>
+              <div class="h-16"></div>
+              <div class="border-t border-black pt-1">
+                <span class="text-xs font-bold text-black uppercase" id="dnDocSignerDriver">( Nama Supir )</span>
+              </div>
+            </div>
+            <div>
+              <div class="text-[11px] font-bold text-gray-700">Penerima Lapangan</div>
+              <div class="h-16"></div>
+              <div class="border-t border-black pt-1">
+                <span class="text-xs font-bold text-black uppercase">( ............................ )</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-6 pt-3 border-t border-gray-300 text-center text-[10px] text-gray-500">
+            <em>Harap surat jalan ini ditandatangani oleh penerima saat material tiba di lokasi proyek. Rangkap 1: Pengirim, Rangkap 2: Supir, Rangkap 3: Penerima.</em>
+          </div>
+        </div>
+
+      </section>
+
       <!-- ================= TAB: FORM INPUT LOG HARIAN / HM (ADMIN, OPERATOR & KASIR) ================= -->
       <section id="tab-inputLog" class="tab-content hidden space-y-6">
         
@@ -1096,7 +1522,7 @@
                     <i class="fa-solid fa-bucket text-amber-400 mr-1"></i> Jam Kerja Bucket
                   </label>
                   <div class="relative">
-                    <input type="number" step="0.1" min="0" max="24" id="logBucketHours" oninput="calculateTotalAttachmentHours()" required placeholder="0.0" value="0" class="w-full bg-amber-500/10 border-2 border-amber-500/40 rounded-lg py-2 px-3 text-sm font-bold text-amber-400 focus:outline-none focus:border-amber-400">
+                    <input type="number" step="0.1" min="0" max="24" id="logBucketHours" oninput="calculateTotalAttachmentHours()" required placeholder="0.0" value="6.0" class="w-full bg-amber-500/10 border-2 border-amber-500/40 rounded-lg py-2 px-3 text-sm font-bold text-amber-400 focus:outline-none focus:border-amber-400">
                     <span class="absolute right-3 top-2.5 text-xs text-amber-400/80 font-semibold">Jam</span>
                   </div>
                   <p class="text-[10px] text-slate-400 mt-1">Galian / loading standar</p>
@@ -1107,7 +1533,7 @@
                     <i class="fa-solid fa-hammer text-orange-400 mr-1"></i> Jam Kerja Breaker
                   </label>
                   <div class="relative">
-                    <input type="number" step="0.1" min="0" max="24" id="logBreakerHours" oninput="calculateTotalAttachmentHours()" required placeholder="0.0" value="0" class="w-full bg-orange-500/10 border-2 border-orange-500/40 rounded-lg py-2 px-3 text-sm font-bold text-orange-400 focus:outline-none focus:border-orange-400">
+                    <input type="number" step="0.1" min="0" max="24" id="logBreakerHours" oninput="calculateTotalAttachmentHours()" required placeholder="0.0" value="2.0" class="w-full bg-orange-500/10 border-2 border-orange-500/40 rounded-lg py-2 px-3 text-sm font-bold text-orange-400 focus:outline-none focus:border-orange-400">
                     <span class="absolute right-3 top-2.5 text-xs text-orange-400/80 font-semibold">Jam</span>
                   </div>
                   <p class="text-[10px] text-slate-400 mt-1">Pemecahan batu / cor beton</p>
@@ -1959,7 +2385,9 @@
                   <th class="py-2.5 px-3 text-right w-36">Total</th>
                 </tr>
               </thead>
-              <tbody id="invoiceTableBody" class="divide-y divide-gray-300"></tbody>
+              <tbody id="invoiceTableBody" class="divide-y divide-gray-300">
+                <!-- Rendered via JS -->
+              </tbody>
               <tfoot class="border-t-2 border-gray-500 font-bold bg-gray-50">
                 <tr>
                   <td class="py-2 px-3 border-r border-gray-400" colspan="2">TOTAL JAM</td>
@@ -1983,6 +2411,7 @@
             </table>
           </div>
 
+          <!-- Bagian Bawah: Instruksi Pembayaran & Tanda Tangan -->
           <div class="flex flex-col sm:flex-row justify-between items-end gap-6 pt-2">
             <div>
               <div class="text-xs font-bold text-gray-900 mb-1">Instruksi Pembayaran:</div>
@@ -2000,12 +2429,68 @@
               <div class="text-[10px] text-gray-500 mt-1 uppercase tracking-wider">Penanggung Jawab</div>
             </div>
           </div>
-
         </div>
 
       </section>
 
     </main>
+  </div>
+  <!-- Modal: Tambah & Edit Truk Baru -->
+  <div id="modalAddTruck" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-4">
+    <div class="bg-slate-900 border border-slate-700/80 rounded-2xl w-full max-w-md p-6 shadow-2xl relative">
+      <div class="flex items-center justify-between pb-3 border-b border-slate-800 mb-4">
+        <h3 id="modalTruckTitle" class="text-base font-bold text-white flex items-center gap-2">
+          <i class="fa-solid fa-truck-moving text-amber-500"></i> Tambah Master Data Truk
+        </h3>
+        <button type="button" onclick="closeModal('modalAddTruck')" class="text-slate-400 hover:text-white text-lg">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <form id="addTruckMasterForm" onsubmit="handleSaveTruckMaster(event)" class="space-y-4">
+        <input type="hidden" id="editTruckId" value="">
+        <div>
+          <label class="block text-xs font-semibold text-slate-300 mb-1">Nama / Nomor Lambung Truk</label>
+          <input type="text" id="newTruckName" required placeholder="Contoh: Truk Hino 01 / DT-18" class="w-full bg-slate-950 border border-slate-700 rounded-xl py-2 px-3 text-xs text-white focus:outline-none focus:border-amber-500">
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-slate-300 mb-1">Plat Nomor Polisi</label>
+          <input type="text" id="newTruckPlate" required placeholder="Contoh: DK 8291 AB" class="w-full bg-slate-950 border border-slate-700 rounded-xl py-2 px-3 text-xs text-white uppercase focus:outline-none focus:border-amber-500">
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-semibold text-slate-300 mb-1">Tipe / Model Truk</label>
+            <input type="text" id="newTruckModel" required placeholder="Contoh: Hino Dutro / Isuzu Giga" class="w-full bg-slate-950 border border-slate-700 rounded-xl py-2 px-3 text-xs text-white focus:outline-none focus:border-amber-500">
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-slate-300 mb-1">Status Truk</label>
+            <select id="newTruckStatus" class="w-full bg-slate-950 border border-slate-700 rounded-xl py-2 px-3 text-xs text-white focus:outline-none focus:border-amber-500">
+              <option value="Aktif">Aktif Beroperasi</option>
+              <option value="Standby">Standby / Parkir</option>
+              <option value="Perbaikan">Dalam Bengkel</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-semibold text-slate-300 mb-1">Nama Supir Utama</label>
+            <input type="text" id="newTruckDriver" required placeholder="Contoh: Wayan Supir" class="w-full bg-slate-950 border border-slate-700 rounded-xl py-2 px-3 text-xs text-white focus:outline-none focus:border-amber-500">
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-slate-300 mb-1">No. HP / WA Supir (Opsional)</label>
+            <input type="tel" id="newTruckPhone" placeholder="Contoh: 08123456789" class="w-full bg-slate-950 border border-slate-700 rounded-xl py-2 px-3 text-xs text-white focus:outline-none focus:border-amber-500">
+          </div>
+        </div>
+
+        <div class="pt-2 flex justify-end gap-2">
+          <button type="button" onclick="closeModal('modalAddTruck')" class="px-4 py-2 bg-slate-800 text-slate-300 rounded-xl text-xs font-semibold">Batal</button>
+          <button type="submit" id="btnSubmitTruckForm" class="px-5 py-2 bg-amber-500 hover:bg-amber-400 text-slate-950 rounded-xl text-xs font-bold transition">Simpan Truk</button>
+        </div>
+      </form>
+    </div>
   </div>
 
   <!-- Modal: Pratinjau Foto Dokumentasi Penuh -->
@@ -2655,6 +3140,50 @@ function doPost(e) {
       { id: 'USR-04', username: 'kasir_site', password: 'password123', name: 'Kasir Operasional', role: 'kasir' }
     ];
 
+    /* Default Master Data Truk */
+    const DEFAULT_TRUCKS = [
+      { id: 'TRK-01', name: 'Dump Truck 01 (Hino 500)', plateNumber: 'DK 8101 AB', model: 'Hino 500 FM 260 Ti', defaultDriver: 'Wayan Sudira', phone: '081234567801', status: 'Aktif' },
+      { id: 'TRK-02', name: 'Dump Truck 02 (Fuso Fighter)', plateNumber: 'DK 8202 BC', model: 'Mitsubishi Fuso FN 527', defaultDriver: 'Ketut Astawa', phone: '081234567802', status: 'Aktif' },
+      { id: 'TRK-03', name: 'Colt Diesel 03 (Canter HD)', plateNumber: 'DK 8303 CD', model: 'Mitsubishi Canter FE 74 HD', defaultDriver: 'Gede Suartama', phone: '081234567803', status: 'Standby' }
+    ];
+
+    /* Default Data Kiriman Truk */
+    const DEFAULT_TRUCK_SHIPMENTS = [
+      {
+        id: 'SHP-101',
+        date: '2026-11-04',
+        truckId: 'TRK-01',
+        truckName: 'Dump Truck 01 (Hino 500) - DK 8101 AB',
+        driverName: 'Wayan Sudira',
+        destination: 'Proyek Tol Denpasar-Gilimanuk STA 14',
+        doNumber: 'SJ-2026/088',
+        items: [
+          { name: 'Batu Belah 15/20', quantity: '12', unit: 'M3' },
+          { name: 'Pasir Cor Extra', quantity: '8', unit: 'M3' }
+        ],
+        paymentStatus: 'Lunas', // Lunas, Bon, COD
+        paymentAmount: 1850000,
+        clientName: 'PT Wikan Triyuda',
+        notes: 'Diterima oleh mandor proyek di lokasi.'
+      },
+      {
+        id: 'SHP-102',
+        date: '2026-11-04',
+        truckId: 'TRK-02',
+        truckName: 'Dump Truck 02 (Fuso Fighter) - DK 8202 BC',
+        driverName: 'Ketut Astawa',
+        destination: 'Quarry Buleleng Sektor Utara',
+        doNumber: 'SJ-2026/089',
+        items: [
+          { name: 'Sirtu Urugan Pilihan', quantity: '2', unit: 'Ritase' }
+        ],
+        paymentStatus: 'Bon',
+        paymentAmount: 950000,
+        clientName: 'CV Antos Future',
+        notes: 'Nota tagihan jatuh tempo 7 hari.'
+      }
+    ];
+
     /* Default Equipments */
     const DEFAULT_EQUIPMENTS = [
       { id: 'EQ-01', code: 'EX-201', category: 'Excavator', model: 'Komatsu PC200-8', currentHM: 2460.5 },
@@ -2730,8 +3259,10 @@ function doPost(e) {
     let currentUser = null;
     let appUsers = [];
     let equipments = [];
+    let trucks = []; // Master data armada truk
+    let truckShipments = []; // Data kiriman truk
     let dailyLogs = [];
-    let fuelLogs = []; // State untuk pengisian solar
+    let fuelLogs = [];
     let serviceSchedules = [];
     let serviceActionHistory = [];
     let equipmentExpenses = [];
@@ -2843,6 +3374,38 @@ function doPost(e) {
     function setupCloudRealtimeListeners() {
       if (!db || !window.__fb_sdk) return;
       const { collection, onSnapshot, doc, setDoc } = window.__fb_sdk;
+
+      // Master Truk
+      onSnapshot(collection(db, 'artifacts', appId, 'public', 'data', 'trucks'), (snapshot) => {
+        if (!snapshot.empty) {
+          const list = [];
+          snapshot.forEach(docSnap => list.push(docSnap.data()));
+          trucks = list;
+          saveAllToStorage();
+          populateTruckDropdowns();
+          renderTruckMasterTable();
+        } else {
+          DEFAULT_TRUCKS.forEach(t => {
+            setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'trucks', t.id), t).catch(console.error);
+          });
+        }
+      }, console.error);
+
+      // Kiriman Truk
+      onSnapshot(collection(db, 'artifacts', appId, 'public', 'data', 'truck_shipments'), (snapshot) => {
+        if (!snapshot.empty) {
+          const list = [];
+          snapshot.forEach(docSnap => list.push(docSnap.data()));
+          list.sort((a, b) => (a.date || '').localeCompare(b.date || ''));
+          truckShipments = list;
+          saveAllToStorage();
+          renderTruckShipmentsTable();
+        } else {
+          DEFAULT_TRUCK_SHIPMENTS.forEach(s => {
+            setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'truck_shipments', s.id), s).catch(console.error);
+          });
+        }
+      }, console.error);
 
       // 1. Equipments
       onSnapshot(collection(db, 'artifacts', appId, 'public', 'data', 'equipments'), (snapshot) => {
@@ -3325,11 +3888,13 @@ function doPost(e) {
       const today = new Date().toISOString().split('T')[0];
       const logDateInput = document.getElementById('logDate');
       const fuelDate = document.getElementById('fuelDate');
+      const shipmentDate = document.getElementById('shipmentDate');
       const serviceTargetDate = document.getElementById('serviceTargetDate');
       const svcActionDate = document.getElementById('svcActionDate');
       const expDate = document.getElementById('expDate');
       if (logDateInput) logDateInput.value = today;
       if (fuelDate) fuelDate.value = today;
+      if (shipmentDate) shipmentDate.value = today;
       if (serviceTargetDate) serviceTargetDate.value = today;
       if (svcActionDate) svcActionDate.value = today;
       if (expDate) expDate.value = today;
@@ -3340,6 +3905,12 @@ function doPost(e) {
         const storedUsers = localStorage.getItem('heavy_app_users');
         appUsers = storedUsers ? JSON.parse(storedUsers) : DEFAULT_USERS;
         if (!Array.isArray(appUsers) || appUsers.length === 0) appUsers = DEFAULT_USERS;
+
+        const storedTrucks = localStorage.getItem('heavy_truck_master');
+        trucks = storedTrucks ? JSON.parse(storedTrucks) : DEFAULT_TRUCKS;
+
+        const storedShipments = localStorage.getItem('heavy_truck_shipments');
+        truckShipments = storedShipments ? JSON.parse(storedShipments) : DEFAULT_TRUCK_SHIPMENTS;
 
         const storedEquip = localStorage.getItem('heavy_equipments');
         equipments = storedEquip ? JSON.parse(storedEquip) : DEFAULT_EQUIPMENTS;
@@ -3370,6 +3941,8 @@ function doPost(e) {
       } catch (e) {
         console.error("Local storage error:", e);
         appUsers = DEFAULT_USERS;
+        trucks = DEFAULT_TRUCKS;
+        truckShipments = DEFAULT_TRUCK_SHIPMENTS;
         equipments = DEFAULT_EQUIPMENTS;
         dailyLogs = DEFAULT_LOGS;
         fuelLogs = DEFAULT_FUEL_LOGS;
@@ -3379,6 +3952,8 @@ function doPost(e) {
 
     function saveAllToStorage() {
       localStorage.setItem('heavy_app_users', JSON.stringify(appUsers));
+      localStorage.setItem('heavy_truck_master', JSON.stringify(trucks));
+      localStorage.setItem('heavy_truck_shipments', JSON.stringify(truckShipments));
       localStorage.setItem('heavy_equipments', JSON.stringify(equipments));
       localStorage.setItem('heavy_daily_logs', JSON.stringify(dailyLogs));
       localStorage.setItem('heavy_fuel_logs', JSON.stringify(fuelLogs));
@@ -3541,6 +4116,8 @@ function doPost(e) {
       const navOpDash = document.getElementById('navTabOperatorDashboard');
       const navHlpDash = document.getElementById('navTabHelperDashboard');
       const navKasirDash = document.getElementById('navTabKasirDashboard');
+      const navTruckMaster = document.getElementById('navTabTruckMaster');
+      const navTruckShipments = document.getElementById('navTabTruckShipments');
       const navInputLog = document.getElementById('navTabInputLog');
       const navFuelLog = document.getElementById('navTabFuelLog');
       const navService = document.getElementById('navTabServiceLog');
@@ -3554,6 +4131,8 @@ function doPost(e) {
         if (navOpDash) navOpDash.classList.add('hidden');
         if (navHlpDash) navHlpDash.classList.add('hidden');
         if (navKasirDash) navKasirDash.classList.add('hidden');
+        if (navTruckMaster) navTruckMaster.classList.remove('hidden');
+        if (navTruckShipments) navTruckShipments.classList.remove('hidden');
         if (navInputLog) navInputLog.classList.remove('hidden');
         if (navFuelLog) navFuelLog.classList.remove('hidden');
         if (navService) navService.classList.remove('hidden');
@@ -3567,6 +4146,8 @@ function doPost(e) {
         if (navOpDash) navOpDash.classList.remove('hidden');
         if (navHlpDash) navHlpDash.classList.add('hidden');
         if (navKasirDash) navKasirDash.classList.add('hidden');
+        if (navTruckMaster) navTruckMaster.classList.add('hidden');
+        if (navTruckShipments) navTruckShipments.classList.add('hidden');
         if (navInputLog) navInputLog.classList.remove('hidden');
         if (navFuelLog) navFuelLog.classList.add('hidden');
         if (navService) navService.classList.add('hidden');
@@ -3580,6 +4161,8 @@ function doPost(e) {
         if (navOpDash) navOpDash.classList.add('hidden');
         if (navHlpDash) navHlpDash.classList.remove('hidden');
         if (navKasirDash) navKasirDash.classList.add('hidden');
+        if (navTruckMaster) navTruckMaster.classList.add('hidden');
+        if (navTruckShipments) navTruckShipments.classList.add('hidden');
         if (navInputLog) navInputLog.classList.add('hidden');
         if (navFuelLog) navFuelLog.classList.remove('hidden');
         if (navService) navService.classList.add('hidden');
@@ -3588,11 +4171,13 @@ function doPost(e) {
         if (navEquip) navEquip.classList.add('hidden');
         if (navInvoice) navInvoice.classList.add('hidden');
       } else if (role === 'kasir') {
-        // Kasir HANYA melihat: Dashboard Kasir, Input HM, Pengisian Solar, Pengeluaran Unit, dan Unit & Log
+        // Kasir melihat: Dashboard Kasir, Data Kiriman Truk, Data Truk, Input HM, Pengisian Solar, Pengeluaran Unit, dan Unit & Log
         if (navAdmin) navAdmin.classList.add('hidden');
         if (navOpDash) navOpDash.classList.add('hidden');
         if (navHlpDash) navHlpDash.classList.add('hidden');
         if (navKasirDash) navKasirDash.classList.remove('hidden');
+        if (navTruckShipments) navTruckShipments.classList.remove('hidden');
+        if (navTruckMaster) navTruckMaster.classList.remove('hidden');
         if (navInputLog) navInputLog.classList.remove('hidden');
         if (navFuelLog) navFuelLog.classList.remove('hidden');
         if (navExpense) navExpense.classList.remove('hidden');
@@ -3660,19 +4245,8 @@ function doPost(e) {
       if (role === 'admin') return true;
       if (role === 'operator') return tabName === 'operatorDashboard' || tabName === 'inputLog';
       if (role === 'helper') return tabName === 'helperDashboard' || tabName === 'fuelLog';
-      if (role === 'kasir') return tabName === 'kasirDashboard' || tabName === 'inputLog' || tabName === 'fuelLog' || tabName === 'expenseTab' || tabName === 'equipmentList';
+      if (role === 'kasir') return tabName === 'kasirDashboard' || tabName === 'truckMaster' || tabName === 'truckShipments' || tabName === 'inputLog' || tabName === 'fuelLog' || tabName === 'expenseTab' || tabName === 'equipmentList';
       return false;
-    }
-
-    function handleLogout() {
-      localStorage.removeItem('heavy_user_session');
-      localStorage.removeItem('heavy_active_tab');
-      currentUser = null;
-      const authEl = document.getElementById('authView');
-      const mainEl = document.getElementById('mainAppView');
-      if (authEl) authEl.classList.remove('hidden');
-      if (mainEl) mainEl.classList.add('hidden');
-      showToast('Anda telah keluar dari sistem.', 'info');
     }
 
     function showSwitchRoleModal() {
@@ -3680,8 +4254,11 @@ function doPost(e) {
         showToast('Akses ditolak: Hanya Supervisor / Admin yang dapat mengganti peran!', 'warning');
         return;
       }
-      document.getElementById('modalSwitchRole').classList.remove('hidden');
-      document.getElementById('modalSwitchRole').classList.add('flex');
+      const m = document.getElementById('modalSwitchRole');
+      if (m) {
+        m.classList.remove('hidden');
+        m.classList.add('flex');
+      }
     }
 
     function applyRole(newRole) {
@@ -3693,13 +4270,27 @@ function doPost(e) {
       const roleNames = {
         'admin': 'Supervisor Site',
         'operator': 'Operator Lapangan',
-        'helper': 'Helper Lapangan'
+        'helper': 'Helper Lapangan',
+        'kasir': 'Kasir Operasional'
       };
       currentUser.name = roleNames[newRole] || 'User';
       localStorage.setItem('heavy_user_session', JSON.stringify(currentUser));
       closeModal('modalSwitchRole');
       renderAppView();
       showToast(`Peran dialihkan ke: ${newRole.toUpperCase()}`, 'info');
+    }
+
+    function handleLogout() {
+      try {
+        localStorage.removeItem('heavy_user_session');
+        localStorage.removeItem('heavy_active_tab');
+      } catch (e) {}
+      currentUser = null;
+      const authEl = document.getElementById('authView');
+      const mainEl = document.getElementById('mainAppView');
+      if (authEl) authEl.classList.remove('hidden');
+      if (mainEl) mainEl.classList.add('hidden');
+      showToast('Anda telah keluar dari sistem.', 'info');
     }
 
     /* Tab Switching with Strict Role Guard */
@@ -3719,14 +4310,13 @@ function doPost(e) {
           tabName = 'helperDashboard';
         }
       } else if (role === 'kasir') {
-        const allowedKasirTabs = ['kasirDashboard', 'inputLog', 'fuelLog', 'expenseTab', 'equipmentList'];
+        const allowedKasirTabs = ['kasirDashboard', 'truckMaster', 'truckShipments', 'inputLog', 'fuelLog', 'expenseTab', 'equipmentList'];
         if (!allowedKasirTabs.includes(tabName)) {
           showToast('Akses ditolak: Menu ini tidak tersedia untuk peran Kasir.', 'warning');
           tabName = 'kasirDashboard';
         }
       }
 
-      // Simpan tab aktif agar saat refresh tetap berada pada tab yang sama
       try {
         localStorage.setItem('heavy_active_tab', tabName);
       } catch (e) {}
@@ -3753,6 +4343,7 @@ function doPost(e) {
         'operatorDashboard': 'mobileNavOperatorDashboard',
         'helperDashboard': 'mobileNavHelperDashboard',
         'kasirDashboard': 'mobileNavKasirDashboard',
+        'truckShipments': 'mobileNavTruckShipments',
         'inputLog': 'mobileNavInputLog',
         'fuelLog': 'mobileNavFuelLog',
         'expenseTab': 'mobileNavExpense',
@@ -3783,6 +4374,12 @@ function doPost(e) {
         updateHelperDashboard();
       } else if (tabName === 'kasirDashboard') {
         updateKasirDashboard();
+      } else if (tabName === 'truckMaster') {
+        renderTruckMasterTable();
+      } else if (tabName === 'truckShipments') {
+        populateTruckDropdowns();
+        renderTruckShipmentsTable();
+        initDefaultShipmentItems();
       } else if (tabName === 'fuelLog') {
         populateEquipmentDropdowns();
         renderFuelLogsTable();
@@ -3804,48 +4401,46 @@ function doPost(e) {
     /* ================= LOGIKA DASHBOARD KHUSUS OPERATOR ================= */
     function updateOperatorDashboard() {
       if (!currentUser) return;
-      const currentOpName = (currentUser.name || '').trim().toLowerCase();
-      const currentOpUsername = (currentUser.username || '').trim().toLowerCase();
+      const opName = (currentUser.name || '').toLowerCase();
+      const opUsername = (currentUser.username || '').toLowerCase();
 
-      // Filter ketat: HANYA log yang operator-nya sama dengan nama atau username pengguna yang login
-      const opLogs = dailyLogs.filter(l => {
+      // Filter ketat: Hanya menghitung log yang operatornya sesuai nama/username operator yang login
+      const operatorLogs = dailyLogs.filter(l => {
         if (!l.operator) return false;
-        const logOp = l.operator.trim().toLowerCase();
-        return logOp === currentOpName || logOp === currentOpUsername || (logOp.length > 2 && currentOpName.includes(logOp));
+        const logOp = l.operator.toLowerCase();
+        return logOp === opName || logOp === opUsername || logOp.includes(opName);
       });
 
-      let totalHours = 0;
       let totalBucket = 0;
       let totalBreaker = 0;
 
-      opLogs.forEach(l => {
-        const b = parseFloat(l.bucketHours) || 0;
-        const br = parseFloat(l.breakerHours) || 0;
-        totalBucket += b;
-        totalBreaker += br;
-        totalHours += (parseFloat(l.totalHours) || (b + br));
+      operatorLogs.forEach(l => {
+        totalBucket += parseFloat(l.bucketHours) || 0;
+        totalBreaker += parseFloat(l.breakerHours) || 0;
       });
+
+      const grandTotalHours = totalBucket + totalBreaker;
 
       const kpiTotal = document.getElementById('opKpiTotalHours');
       const kpiBucket = document.getElementById('opKpiBucketHours');
       const kpiBreaker = document.getElementById('opKpiBreakerHours');
       const kpiLogs = document.getElementById('opKpiTotalLogs');
 
-      if (kpiTotal) kpiTotal.innerText = totalHours.toFixed(1);
+      if (kpiTotal) kpiTotal.innerText = grandTotalHours.toFixed(1);
       if (kpiBucket) kpiBucket.innerText = totalBucket.toFixed(1);
       if (kpiBreaker) kpiBreaker.innerText = totalBreaker.toFixed(1);
-      if (kpiLogs) kpiLogs.innerText = opLogs.length;
+      if (kpiLogs) kpiLogs.innerText = operatorLogs.length;
 
-      // Render Tabel Riwayat Operator
+      // Render Riwayat Khusus Operator
       const tbody = document.getElementById('operatorLogsTableBody');
       const mobileList = document.getElementById('operatorLogsListMobile');
 
       if (tbody) {
         tbody.innerHTML = '';
-        if (opLogs.length === 0) {
-          tbody.innerHTML = '<tr><td colspan="8" class="py-6 text-center text-slate-500">Belum ada catatan jam kerja yang Anda input.</td></tr>';
+        if (operatorLogs.length === 0) {
+          tbody.innerHTML = '<tr><td colspan="8" class="py-6 text-center text-slate-500">Belum ada jam kerja yang Anda input.</td></tr>';
         } else {
-          opLogs.slice().reverse().forEach(log => {
+          operatorLogs.slice().reverse().forEach(log => {
             const tr = document.createElement('tr');
             tr.className = 'hover:bg-slate-800/40';
             tr.innerHTML = `
@@ -3854,8 +4449,8 @@ function doPost(e) {
               <td class="py-2.5 px-3 text-slate-300">${log.location || '-'}</td>
               <td class="py-2.5 px-3 text-amber-400 font-bold">${log.bucketHours || 0}</td>
               <td class="py-2.5 px-3 text-orange-400 font-bold">${log.breakerHours || 0}</td>
-              <td class="py-2.5 px-3 text-white font-bold">${log.totalHours || (parseFloat(log.bucketHours||0) + parseFloat(log.breakerHours||0)).toFixed(1)}</td>
-              <td class="py-2.5 px-3 font-mono text-slate-300">${log.hmAwal} &rarr; ${log.hmAkhir} (${log.totalHm})</td>
+              <td class="py-2.5 px-3 text-white font-bold">${log.totalHours || (parseFloat(log.bucketHours||0)+parseFloat(log.breakerHours||0)).toFixed(1)}</td>
+              <td class="py-2.5 px-3 font-mono text-slate-300">${log.hmAwal} - ${log.hmAkhir} (${log.totalHm})</td>
               <td class="py-2.5 px-3 text-right">
                 <span class="px-2 py-0.5 rounded text-[10px] font-bold ${log.synced ? 'bg-emerald-500/10 text-emerald-400' : 'bg-slate-800 text-slate-400'}">
                   ${log.synced ? 'Synced' : 'Pending'}
@@ -3869,21 +4464,23 @@ function doPost(e) {
 
       if (mobileList) {
         mobileList.innerHTML = '';
-        if (opLogs.length === 0) {
+        if (operatorLogs.length === 0) {
           mobileList.innerHTML = '<div class="p-4 text-center text-xs text-slate-500">Belum ada catatan jam kerja.</div>';
         } else {
-          opLogs.slice().reverse().forEach(log => {
+          operatorLogs.slice().reverse().forEach(log => {
             const card = document.createElement('div');
             card.className = 'bg-slate-950 p-3.5 rounded-xl border border-slate-800 space-y-2';
             card.innerHTML = `
               <div class="flex justify-between items-start">
-                <div class="text-xs font-bold text-amber-400">${log.equipmentCode}</div>
+                <div>
+                  <div class="text-xs font-bold text-amber-400">${log.equipmentCode}</div>
+                  <div class="text-[10px] text-slate-400 font-mono">${log.date} &bull; ${log.location}</div>
+                </div>
                 <span class="text-xs font-bold text-white">${log.totalHours || (parseFloat(log.bucketHours||0)+parseFloat(log.breakerHours||0)).toFixed(1)} Jam</span>
               </div>
-              <div class="text-[11px] text-slate-400 font-mono">${log.date} &bull; ${log.location || '-'}</div>
-              <div class="flex justify-between text-xs text-slate-300 pt-1 border-t border-slate-850">
-                <span>Bkt: <strong class="text-amber-400">${log.bucketHours||0}j</strong> | Brk: <strong class="text-orange-400">${log.breakerHours||0}j</strong></span>
-                <span>HM: ${log.hmAwal}&rarr;${log.hmAkhir}</span>
+              <div class="flex justify-between text-xs text-slate-300 bg-slate-900/60 p-2 rounded-lg">
+                <span>Bucket: <strong class="text-amber-400">${log.bucketHours||0}j</strong> | Breaker: <strong class="text-orange-400">${log.breakerHours||0}j</strong></span>
+                <span class="font-mono text-slate-400">HM: ${log.totalHm}</span>
               </div>
             `;
             mobileList.appendChild(card);
@@ -3892,31 +4489,23 @@ function doPost(e) {
       }
     }
 
-    /* ================= LOGIKA DASHBOARD KHUSUS KASIR (BARU) ================= */
+    /* ================= LOGIKA DASHBOARD KHUSUS KASIR ================= */
     function updateKasirDashboard() {
-      if (!currentUser) return;
-
-      // 1. Hitung total jam kerja
       let totalHmHours = 0;
       dailyLogs.forEach(l => {
-        const b = parseFloat(l.bucketHours) || 0;
-        const br = parseFloat(l.breakerHours) || 0;
-        totalHmHours += (parseFloat(l.totalHours) || (b + br));
+        totalHmHours += parseFloat(l.totalHours) || (parseFloat(l.bucketHours || 0) + parseFloat(l.breakerHours || 0));
       });
 
-      // 2. Hitung total solar diisi
       let totalFuelLiters = 0;
       fuelLogs.forEach(fl => {
-        totalFuelLiters += (parseFloat(fl.liters) || 0);
+        totalFuelLiters += parseFloat(fl.liters) || 0;
       });
 
-      // 3. Hitung total belanja/pengeluaran unit
-      let totalExpenseNominal = 0;
+      let totalExpensesAmount = 0;
       equipmentExpenses.forEach(exp => {
-        totalExpenseNominal += (parseFloat(exp.amount) || 0);
+        totalExpensesAmount += parseFloat(exp.amount) || 0;
       });
 
-      // Update KPI Elements
       const kpiHm = document.getElementById('kasirKpiTotalHm');
       const kpiFuel = document.getElementById('kasirKpiTotalFuel');
       const kpiExp = document.getElementById('kasirKpiTotalExpenses');
@@ -3924,25 +4513,25 @@ function doPost(e) {
 
       if (kpiHm) kpiHm.innerText = totalHmHours.toFixed(1);
       if (kpiFuel) kpiFuel.innerText = totalFuelLiters.toLocaleString('id-ID');
-      if (kpiExp) kpiExp.innerText = formatRupiah(totalExpenseNominal);
+      if (kpiExp) kpiExp.innerText = formatRupiah(totalExpensesAmount);
       if (kpiLogs) kpiLogs.innerText = dailyLogs.length;
 
-      // Render Tabel Log Terbaru di Dashboard Kasir
+      // Render Tabel Jam Kerja Terbaru di Dashboard Kasir
       const logsTbody = document.getElementById('kasirRecentLogsTable');
       if (logsTbody) {
         logsTbody.innerHTML = '';
         const recentLogs = dailyLogs.slice(-5).reverse();
         if (recentLogs.length === 0) {
-          logsTbody.innerHTML = '<tr><td colspan="4" class="py-4 text-center text-slate-500">Belum ada catatan log.</td></tr>';
+          logsTbody.innerHTML = '<tr><td colspan="4" class="py-4 text-center text-slate-500">Belum ada riwayat jam kerja.</td></tr>';
         } else {
-          recentLogs.forEach(l => {
+          recentLogs.forEach(log => {
             const tr = document.createElement('tr');
             tr.className = 'hover:bg-slate-800/40';
             tr.innerHTML = `
-              <td class="py-2 font-mono text-slate-300">${l.date}</td>
-              <td class="py-2 font-bold text-amber-400">${(l.equipmentCode || '').split(' ')[0]}</td>
-              <td class="py-2 text-slate-300">${l.operator}</td>
-              <td class="py-2 text-right font-bold text-white">${l.totalHours || (parseFloat(l.bucketHours||0)+parseFloat(l.breakerHours||0)).toFixed(1)}j</td>
+              <td class="py-2 font-mono text-slate-300">${log.date}</td>
+              <td class="py-2 font-bold text-amber-400">${(log.equipmentCode || '').split(' ')[0]}</td>
+              <td class="py-2 text-white">${log.operator}</td>
+              <td class="py-2 text-right font-bold text-white">${log.totalHours || (parseFloat(log.bucketHours||0)+parseFloat(log.breakerHours||0)).toFixed(1)}j</td>
             `;
             logsTbody.appendChild(tr);
           });
@@ -6278,6 +6867,692 @@ function doPost(e) {
         modal.classList.remove('hidden');
         modal.classList.add('flex');
       }
+    }
+
+    /* ================= MASTER DATA TRUK LOGIC ================= */
+    function openAddTruckModal() {
+      const form = document.getElementById('addTruckMasterForm');
+      if (form) form.reset();
+      const editId = document.getElementById('editTruckId');
+      if (editId) editId.value = '';
+      const title = document.getElementById('modalTruckTitle');
+      if (title) title.innerHTML = '<i class="fa-solid fa-truck-moving text-amber-500"></i> Tambah Master Data Truk';
+      const btnSubmit = document.getElementById('btnSubmitTruckForm');
+      if (btnSubmit) btnSubmit.innerText = 'Simpan Truk';
+
+      const modal = document.getElementById('modalAddTruck');
+      if (modal) {
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+      }
+    }
+
+    function editTruck(truckId) {
+      if (!currentUser || currentUser.role !== 'admin') {
+        showToast('Akses ditolak: Hanya Admin yang dapat mengedit data armada truk!', 'warning');
+        return;
+      }
+
+      const trk = trucks.find(t => t.id === truckId);
+      if (!trk) {
+        showToast('Data truk tidak ditemukan!', 'warning');
+        return;
+      }
+
+      const editId = document.getElementById('editTruckId');
+      const nameInput = document.getElementById('newTruckName');
+      const plateInput = document.getElementById('newTruckPlate');
+      const modelInput = document.getElementById('newTruckModel');
+      const statusInput = document.getElementById('newTruckStatus');
+      const driverInput = document.getElementById('newTruckDriver');
+      const phoneInput = document.getElementById('newTruckPhone');
+      const title = document.getElementById('modalTruckTitle');
+      const btnSubmit = document.getElementById('btnSubmitTruckForm');
+
+      if (editId) editId.value = trk.id;
+      if (nameInput) nameInput.value = trk.name || '';
+      if (plateInput) plateInput.value = trk.plateNumber || '';
+      if (modelInput) modelInput.value = trk.model || '';
+      if (statusInput) statusInput.value = trk.status || 'Aktif';
+      if (driverInput) driverInput.value = trk.defaultDriver || '';
+      if (phoneInput) phoneInput.value = (trk.phone && trk.phone !== '-') ? trk.phone : '';
+      if (title) title.innerHTML = '<i class="fa-solid fa-pen-to-square text-amber-500"></i> Ubah Data Armada Truk';
+      if (btnSubmit) btnSubmit.innerText = 'Perbarui Data Truk';
+
+      const modal = document.getElementById('modalAddTruck');
+      if (modal) {
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+      }
+    }
+
+    function handleSaveTruckMaster(e) {
+      e.preventDefault();
+      const editId = document.getElementById('editTruckId')?.value;
+      const name = document.getElementById('newTruckName')?.value.trim();
+      const plate = document.getElementById('newTruckPlate')?.value.trim().toUpperCase();
+      const model = document.getElementById('newTruckModel')?.value.trim();
+      const status = document.getElementById('newTruckStatus')?.value || 'Aktif';
+      const driver = document.getElementById('newTruckDriver')?.value.trim();
+      const phone = document.getElementById('newTruckPhone')?.value.trim() || '-';
+
+      if (!name || !plate || !driver) {
+        showToast('Nama truk, plat nomor, dan supir wajib diisi!', 'warning');
+        return;
+      }
+
+      if (editId) {
+        // Mode Perbarui (Edit)
+        const trk = trucks.find(t => t.id === editId);
+        if (trk) {
+          trk.name = name;
+          trk.plateNumber = plate;
+          trk.model = model || '-';
+          trk.status = status;
+          trk.defaultDriver = driver;
+          trk.phone = phone;
+
+          saveAllToStorage();
+          cloudSaveDocument('trucks', trk.id, trk);
+          showToast(`Data armada ${name} (${plate}) berhasil diperbarui!`, 'success');
+        }
+      } else {
+        // Mode Tambah Baru
+        const newTruck = {
+          id: 'TRK-' + new Date().getTime(),
+          name,
+          plateNumber: plate,
+          model: model || '-',
+          status,
+          defaultDriver: driver,
+          phone
+        };
+
+        trucks.push(newTruck);
+        saveAllToStorage();
+        cloudSaveDocument('trucks', newTruck.id, newTruck);
+        showToast(`Truk ${name} (${plate}) berhasil didaftarkan!`, 'success');
+      }
+
+      populateTruckDropdowns();
+      renderTruckMasterTable();
+      closeModal('modalAddTruck');
+    }
+
+    function renderTruckMasterTable() {
+      const search = (document.getElementById('truckFilterSearch')?.value || '').toLowerCase();
+      const statusFilter = document.getElementById('truckFilterStatus')?.value || 'ALL';
+
+      const filtered = trucks.filter(t => {
+        const matchSearch = (t.name && t.name.toLowerCase().includes(search)) ||
+                            (t.plateNumber && t.plateNumber.toLowerCase().includes(search)) ||
+                            (t.defaultDriver && t.defaultDriver.toLowerCase().includes(search)) ||
+                            (t.model && t.model.toLowerCase().includes(search));
+        const matchStatus = (statusFilter === 'ALL') || (t.status === statusFilter);
+        return matchSearch && matchStatus;
+      });
+
+      const tbody = document.getElementById('truckMasterTableBody');
+      const mobileList = document.getElementById('truckCardsMobile');
+
+      if (tbody) {
+        tbody.innerHTML = '';
+        if (filtered.length === 0) {
+          tbody.innerHTML = '<tr><td colspan="7" class="py-6 text-center text-slate-500">Belum ada armada truk yang sesuai filter.</td></tr>';
+        } else {
+          filtered.forEach(t => {
+            const tr = document.createElement('tr');
+            tr.className = 'hover:bg-slate-800/40 transition';
+            const statusColor = t.status === 'Aktif' 
+              ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30' 
+              : (t.status === 'Standby' ? 'bg-amber-500/10 text-amber-400 border-amber-500/30' : 'bg-rose-500/10 text-rose-400 border-rose-500/30');
+
+            tr.innerHTML = `
+              <td class="py-3 px-4 font-bold text-white flex items-center gap-2">
+                <i class="fa-solid fa-truck-moving text-amber-500"></i> ${t.name}
+              </td>
+              <td class="py-3 px-4 font-mono font-bold text-amber-400">${t.plateNumber}</td>
+              <td class="py-3 px-4 text-slate-300">${t.model}</td>
+              <td class="py-3 px-4 text-white font-medium">${t.defaultDriver}</td>
+              <td class="py-3 px-4 font-mono text-slate-400">${t.phone || '-'}</td>
+              <td class="py-3 px-4 text-center">
+                <span class="px-2 py-0.5 rounded text-[10px] font-bold border ${statusColor}">${t.status}</span>
+              </td>
+              <td class="py-3 px-4 text-right whitespace-nowrap">
+                ${currentUser && currentUser.role === 'admin' ? `
+                  <div class="inline-flex items-center gap-1">
+                    <button type="button" onclick="editTruck('${t.id}')" title="Edit Data Truk" class="p-1.5 text-slate-400 hover:text-amber-400 transition">
+                      <i class="fa-solid fa-pen-to-square"></i>
+                    </button>
+                    <button type="button" onclick="deleteTruck('${t.id}')" title="Hapus Truk" class="p-1.5 text-slate-500 hover:text-rose-400 transition">
+                      <i class="fa-solid fa-trash-can"></i>
+                    </button>
+                  </div>
+                ` : '<span class="text-slate-600">-</span>'}
+              </td>
+            `;
+            tbody.appendChild(tr);
+          });
+        }
+      }
+
+      if (mobileList) {
+        mobileList.innerHTML = '';
+        if (filtered.length === 0) {
+          mobileList.innerHTML = '<div class="p-4 text-center text-xs text-slate-500">Belum ada data truk.</div>';
+        } else {
+          filtered.forEach(t => {
+            const card = document.createElement('div');
+            card.className = 'bg-slate-900 border border-slate-800 rounded-xl p-4 space-y-2';
+            card.innerHTML = `
+              <div class="flex justify-between items-start">
+                <div>
+                  <div class="text-xs font-bold text-white">${t.name}</div>
+                  <div class="text-[11px] font-mono text-amber-400">${t.plateNumber}</div>
+                </div>
+                <span class="text-[10px] px-2 py-0.5 rounded font-bold border ${t.status === 'Aktif' ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30' : 'bg-slate-800 text-slate-400 border-slate-700'}">${t.status}</span>
+              </div>
+              <div class="text-xs text-slate-300 bg-slate-950 p-2.5 rounded-lg space-y-1">
+                <div>Tipe: <strong class="text-white">${t.model}</strong></div>
+                <div>Supir: <strong class="text-white">${t.defaultDriver}</strong> (${t.phone || '-'})</div>
+              </div>
+              <div class="flex justify-end items-center gap-2 pt-1">
+                ${currentUser && currentUser.role === 'admin' ? `
+                  <button type="button" onclick="editTruck('${t.id}')" class="text-xs text-amber-400 hover:text-amber-300 flex items-center gap-1 font-semibold">
+                    <i class="fa-solid fa-pen-to-square"></i> Edit
+                  </button>
+                  <span class="text-slate-700">|</span>
+                  <button type="button" onclick="deleteTruck('${t.id}')" class="text-xs text-rose-400 hover:text-rose-300 flex items-center gap-1 font-semibold">
+                    <i class="fa-solid fa-trash-can"></i> Hapus
+                  </button>
+                ` : ''}
+              </div>
+            `;
+            mobileList.appendChild(card);
+          });
+        }
+      }
+    }
+
+    function deleteTruck(id) {
+      if (currentUser && currentUser.role !== 'admin') {
+        showToast('Hanya Supervisor / Admin yang dapat menghapus armada truk.', 'warning');
+        return;
+      }
+      const trk = trucks.find(t => t.id === id);
+      const name = trk ? trk.name : 'Truk';
+      trucks = trucks.filter(t => t.id !== id);
+      saveAllToStorage();
+      cloudDeleteDocument('trucks', id);
+      populateTruckDropdowns();
+      renderTruckMasterTable();
+      showToast(`Data armada ${name} berhasil dihapus.`, 'info');
+    }
+
+    function populateTruckDropdowns() {
+      const select = document.getElementById('shipmentTruckSelect');
+      const filterSelect = document.getElementById('shipmentFilterTruck');
+
+      if (select) {
+        const cur = select.value;
+        select.innerHTML = '<option value="" disabled selected>Pilih Truk...</option>';
+        trucks.forEach(t => {
+          const opt = document.createElement('option');
+          opt.value = t.id;
+          opt.textContent = `${t.name} - ${t.plateNumber} (${t.defaultDriver || 'No Driver'})`;
+          if (t.id === cur) opt.selected = true;
+          select.appendChild(opt);
+        });
+      }
+
+      if (filterSelect) {
+        const curFilter = filterSelect.value || 'ALL';
+        filterSelect.innerHTML = '<option value="ALL">Semua Truk</option>';
+        trucks.forEach(t => {
+          const opt = document.createElement('option');
+          opt.value = t.id;
+          opt.textContent = `${t.name} (${t.plateNumber})`;
+          if (t.id === curFilter) opt.selected = true;
+          filterSelect.appendChild(opt);
+        });
+      }
+    }
+
+    function onShipmentTruckChange() {
+      const select = document.getElementById('shipmentTruckSelect');
+      const truckId = select ? select.value : '';
+      if (!truckId) return;
+
+      const trk = trucks.find(t => t.id === truckId);
+      if (trk && trk.defaultDriver) {
+        const driverInp = document.getElementById('shipmentDriverName');
+        if (driverInp) driverInp.value = trk.defaultDriver;
+      }
+    }
+
+    /* ================= DATA KIRIMAN TRUK (MULTI BARANG & STATUS BAYAR) ================= */
+    function initDefaultShipmentItems() {
+      const container = document.getElementById('shipmentItemsContainer');
+      if (container && container.children.length === 0) {
+        addShipmentItemRow();
+      }
+    }
+
+    function addShipmentItemRow(name = '', qty = '', unit = 'Ritase') {
+      const container = document.getElementById('shipmentItemsContainer');
+      if (!container) return;
+
+      const rowId = 'itemRow_' + new Date().getTime() + '_' + Math.floor(Math.random() * 1000);
+      const row = document.createElement('div');
+      row.id = rowId;
+      row.className = 'flex flex-col sm:flex-row items-center gap-2 p-2 rounded-xl bg-slate-900 border border-slate-800 shipment-item-row';
+      row.innerHTML = `
+        <div class="flex-1 w-full">
+          <input type="text" placeholder="Nama Barang / Material (misal: Pasir Cor / Batu Belah)" value="${name}" required class="item-name w-full bg-slate-950 border border-slate-700 rounded-lg py-2 px-3 text-xs text-white focus:outline-none focus:border-sky-500">
+        </div>
+        <div class="w-full sm:w-28">
+          <input type="number" step="0.1" min="0" placeholder="Jumlah" value="${qty}" required class="item-qty w-full bg-slate-950 border border-slate-700 rounded-lg py-2 px-3 text-xs font-bold text-sky-400 focus:outline-none focus:border-sky-500">
+        </div>
+        <div class="w-full sm:w-32">
+          <select class="item-unit w-full bg-slate-950 border border-slate-700 rounded-lg py-2 px-3 text-xs text-white focus:outline-none focus:border-sky-500">
+            <option value="Ritase" ${unit === 'Ritase' ? 'selected' : ''}>Ritase</option>
+            <option value="M3" ${unit === 'M3' ? 'selected' : ''}>M3 (Kubik)</option>
+            <option value="Ton" ${unit === 'Ton' ? 'selected' : ''}>Ton</option>
+            <option value="Kg" ${unit === 'Kg' ? 'selected' : ''}>Kg</option>
+            <option value="Sak" ${unit === 'Sak' ? 'selected' : ''}>Sak</option>
+            <option value="Pcs" ${unit === 'Pcs' ? 'selected' : ''}>Pcs / Batang</option>
+          </select>
+        </div>
+        <button type="button" onclick="removeShipmentItemRow('${rowId}')" title="Hapus Baris Barang" class="w-full sm:w-auto p-2 bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 border border-rose-500/30 rounded-lg text-xs transition flex items-center justify-center">
+          <i class="fa-solid fa-trash-can"></i>
+        </button>
+      `;
+      container.appendChild(row);
+    }
+
+    function removeShipmentItemRow(rowId) {
+      const container = document.getElementById('shipmentItemsContainer');
+      const row = document.getElementById(rowId);
+      if (row && container) {
+        if (container.children.length <= 1) {
+          showToast('Minimal harus ada 1 jenis barang dalam pengiriman!', 'warning');
+          return;
+        }
+        row.remove();
+      }
+    }
+
+    function resetShipmentForm() {
+      const form = document.getElementById('truckShipmentForm');
+      if (form) form.reset();
+      initDefaultDate();
+      const container = document.getElementById('shipmentItemsContainer');
+      if (container) {
+        container.innerHTML = '';
+        addShipmentItemRow();
+      }
+      const editId = document.getElementById('editShipmentId');
+      if (editId) editId.value = '';
+    }
+
+    function handleSaveTruckShipment(e) {
+      e.preventDefault();
+      const truckId = document.getElementById('shipmentTruckSelect')?.value;
+      const truck = trucks.find(t => t.id === truckId);
+
+      if (!truck) {
+        showToast('Pilih truk dari database terlebih dahulu!', 'warning');
+        return;
+      }
+
+      const driver = document.getElementById('shipmentDriverName')?.value.trim();
+      const destination = document.getElementById('shipmentDestination')?.value.trim();
+      const date = document.getElementById('shipmentDate')?.value;
+      const doNumber = document.getElementById('shipmentDoNumber')?.value.trim() || '-';
+      const paymentStatus = document.getElementById('shipmentPaymentStatus')?.value || 'Lunas';
+      const paymentAmount = parseFloat(document.getElementById('shipmentPaymentAmount')?.value) || 0;
+      const clientName = document.getElementById('shipmentClientName')?.value.trim() || '-';
+      const notes = document.getElementById('shipmentNotes')?.value.trim() || '-';
+
+      // Ekstrak multi-barang dari DOM
+      const rows = document.querySelectorAll('#shipmentItemsContainer .shipment-item-row');
+      const items = [];
+      rows.forEach(r => {
+        const name = r.querySelector('.item-name')?.value.trim();
+        const qty = r.querySelector('.item-qty')?.value.trim();
+        const unit = r.querySelector('.item-unit')?.value;
+        if (name && qty) {
+          items.push({ name, quantity: qty, unit });
+        }
+      });
+
+      if (items.length === 0) {
+        showToast('Wajib memasukkan minimal 1 barang kiriman dengan nama dan jumlah!', 'warning');
+        return;
+      }
+
+      const newShipment = {
+        id: 'SHP-' + new Date().getTime(),
+        date,
+        truckId: truck.id,
+        truckName: `${truck.name} - ${truck.plateNumber}`,
+        driverName: driver,
+        destination,
+        doNumber,
+        items,
+        paymentStatus,
+        paymentAmount,
+        clientName,
+        notes
+      };
+
+      truckShipments.push(newShipment);
+      saveAllToStorage();
+      cloudSaveDocument('truck_shipments', newShipment.id, newShipment);
+
+      renderTruckShipmentsTable();
+      resetShipmentForm();
+      showToast(`Data kiriman truk ${truck.name} berhasil disimpan!`, 'success');
+    }
+
+    function renderTruckShipmentsTable() {
+      const search = (document.getElementById('shipmentFilterSearch')?.value || '').toLowerCase();
+      const truckFilter = document.getElementById('shipmentFilterTruck')?.value || 'ALL';
+      const paymentFilter = document.getElementById('shipmentFilterPayment')?.value || 'ALL';
+
+      const filtered = truckShipments.filter(s => {
+        const matchSearch = (s.truckName && s.truckName.toLowerCase().includes(search)) ||
+                            (s.driverName && s.driverName.toLowerCase().includes(search)) ||
+                            (s.destination && s.destination.toLowerCase().includes(search)) ||
+                            (s.doNumber && s.doNumber.toLowerCase().includes(search)) ||
+                            (s.clientName && s.clientName.toLowerCase().includes(search)) ||
+                            (s.items && s.items.some(i => i.name.toLowerCase().includes(search)));
+        const matchTruck = (truckFilter === 'ALL') || (s.truckId === truckFilter);
+        const matchPayment = (paymentFilter === 'ALL') || (s.paymentStatus === paymentFilter);
+        return matchSearch && matchTruck && matchPayment;
+      }).reverse();
+
+      const badge = document.getElementById('shipmentTotalCounterBadge');
+      if (badge) badge.innerText = `${filtered.length} Kiriman`;
+
+      const tbody = document.getElementById('truckShipmentsTableBody');
+      const mobileList = document.getElementById('shipmentCardsMobile');
+
+      if (tbody) {
+        tbody.innerHTML = '';
+        if (filtered.length === 0) {
+          tbody.innerHTML = '<tr><td colspan="9" class="py-6 text-center text-slate-500">Belum ada riwayat kiriman truk yang sesuai filter.</td></tr>';
+        } else {
+          filtered.forEach(s => {
+            const tr = document.createElement('tr');
+            tr.className = 'hover:bg-slate-800/40 transition';
+
+            const itemsText = (s.items || []).map(i => `<span class="inline-block bg-slate-800 px-2 py-0.5 rounded text-[10px] text-sky-300 border border-slate-700 mr-1 mb-1 font-medium">${i.name} (${i.quantity} ${i.unit})</span>`).join('');
+
+            let payBadgeClass = 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30';
+            if (s.paymentStatus === 'Bon') payBadgeClass = 'bg-rose-500/10 text-rose-400 border-rose-500/30';
+            else if (s.paymentStatus === 'COD') payBadgeClass = 'bg-amber-500/10 text-amber-400 border-amber-500/30';
+
+            tr.innerHTML = `
+              <td class="py-3 px-3 font-mono text-slate-300 whitespace-nowrap">${s.date}</td>
+              <td class="py-3 px-3 font-bold text-sky-400">${s.truckName}</td>
+              <td class="py-3 px-3 text-white font-medium">${s.driverName}</td>
+              <td class="py-3 px-3 text-slate-300 max-w-xs truncate" title="${s.destination}">${s.destination}</td>
+              <td class="py-3 px-3 max-w-sm">${itemsText}</td>
+              <td class="py-3 px-3 font-mono font-bold text-emerald-400 whitespace-nowrap">${formatRupiah(s.paymentAmount || 0)}</td>
+              <td class="py-3 px-3 text-center whitespace-nowrap">
+                <span class="px-2.5 py-1 rounded-full text-[10px] font-bold border ${payBadgeClass}">${s.paymentStatus}</span>
+              </td>
+              <td class="py-3 px-3 text-center whitespace-nowrap">
+                <button type="button" onclick="printTruckDeliveryNote('${s.id}')" title="Cetak Surat Jalan / Simpan PDF" class="px-2.5 py-1 bg-sky-600/20 hover:bg-sky-600/40 text-sky-400 border border-sky-500/30 rounded-lg text-[10px] font-bold transition flex items-center justify-center gap-1 mx-auto">
+                  <i class="fa-solid fa-print text-xs"></i> Cetak PDF
+                </button>
+              </td>
+              <td class="py-3 px-3 text-center whitespace-nowrap">
+                <button type="button" onclick="sendShipmentToWhatsApp('${s.id}')" title="Kirim Surat Jalan WA" class="px-2.5 py-1 bg-emerald-600/20 hover:bg-emerald-600/40 text-emerald-400 border border-emerald-500/30 rounded-lg text-[10px] font-semibold transition flex items-center justify-center gap-1 mx-auto">
+                  <i class="fa-brands fa-whatsapp text-xs"></i> Kirim WA
+                </button>
+              </td>
+              <td class="py-3 px-3 text-right whitespace-nowrap">
+                ${(currentUser && (currentUser.role === 'admin' || currentUser.role === 'kasir')) ? `
+                  <button type="button" onclick="deleteTruckShipment('${s.id}')" title="Hapus Kiriman" class="p-1.5 text-slate-500 hover:text-rose-400 transition">
+                    <i class="fa-solid fa-trash-can"></i>
+                  </button>
+                ` : '<span class="text-slate-600">-</span>'}
+              </td>
+            `;
+            tbody.appendChild(tr);
+          });
+        }
+      }
+
+      if (mobileList) {
+        mobileList.innerHTML = '';
+        if (filtered.length === 0) {
+          mobileList.innerHTML = '<div class="p-4 text-center text-xs text-slate-500">Belum ada catatan kiriman truk.</div>';
+        } else {
+          filtered.forEach(s => {
+            const card = document.createElement('div');
+            card.className = 'bg-slate-900 border border-slate-800 rounded-xl p-4 space-y-2.5';
+            const itemsList = (s.items || []).map(i => `&bull; ${i.name}: <strong>${i.quantity} ${i.unit}</strong>`).join('<br>');
+
+            let payBadgeClass = 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30';
+            if (s.paymentStatus === 'Bon') payBadgeClass = 'bg-rose-500/10 text-rose-400 border-rose-500/30';
+            else if (s.paymentStatus === 'COD') payBadgeClass = 'bg-amber-500/10 text-amber-400 border-amber-500/30';
+
+            card.innerHTML = `
+              <div class="flex justify-between items-start">
+                <div>
+                  <div class="text-xs font-bold text-sky-400">${s.truckName}</div>
+                  <div class="text-[10px] text-slate-400">${s.date} &bull; Supir: <strong class="text-white">${s.driverName}</strong></div>
+                </div>
+                <span class="px-2 py-0.5 rounded text-[10px] font-bold border ${payBadgeClass}">${s.paymentStatus}</span>
+              </div>
+              <div class="text-xs text-slate-300 bg-slate-950 p-2.5 rounded-lg space-y-1">
+                <div>Tujuan: <strong class="text-white">${s.destination}</strong></div>
+                <div class="text-[11px] text-sky-300 pt-1 border-t border-slate-850">${itemsList}</div>
+                <div class="pt-1 flex justify-between items-center text-xs">
+                  <span class="text-slate-400">Tagihan:</span>
+                  <span class="font-bold text-emerald-400 font-mono">${formatRupiah(s.paymentAmount || 0)}</span>
+                </div>
+              </div>
+              <div class="flex flex-wrap justify-between items-center gap-1.5 pt-1">
+                <div class="flex gap-1.5">
+                  <button type="button" onclick="printTruckDeliveryNote('${s.id}')" class="px-2.5 py-1 bg-sky-600/20 text-sky-400 border border-sky-500/30 rounded-lg text-[10px] font-bold flex items-center gap-1">
+                    <i class="fa-solid fa-print"></i> Cetak PDF
+                  </button>
+                  <button type="button" onclick="sendShipmentToWhatsApp('${s.id}')" class="px-2.5 py-1 bg-emerald-600/20 text-emerald-400 border border-emerald-500/30 rounded-lg text-[10px] font-bold flex items-center gap-1">
+                    <i class="fa-brands fa-whatsapp"></i> WA
+                  </button>
+                </div>
+                ${(currentUser && (currentUser.role === 'admin' || currentUser.role === 'kasir')) ? `
+                  <button type="button" onclick="deleteTruckShipment('${s.id}')" class="text-xs text-rose-400 hover:text-rose-300">
+                    <i class="fa-solid fa-trash-can mr-1"></i> Hapus
+                  </button>
+                ` : ''}
+              </div>
+            `;
+            mobileList.appendChild(card);
+          });
+        }
+      }
+    }
+
+    function deleteTruckShipment(id) {
+      if (currentUser && currentUser.role !== 'admin' && currentUser.role !== 'kasir') {
+        showToast('Akses ditolak: Anda tidak memiliki izin menghapus kiriman.', 'warning');
+        return;
+      }
+      truckShipments = truckShipments.filter(s => s.id !== id);
+      saveAllToStorage();
+      cloudDeleteDocument('truck_shipments', id);
+      renderTruckShipmentsTable();
+      showToast('Data kiriman truk berhasil dihapus.', 'info');
+    }
+
+    function exportShipmentsToCSV() {
+      if (!truckShipments || truckShipments.length === 0) {
+        showToast('Tidak ada data kiriman truk untuk diekspor.', 'warning');
+        return;
+      }
+
+      let csvContent = "\uFEFF";
+      csvContent += "ID,Tanggal,Nama Truk,Nama Supir,Tujuan,No DO,Rincian Barang,Status Pembayaran,Nilai Tagihan (Rp),Pemesan,Catatan\n";
+
+      truckShipments.forEach(s => {
+        const itemsStr = (s.items || []).map(i => `${i.name} (${i.quantity} ${i.unit})`).join(" ; ");
+        const row = [
+          s.id,
+          s.date,
+          `"${(s.truckName || '').replace(/"/g, '""')}"`,
+          `"${(s.driverName || '').replace(/"/g, '""')}"`,
+          `"${(s.destination || '').replace(/"/g, '""')}"`,
+          `"${(s.doNumber || '').replace(/"/g, '""')}"`,
+          `"${itemsStr.replace(/"/g, '""')}"`,
+          `"${s.paymentStatus || 'Lunas'}"`,
+          s.paymentAmount || 0,
+          `"${(s.clientName || '').replace(/"/g, '""')}"`,
+          `"${(s.notes || '').replace(/"/g, '""')}"`
+        ].join(",");
+        csvContent += row + "\n";
+      });
+
+      downloadCSVFile(csvContent, `Data_Kiriman_Truk_${new Date().toISOString().split('T')[0]}.csv`);
+      showToast('File CSV kiriman truk berhasil diunduh!', 'success');
+    }
+
+    /* ================= FUNGSI CETAK SURAT JALAN TRUK / SIMPAN PDF ================= */
+    function printTruckDeliveryNote(shipmentId) {
+      const shp = truckShipments.find(s => s.id === shipmentId);
+      if (!shp) {
+        showToast('Data kiriman tidak ditemukan!', 'warning');
+        return;
+      }
+
+      // 1. Isi Data Header Surat Jalan
+      const docNoEl = document.getElementById('dnDocNumber');
+      const docDateEl = document.getElementById('dnDocDate');
+      const docTruckEl = document.getElementById('dnDocTruckName');
+      const docDriverEl = document.getElementById('dnDocDriverName');
+      const docPlateEl = document.getElementById('dnDocTruckPlate');
+      const docClientEl = document.getElementById('dnDocClientName');
+      const docDestEl = document.getElementById('dnDocDestination');
+      const docPayStatusEl = document.getElementById('dnDocPaymentStatus');
+      const docNotesEl = document.getElementById('dnDocNotes');
+      const docAmountEl = document.getElementById('dnDocAmount');
+      const docSignerSenderEl = document.getElementById('dnDocSignerSender');
+      const docSignerDriverEl = document.getElementById('dnDocSignerDriver');
+
+      const parts = (shp.truckName || '').split(' - ');
+      const truckNameOnly = parts[0] || shp.truckName;
+      const truckPlateOnly = parts[1] || '-';
+
+      if (docNoEl) docNoEl.innerText = shp.doNumber || `SJ-${shp.id.replace('SHP-', '')}`;
+      if (docDateEl) docDateEl.innerText = shp.date;
+      if (docTruckEl) docTruckEl.innerText = truckNameOnly;
+      if (docDriverEl) docDriverEl.innerText = shp.driverName || '-';
+      if (docPlateEl) docPlateEl.innerText = truckPlateOnly;
+      if (docClientEl) docClientEl.innerText = shp.clientName || 'PELANGGAN / KONTRAKTOR';
+      if (docDestEl) docDestEl.innerText = shp.destination || '-';
+      if (docPayStatusEl) {
+        docPayStatusEl.innerText = (shp.paymentStatus || 'LUNAS').toUpperCase();
+        if (shp.paymentStatus === 'Lunas') {
+          docPayStatusEl.className = 'font-bold uppercase px-1.5 py-0.5 rounded bg-emerald-100 text-emerald-800 border border-emerald-300';
+        } else if (shp.paymentStatus === 'Bon') {
+          docPayStatusEl.className = 'font-bold uppercase px-1.5 py-0.5 rounded bg-rose-100 text-rose-800 border border-rose-300';
+        } else {
+          docPayStatusEl.className = 'font-bold uppercase px-1.5 py-0.5 rounded bg-amber-100 text-amber-800 border border-amber-300';
+        }
+      }
+      if (docNotesEl) docNotesEl.innerText = shp.notes ? shp.notes : 'Barang telah diperiksa dalam kondisi baik dan volume muatan sesuai pesanan.';
+      if (docAmountEl) docAmountEl.innerText = formatRupiah(shp.paymentAmount || 0);
+      if (docSignerSenderEl) docSignerSenderEl.innerText = `( ${currentUser?.name || 'Bag. Logistik'} )`;
+      if (docSignerDriverEl) docSignerDriverEl.innerText = `( ${shp.driverName || 'Nama Supir'} )`;
+
+      // 2. Isi Tabel Multi Barang Kiriman
+      const tbody = document.getElementById('dnDocItemsTableBody');
+      if (tbody) {
+        tbody.innerHTML = '';
+        const items = shp.items || [];
+        if (items.length === 0) {
+          tbody.innerHTML = '<tr><td colspan="5" class="py-3 px-3 text-center text-gray-500">Tidak ada rincian barang.</td></tr>';
+        } else {
+          items.forEach((item, index) => {
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+              <td class="py-2 px-3 border-r border-gray-400 text-center font-bold">${index + 1}</td>
+              <td class="py-2 px-3 border-r border-gray-400 font-bold text-black uppercase">${item.name}</td>
+              <td class="py-2 px-3 border-r border-gray-400 text-center font-bold font-mono text-sm">${item.quantity}</td>
+              <td class="py-2 px-3 border-r border-gray-400 text-center uppercase">${item.unit}</td>
+              <td class="py-2 px-3 text-gray-700">Kondisi Baik / Sesuai DO</td>
+            `;
+            tbody.appendChild(tr);
+          });
+        }
+      }
+
+      // 3. Tampilkan lembar surat jalan & picu jendela cetak/PDF
+      const printDoc = document.getElementById('truckDeliveryNotePrintDocument');
+      if (printDoc) printDoc.classList.remove('hidden');
+
+      document.body.classList.remove('printing-invoice', 'printing-logs');
+      document.body.classList.add('printing-delivery-note');
+
+      setTimeout(() => {
+        try {
+          window.print();
+        } catch (err) {
+          console.error("Gagal mencetak surat jalan:", err);
+          showToast('Browser membatasi pencetakan langsung.', 'warning');
+        } finally {
+          setTimeout(() => {
+            document.body.classList.remove('printing-delivery-note');
+            if (printDoc) printDoc.classList.add('hidden');
+          }, 800);
+        }
+      }, 150);
+    }
+
+    function sendShipmentToWhatsApp(shipmentId) {
+      if (!whatsappFeatureEnabled) {
+        showToast('Fitur WhatsApp sedang nonaktif. Aktifkan di menu WhatsApp.', 'warning');
+        return;
+      }
+      const shp = truckShipments.find(s => s.id === shipmentId);
+      if (!shp) return;
+
+      let itemsFormatted = '';
+      (shp.items || []).forEach((item, idx) => {
+        itemsFormatted += `  ${idx + 1}. *${item.name}*: ${item.quantity} ${item.unit}\n`;
+      });
+
+      const message = `*SURAT JALAN & PENGIRIMAN MATERIAL TRUK*\n` +
+                      `*TOKO BANGUNAN UD PIT*\n` +
+                      `_Menjual segala kebutuhan material anda_\n` +
+                      `📱 *WA:* 081936644452\n` +
+                      `==========================================\n` +
+                      `📅 *Tanggal:* ${shp.date}\n` +
+                      `🚛 *Armada Truk:* ${shp.truckName}\n` +
+                      `👷‍♂️ *Nama Supir:* ${shp.driverName}\n` +
+                      `📍 *Tujuan Kiriman:* ${shp.destination}\n` +
+                      `🎫 *No. Surat Jalan / DO:* ${shp.doNumber || '-'}\n` +
+                      `==========================================\n` +
+                      `📦 *RINCIAN BARANG KIRIMAN:*\n` +
+                      `${itemsFormatted}` +
+                      `==========================================\n` +
+                      `💰 *Status Pembayaran:* *${(shp.paymentStatus || 'LUNAS').toUpperCase()}*\n` +
+                      `💵 *Nilai Tagihan/Ongkir:* *${formatRupiah(shp.paymentAmount || 0)}*\n` +
+                      `👤 *Nama Pemesan:* ${shp.clientName || '-'}\n` +
+                      `📝 *Catatan:* ${shp.notes || '-'}\n` +
+                      `==========================================\n` +
+                      `_Surat Jalan Resmi TOKO BANGUNAN UD PIT_`;
+
+      const encodedMsg = encodeURIComponent(message);
+      const cleanPhone = (whatsappTargetNumber || '').replace(/[^0-9]/g, '');
+      const waUrl = cleanPhone ? `https://wa.me/${cleanPhone}?text=${encodedMsg}` : `https://api.whatsapp.com/send?text=${encodedMsg}`;
+
+      window.open(waUrl, '_blank');
+      showToast('Membuka WhatsApp untuk mengirim surat jalan...', 'success');
     }
   </script>
 </body>
