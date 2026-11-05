@@ -282,15 +282,20 @@
     
     <!-- Top Navigation Header -->
     <header class="bg-slate-900/90 backdrop-blur sticky top-0 z-30 border-b border-slate-800">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-2">
         
-        <!-- Logo & Title -->
-        <div class="flex items-center gap-3">
-          <div class="h-10 w-10 rounded-xl bg-amber-500 text-slate-950 flex items-center justify-center font-black shadow-md shadow-amber-500/20 text-lg">
+        <!-- Sisi Kiri: Tombol Hamburger Mobile & Logo -->
+        <div class="flex items-center gap-2.5">
+          <!-- Tombol Hamburger Menu Khusus Layar HP (Geser Kiri) -->
+          <button type="button" onclick="toggleMobileSidebar(true)" id="mobileMenuToggleBtn" class="md:hidden h-10 w-10 rounded-xl bg-slate-800 hover:bg-slate-700 text-amber-400 border border-slate-700 flex items-center justify-center transition shadow-sm active:scale-95" title="Buka Menu">
+            <i class="fa-solid fa-bars text-lg"></i>
+          </button>
+
+          <div class="h-10 w-10 rounded-xl bg-amber-500 text-slate-950 flex items-center justify-center font-black shadow-md shadow-amber-500/20 text-lg flex-shrink-0">
             <i class="fa-solid fa-truck-monster"></i>
           </div>
-          <div>
-            <div class="text-base font-extrabold text-white tracking-tight flex items-center gap-1.5">
+          <div class="min-w-0">
+            <div class="text-sm sm:text-base font-extrabold text-white tracking-tight flex items-center gap-1.5 truncate">
               Pit Rental <span class="bg-amber-500 text-slate-950 text-[10px] uppercase font-black px-1.5 py-0.5 rounded">Alat Berat</span>
             </div>
             <p id="appHeaderSubtitle" class="text-[11px] text-slate-400 leading-none hidden sm:block">Pemantauan HM Kerja, Servis Komponen, Solar & Rental</p>
@@ -367,7 +372,7 @@
       </div>
 
         <!-- User Role Profile & Logout -->
-        <div class="flex items-center gap-3">
+        <div class="flex items-center gap-2 sm:gap-3 flex-shrink-0">
           <div class="text-right hidden sm:block">
             <div id="userDisplayName" class="text-xs font-bold text-white capitalize">Supervisor Site</div>
             <div id="userRoleBadge" class="text-[10px] text-amber-400 font-medium">Administrator</div>
@@ -399,61 +404,42 @@
         </div>
 
       </div>
-
-      <!-- Mobile Navigation Bar (Bottom Navigation) -->
-      <nav id="mobileBottomNavBar" class="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-slate-900/95 backdrop-blur-lg border-t border-slate-800 px-1 py-1.5 flex justify-around items-center shadow-2xl safe-area-pb">
-        <!-- Mobile: Admin items -->
-        <button onclick="switchTab('dashboard')" id="mobileNavDashboard" class="mobile-role-admin mobile-tab-btn flex-1 py-1.5 flex flex-col items-center justify-center gap-1 text-[11px] font-semibold text-amber-400 transition">
-          <i class="fa-solid fa-chart-pie text-base"></i>
-          <span>Dashboard</span>
-        </button>
-        <!-- Mobile: Operator items -->
-        <button onclick="switchTab('operatorDashboard')" id="mobileNavOperatorDashboard" class="mobile-role-operator mobile-tab-btn flex-1 py-1.5 flex flex-col items-center justify-center gap-1 text-[11px] font-semibold text-amber-400 transition hidden">
-          <i class="fa-solid fa-gauge-high text-base"></i>
-          <span>Dashboard</span>
-        </button>
-        <!-- Mobile: Helper items -->
-        <button onclick="switchTab('helperDashboard')" id="mobileNavHelperDashboard" class="mobile-role-helper mobile-tab-btn flex-1 py-1.5 flex flex-col items-center justify-center gap-1 text-[11px] font-semibold text-amber-400 transition hidden">
-          <i class="fa-solid fa-gas-pump text-base"></i>
-          <span>Dashboard</span>
-        </button>
-        <!-- Mobile: Kasir items -->
-        <button onclick="switchTab('kasirDashboard')" id="mobileNavKasirDashboard" class="mobile-role-kasir mobile-tab-btn flex-1 py-1.5 flex flex-col items-center justify-center gap-1 text-[11px] font-semibold text-amber-400 transition hidden">
-          <i class="fa-solid fa-cash-register text-base"></i>
-          <span>Dashboard</span>
-        </button>
-        <!-- Mobile: Shared items -->
-        <button onclick="switchTab('truckShipments')" id="mobileNavTruckShipments" class="mobile-role-admin mobile-role-kasir mobile-tab-btn flex-1 py-1.5 flex flex-col items-center justify-center gap-1 text-[11px] font-medium text-slate-400 transition">
-          <i class="fa-solid fa-truck-ramp-box text-base text-sky-400"></i>
-          <span>Kiriman</span>
-        </button>
-        <button onclick="switchTab('inputLog')" id="mobileNavInputLog" class="mobile-role-operator mobile-role-admin mobile-role-kasir mobile-tab-btn flex-1 py-1.5 flex flex-col items-center justify-center gap-1 text-[11px] font-medium text-slate-400 transition">
-          <i class="fa-solid fa-file-circle-plus text-base"></i>
-          <span>Input HM</span>
-        </button>
-        <button onclick="switchTab('fuelLog')" id="mobileNavFuelLog" class="mobile-role-helper mobile-role-admin mobile-role-kasir mobile-tab-btn flex-1 py-1.5 flex flex-col items-center justify-center gap-1 text-[11px] font-medium text-slate-400 transition">
-          <i class="fa-solid fa-droplet text-base text-amber-400"></i>
-          <span>Solar</span>
-        </button>
-        <button onclick="switchTab('expenseTab')" id="mobileNavExpense" class="mobile-role-admin mobile-role-kasir mobile-tab-btn flex-1 py-1.5 flex flex-col items-center justify-center gap-1 text-[11px] font-medium text-slate-400 transition">
-          <i class="fa-solid fa-receipt text-base text-rose-400"></i>
-          <span>Belanja</span>
-        </button>
-        <button onclick="switchTab('equipmentList')" id="mobileNavEquipmentList" class="mobile-role-admin mobile-role-kasir mobile-tab-btn flex-1 py-1.5 flex flex-col items-center justify-center gap-1 text-[11px] font-medium text-slate-400 transition">
-          <i class="fa-solid fa-list-check text-base"></i>
-          <span>Histori</span>
-        </button>
-        <!-- Mobile: Admin Exclusive -->
-        <button onclick="switchTab('serviceLog')" id="mobileNavServiceLog" class="mobile-role-admin mobile-tab-btn flex-1 py-1.5 flex flex-col items-center justify-center gap-1 text-[11px] font-medium text-slate-400 transition">
-          <i class="fa-solid fa-oil-can text-base"></i>
-          <span>Servis</span>
-        </button>
-        <button onclick="switchTab('invoice')" id="mobileNavInvoice" class="mobile-role-admin mobile-tab-btn flex-1 py-1.5 flex flex-col items-center justify-center gap-1 text-[11px] font-medium text-slate-400 transition">
-          <i class="fa-solid fa-file-invoice-dollar text-base text-amber-400"></i>
-          <span>Invoice</span>
-        </button>
-      </nav>
     </header>
+
+    <!-- ================= SIDEBAR MENU GESER KIRI (MOBILE DRAWER DI LUAR HEADER) ================= -->
+    <div id="mobileSidebarOverlay" onclick="toggleMobileSidebar(false)" class="hidden fixed inset-0 z-[999] bg-black/80 backdrop-blur-sm md:hidden">
+      <div id="mobileSidebarDrawer" onclick="event.stopPropagation()" class="w-72 max-w-[85vw] h-full bg-slate-900 border-r border-slate-800 flex flex-col justify-between shadow-2xl relative">
+        
+        <!-- Header Sidebar Mobile -->
+        <div class="p-4 border-b border-slate-800 flex items-center justify-between bg-slate-950">
+          <div class="flex items-center gap-2.5">
+            <div class="h-9 w-9 rounded-xl bg-amber-500 text-slate-950 flex items-center justify-center font-black text-sm">
+              <i class="fa-solid fa-truck-monster"></i>
+            </div>
+            <div>
+              <div class="text-xs font-bold text-white">Menu Navigasi</div>
+              <div id="mobileUserRoleBadge" class="text-[10px] text-amber-400 font-medium">Administrator</div>
+            </div>
+          </div>
+          <button type="button" onclick="toggleMobileSidebar(false)" class="h-8 w-8 rounded-lg bg-slate-800 text-slate-400 hover:text-white flex items-center justify-center">
+            <i class="fa-solid fa-xmark text-sm"></i>
+          </button>
+        </div>
+
+        <!-- Kontainer Menu Navigasi (Dirender Otomatis via JS) -->
+        <div id="mobileMenuListContainer" class="flex-1 overflow-y-auto p-3 space-y-1 text-xs">
+          <!-- Item menu akan diisi otomatis & pasti tampil oleh renderMobileMenuItems() -->
+        </div>
+
+        <!-- Footer Sidebar Mobile -->
+        <div class="p-3 border-t border-slate-800 bg-slate-950 space-y-2">
+          <button type="button" onclick="handleLogout()" class="w-full py-2.5 bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 border border-rose-500/30 rounded-xl font-bold flex items-center justify-center gap-2 transition text-xs">
+            <i class="fa-solid fa-arrow-right-from-bracket"></i>
+            <span>Keluar / Logout</span>
+          </button>
+        </div>
+      </div>
+    </div>
 
     <!-- Main Content Area -->
     <main class="flex-1 max-w-7xl w-full mx-auto p-3 sm:p-6 lg:p-8 space-y-6 pb-24 md:pb-8">
@@ -4187,28 +4173,80 @@ function doPost(e) {
         if (navInvoice) navInvoice.classList.add('hidden');
       }
 
-      // 3. Tampilkan HANYA bottom nav mobile yang sesuai untuk peran tersebut
-      const mAdmin = document.querySelectorAll('.mobile-role-admin');
-      const mOp = document.querySelectorAll('.mobile-role-operator');
-      const mHlp = document.querySelectorAll('.mobile-role-helper');
-      const mKasir = document.querySelectorAll('.mobile-role-kasir');
+      // 3. Konfigurasi Sidebar Mobile Drawer Sesuai Peran
+      const mSideAdmin = document.getElementById('mSideTabDashboard');
+      const mSideOp = document.getElementById('mSideTabOperatorDashboard');
+      const mSideHlp = document.getElementById('mSideTabHelperDashboard');
+      const mSideKasir = document.getElementById('mSideTabKasirDashboard');
+      const mSideRoleBadge = document.getElementById('mobileUserRoleBadge');
+      if (mSideRoleBadge) mSideRoleBadge.innerText = roleLabels[role] || role;
 
-      mAdmin.forEach(el => {
-        if (role === 'admin') el.classList.remove('hidden');
-        else el.classList.add('hidden');
-      });
-      mOp.forEach(el => {
-        if (role === 'operator') el.classList.remove('hidden');
-        else if (role !== 'admin' && role !== 'kasir') el.classList.add('hidden');
-      });
-      mHlp.forEach(el => {
-        if (role === 'helper') el.classList.remove('hidden');
-        else if (role !== 'admin' && role !== 'kasir') el.classList.add('hidden');
-      });
-      mKasir.forEach(el => {
-        if (role === 'kasir') el.classList.remove('hidden');
-        else el.classList.add('hidden');
-      });
+      // Reset semua status dashboard di mobile drawer
+      if (mSideAdmin) mSideAdmin.classList.add('hidden');
+      if (mSideOp) mSideOp.classList.add('hidden');
+      if (mSideHlp) mSideHlp.classList.add('hidden');
+      if (mSideKasir) mSideKasir.classList.add('hidden');
+
+      const mSideInputLog = document.getElementById('mSideTabInputLog');
+      const mSideFuelLog = document.getElementById('mSideTabFuelLog');
+      const mSideShipments = document.getElementById('mSideTabTruckShipments');
+      const mSideTruckMaster = document.getElementById('mSideTabTruckMaster');
+      const mSideExpense = document.getElementById('mSideTabExpense');
+      const mSideEquip = document.getElementById('mSideTabEquipment');
+      const mSideAdminGroup = document.getElementById('mSideAdminGroup');
+      const mSideService = document.getElementById('mSideTabService');
+      const mSideMaint = document.getElementById('mSideTabMaintenance');
+      const mSideInvoice = document.getElementById('mSideTabInvoice');
+
+      if (role === 'admin') {
+        if (mSideAdmin) mSideAdmin.classList.remove('hidden');
+        if (mSideInputLog) mSideInputLog.classList.remove('hidden');
+        if (mSideFuelLog) mSideFuelLog.classList.remove('hidden');
+        if (mSideShipments) mSideShipments.classList.remove('hidden');
+        if (mSideTruckMaster) mSideTruckMaster.classList.remove('hidden');
+        if (mSideExpense) mSideExpense.classList.remove('hidden');
+        if (mSideEquip) mSideEquip.classList.remove('hidden');
+        if (mSideAdminGroup) mSideAdminGroup.classList.remove('hidden');
+        if (mSideService) mSideService.classList.remove('hidden');
+        if (mSideMaint) mSideMaint.classList.remove('hidden');
+        if (mSideInvoice) mSideInvoice.classList.remove('hidden');
+      } else if (role === 'operator') {
+        if (mSideOp) mSideOp.classList.remove('hidden');
+        if (mSideInputLog) mSideInputLog.classList.remove('hidden');
+        if (mSideFuelLog) mSideFuelLog.classList.add('hidden');
+        if (mSideShipments) mSideShipments.classList.add('hidden');
+        if (mSideTruckMaster) mSideTruckMaster.classList.add('hidden');
+        if (mSideExpense) mSideExpense.classList.add('hidden');
+        if (mSideEquip) mSideEquip.classList.add('hidden');
+        if (mSideAdminGroup) mSideAdminGroup.classList.add('hidden');
+        if (mSideService) mSideService.classList.add('hidden');
+        if (mSideMaint) mSideMaint.classList.add('hidden');
+        if (mSideInvoice) mSideInvoice.classList.add('hidden');
+      } else if (role === 'helper') {
+        if (mSideHlp) mSideHlp.classList.remove('hidden');
+        if (mSideInputLog) mSideInputLog.classList.add('hidden');
+        if (mSideFuelLog) mSideFuelLog.classList.remove('hidden');
+        if (mSideShipments) mSideShipments.classList.add('hidden');
+        if (mSideTruckMaster) mSideTruckMaster.classList.add('hidden');
+        if (mSideExpense) mSideExpense.classList.add('hidden');
+        if (mSideEquip) mSideEquip.classList.add('hidden');
+        if (mSideAdminGroup) mSideAdminGroup.classList.add('hidden');
+        if (mSideService) mSideService.classList.add('hidden');
+        if (mSideMaint) mSideMaint.classList.add('hidden');
+        if (mSideInvoice) mSideInvoice.classList.add('hidden');
+      } else if (role === 'kasir') {
+        if (mSideKasir) mSideKasir.classList.remove('hidden');
+        if (mSideInputLog) mSideInputLog.classList.remove('hidden');
+        if (mSideFuelLog) mSideFuelLog.classList.remove('hidden');
+        if (mSideShipments) mSideShipments.classList.remove('hidden');
+        if (mSideTruckMaster) mSideTruckMaster.classList.remove('hidden');
+        if (mSideExpense) mSideExpense.classList.remove('hidden');
+        if (mSideEquip) mSideEquip.classList.remove('hidden');
+        if (mSideAdminGroup) mSideAdminGroup.classList.add('hidden');
+        if (mSideService) mSideService.classList.add('hidden');
+        if (mSideMaint) mSideMaint.classList.add('hidden');
+        if (mSideInvoice) mSideInvoice.classList.add('hidden');
+      }
 
       // 4. Selalu arahkan ke Dashboard peran masing-masing saat direfresh atau login
       if (role === 'operator') {
@@ -4247,6 +4285,131 @@ function doPost(e) {
       if (role === 'helper') return tabName === 'helperDashboard' || tabName === 'fuelLog';
       if (role === 'kasir') return tabName === 'kasirDashboard' || tabName === 'truckMaster' || tabName === 'truckShipments' || tabName === 'inputLog' || tabName === 'fuelLog' || tabName === 'expenseTab' || tabName === 'equipmentList';
       return false;
+    }
+
+    /* Helper Navigasi Mobile Sidebar Drawer Geser Kiri - PASTI TAMPIL & BEBAS STUCK */
+    function toggleMobileSidebar(open) {
+      const overlay = document.getElementById('mobileSidebarOverlay');
+      if (!overlay) return;
+
+      if (open) {
+        renderMobileMenuItems();
+        overlay.classList.remove('hidden');
+        overlay.classList.add('flex');
+      } else {
+        overlay.classList.add('hidden');
+        overlay.classList.remove('flex');
+      }
+    }
+
+    /* Generator Item Menu Mobile Dinamis - Menjamin Semua Menu Sesuai Peran Pasti Muncul */
+    function renderMobileMenuItems() {
+      const container = document.getElementById('mobileMenuListContainer');
+      const badge = document.getElementById('mobileUserRoleBadge');
+      if (!container || !currentUser) return;
+
+      const role = currentUser.role || 'operator';
+      const roleLabels = {
+        'admin': 'Supervisor / Administrator',
+        'operator': 'Operator Lapangan',
+        'helper': 'Helper Lapangan',
+        'kasir': 'Kasir / Finance'
+      };
+      if (badge) badge.innerText = roleLabels[role] || role;
+
+      // Ambil tab yang sedang aktif
+      let activeTab = 'dashboard';
+      if (role === 'operator') activeTab = 'operatorDashboard';
+      else if (role === 'helper') activeTab = 'helperDashboard';
+      else if (role === 'kasir') activeTab = 'kasirDashboard';
+
+      try {
+        const savedTab = localStorage.getItem('heavy_active_tab');
+        if (savedTab && isTabAllowedForRole(savedTab, role)) {
+          activeTab = savedTab;
+        }
+      } catch (e) {}
+
+      // Daftar menu sesuai hak akses
+      let menuItems = [];
+
+      if (role === 'admin') {
+        menuItems = [
+          { group: 'Utama' },
+          { id: 'dashboard', label: 'Dashboard Admin', icon: 'fa-solid fa-chart-pie', color: 'text-amber-400' },
+          { group: 'Logistik & Truk' },
+          { id: 'truckShipments', label: 'Data Kiriman Truk', icon: 'fa-solid fa-truck-ramp-box', color: 'text-sky-400' },
+          { id: 'truckMaster', label: 'Master Data Truk', icon: 'fa-solid fa-truck-moving', color: 'text-amber-400' },
+          { group: 'Operasional Lapangan' },
+          { id: 'inputLog', label: 'Input Jam Kerja (HM)', icon: 'fa-solid fa-file-circle-plus', color: 'text-amber-400' },
+          { id: 'fuelLog', label: 'Pengisian Solar', icon: 'fa-solid fa-droplet', color: 'text-amber-400' },
+          { id: 'expenseTab', label: 'Pengeluaran Unit', icon: 'fa-solid fa-receipt', color: 'text-rose-400' },
+          { id: 'equipmentList', label: 'Unit Alat & Log', icon: 'fa-solid fa-boxes-stacked', color: 'text-amber-400' },
+          { group: 'Perawatan & Penagihan' },
+          { id: 'serviceLog', label: 'Catat Servis Unit', icon: 'fa-solid fa-oil-can', color: 'text-amber-400' },
+          { id: 'maintenance', label: 'Jadwal Servis', icon: 'fa-solid fa-screwdriver-wrench', color: 'text-amber-400' },
+          { id: 'invoice', label: 'Invoice Sewa Alat', icon: 'fa-solid fa-file-invoice-dollar', color: 'text-amber-400' }
+        ];
+      } else if (role === 'operator') {
+        menuItems = [
+          { group: 'Menu Operator' },
+          { id: 'operatorDashboard', label: 'Dashboard Operator', icon: 'fa-solid fa-gauge-high', color: 'text-amber-400' },
+          { id: 'inputLog', label: 'Input Jam Kerja (HM)', icon: 'fa-solid fa-file-circle-plus', color: 'text-amber-400' }
+        ];
+      } else if (role === 'helper') {
+        menuItems = [
+          { group: 'Menu Helper' },
+          { id: 'helperDashboard', label: 'Dashboard Helper', icon: 'fa-solid fa-gas-pump', color: 'text-amber-400' },
+          { id: 'fuelLog', label: 'Pengisian Solar', icon: 'fa-solid fa-droplet', color: 'text-amber-400' }
+        ];
+      } else if (role === 'kasir') {
+        menuItems = [
+          { group: 'Menu Kasir' },
+          { id: 'kasirDashboard', label: 'Dashboard Kasir', icon: 'fa-solid fa-cash-register', color: 'text-emerald-400' },
+          { group: 'Logistik' },
+          { id: 'truckShipments', label: 'Data Kiriman Truk', icon: 'fa-solid fa-truck-ramp-box', color: 'text-sky-400' },
+          { id: 'truckMaster', label: 'Master Data Truk', icon: 'fa-solid fa-truck-moving', color: 'text-amber-400' },
+          { group: 'Pencatatan' },
+          { id: 'inputLog', label: 'Input Jam Kerja (HM)', icon: 'fa-solid fa-file-circle-plus', color: 'text-amber-400' },
+          { id: 'fuelLog', label: 'Pengisian Solar', icon: 'fa-solid fa-droplet', color: 'text-amber-400' },
+          { id: 'expenseTab', label: 'Pengeluaran Unit', icon: 'fa-solid fa-receipt', color: 'text-rose-400' },
+          { id: 'equipmentList', label: 'Lihat Unit & Log', icon: 'fa-solid fa-boxes-stacked', color: 'text-amber-400' }
+        ];
+      }
+
+      container.innerHTML = '';
+
+      menuItems.forEach(item => {
+        if (item.group) {
+          const grp = document.createElement('div');
+          grp.className = 'pt-2.5 pb-1 px-2 text-[10px] font-bold text-slate-500 uppercase tracking-wider select-none';
+          grp.innerText = item.group;
+          container.appendChild(grp);
+        } else {
+          const btn = document.createElement('button');
+          btn.type = 'button';
+          const isActive = activeTab === item.id;
+          btn.className = `w-full p-2.5 rounded-xl font-semibold flex items-center gap-3 transition text-left ${
+            isActive 
+              ? 'bg-amber-500 text-slate-950 font-bold shadow-md shadow-amber-500/20' 
+              : 'text-slate-300 hover:bg-slate-800 hover:text-white'
+          }`;
+          btn.onclick = () => mobileNavigateTo(item.id);
+
+          const iconColor = isActive ? 'text-slate-950' : item.color;
+          btn.innerHTML = `
+            <i class="${item.icon} w-5 text-sm ${iconColor}"></i>
+            <span class="flex-1">${item.label}</span>
+            ${isActive ? '<i class="fa-solid fa-chevron-right text-[10px]"></i>' : ''}
+          `;
+          container.appendChild(btn);
+        }
+      });
+    }
+
+    function mobileNavigateTo(tabName) {
+      toggleMobileSidebar(false);
+      switchTab(tabName);
     }
 
     function showSwitchRoleModal() {
@@ -4337,28 +4500,35 @@ function doPost(e) {
         activeBtn.className = activeBtn.className.replace('text-slate-400 hover:text-white', 'bg-amber-500 text-slate-950');
       }
 
-      // Update Mobile Tabs UI
-      const mobileNavMap = {
-        'dashboard': 'mobileNavDashboard',
-        'operatorDashboard': 'mobileNavOperatorDashboard',
-        'helperDashboard': 'mobileNavHelperDashboard',
-        'kasirDashboard': 'mobileNavKasirDashboard',
-        'truckShipments': 'mobileNavTruckShipments',
-        'inputLog': 'mobileNavInputLog',
-        'fuelLog': 'mobileNavFuelLog',
-        'expenseTab': 'mobileNavExpense',
-        'serviceLog': 'mobileNavServiceLog',
-        'invoice': 'mobileNavInvoice',
-        'equipmentList': 'mobileNavEquipmentList'
+      // Update Mobile Drawer Items Active Styling
+      const sideMap = {
+        'dashboard': 'mSideTabDashboard',
+        'operatorDashboard': 'mSideTabOperatorDashboard',
+        'helperDashboard': 'mSideTabHelperDashboard',
+        'kasirDashboard': 'mSideTabKasirDashboard',
+        'truckShipments': 'mSideTabTruckShipments',
+        'truckMaster': 'mSideTabTruckMaster',
+        'inputLog': 'mSideTabInputLog',
+        'fuelLog': 'mSideTabFuelLog',
+        'expenseTab': 'mSideTabExpense',
+        'serviceLog': 'mSideTabService',
+        'maintenance': 'mSideTabMaintenance',
+        'invoice': 'mSideTabInvoice',
+        'equipmentList': 'mSideTabEquipment'
       };
 
-      document.querySelectorAll('.mobile-tab-btn').forEach(mBtn => {
-        mBtn.className = 'mobile-tab-btn flex-1 py-1.5 flex flex-col items-center justify-center gap-1 text-[11px] font-medium text-slate-400 transition';
+      Object.values(sideMap).forEach(id => {
+        const el = document.getElementById(id);
+        if (el) {
+          el.classList.remove('bg-amber-500', 'text-slate-950', 'font-bold');
+          el.classList.add('text-slate-300');
+        }
       });
 
-      const currentMNav = document.getElementById(mobileNavMap[tabName]);
-      if (currentMNav) {
-        currentMNav.className = 'mobile-tab-btn flex-1 py-1.5 flex flex-col items-center justify-center gap-1 text-[11px] font-bold text-amber-400 transition';
+      const currentSideEl = document.getElementById(sideMap[tabName]);
+      if (currentSideEl) {
+        currentSideEl.classList.remove('text-slate-300');
+        currentSideEl.classList.add('bg-amber-500', 'text-slate-950', 'font-bold');
       }
 
       window.scrollTo({ top: 0, behavior: 'smooth' });
