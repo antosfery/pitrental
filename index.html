@@ -2177,7 +2177,8 @@ function doPost(e) {
     let serviceActionHistory = []; // Riwayat pencatatan servis aktual
     let equipmentExpenses = []; // Data pengeluaran & pembelian komponen unit non-servis
     let serviceChecklistItems = []; // Daftar checklist servis dinamis
-    let googleSheetsUrl = '';
+    const DEFAULT_STATIC_GSHEETS_URL = "https://script.google.com/macros/s/AKfycbwq1uV92-1fJ0JXonTxN1m8xG9yGVAfS7LF-JXUi6NLkprS8H66CFkttjS5Mx-kdJCW/exec";
+let googleSheetsUrl = DEFAULT_STATIC_GSHEETS_URL;
     let currentUploadedImageData = ''; // Base64 buffer untuk foto log yang dipilih
     let whatsappTargetNumber = ''; // Nomor tujuan laporan WhatsApp
     let whatsappFeatureEnabled = true; // Status sakelar aktif/nonaktif fitur WhatsApp
@@ -2697,7 +2698,7 @@ function doPost(e) {
         const storedChecklist = localStorage.getItem('heavy_service_checklists');
         serviceChecklistItems = storedChecklist ? JSON.parse(storedChecklist) : DEFAULT_CHECKLIST_ITEMS;
 
-        googleSheetsUrl = localStorage.getItem('heavy_gsheets_url') || '';
+        googleSheetsUrl = localStorage.getItem('heavy_gsheets_url') || DEFAULT_STATIC_GSHEETS_URL;
         whatsappTargetNumber = localStorage.getItem('heavy_wa_target_number') || '6287762224890';
         
         // Ambil status on/off fitur WhatsApp (default true)
