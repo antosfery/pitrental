@@ -2698,7 +2698,8 @@ let googleSheetsUrl = DEFAULT_STATIC_GSHEETS_URL;
         const storedChecklist = localStorage.getItem('heavy_service_checklists');
         serviceChecklistItems = storedChecklist ? JSON.parse(storedChecklist) : DEFAULT_CHECKLIST_ITEMS;
 
-        googleSheetsUrl = localStorage.getItem('heavy_gsheets_url') || DEFAULT_STATIC_GSHEETS_URL;
+        const savedGSheets = localStorage.getItem('heavy_gsheets_url');
+googleSheetsUrl = (savedGSheets && savedGSheets.trim() !== '') ? savedGSheets : DEFAULT_STATIC_GSHEETS_URL;
         whatsappTargetNumber = localStorage.getItem('heavy_wa_target_number') || '6287762224890';
         
         // Ambil status on/off fitur WhatsApp (default true)
