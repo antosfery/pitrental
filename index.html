@@ -2929,12 +2929,14 @@ let googleSheetsUrl = DEFAULT_STATIC_GSHEETS_URL;
     }
 
     /* Google Sheets Integration Logic */
-    function openGoogleSheetsModal() {
-      const input = document.getElementById('googleSheetsUrlInput');
-      input.value = googleSheetsUrl;
-      updateGSheetsStatusUI();
-      document.getElementById('modalGoogleSheets').classList.remove('hidden');
-      document.getElementById('modalGoogleSheets').classList.add('flex');
+   function openGoogleSheetsModal() {
+  const input = document.getElementById('googleSheetsUrlInput');
+  if (input) {
+    input.value = googleSheetsUrl || DEFAULT_STATIC_GSHEETS_URL;
+  }
+  updateGSheetsStatusUI();
+  document.getElementById('modalGoogleSheets').classList.remove('hidden');
+  document.getElementById('modalGoogleSheets').classList.add('flex');
     }
 
     function saveGoogleSheetsConfig() {
