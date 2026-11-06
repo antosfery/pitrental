@@ -925,11 +925,14 @@
               <h2 class="text-xl sm:text-2xl font-bold text-white">Ringkasan Operasional & Keuangan Kasir</h2>
               <p class="text-sm text-slate-400">Pantau akumulasi jam kerja HM, distribusi solar, serta rincian belanja pengeluaran armada.</p>
             </div>
-            <div class="flex items-center gap-2">
+            <div class="flex flex-wrap items-center gap-2">
+              <button onclick="switchTab('inputLog')" class="bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold px-3.5 py-2.5 rounded-xl text-xs sm:text-sm flex items-center gap-1.5 transition shadow">
+                <i class="fa-solid fa-file-circle-plus"></i> Input HM
+              </button>
               <button onclick="switchTab('expenseTab')" class="bg-rose-600 hover:bg-rose-500 text-white font-bold px-3.5 py-2.5 rounded-xl text-xs sm:text-sm flex items-center gap-1.5 transition shadow">
                 <i class="fa-solid fa-receipt"></i> Catat Pengeluaran
               </button>
-              <button onclick="switchTab('fuelLog')" class="bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold px-3.5 py-2.5 rounded-xl text-xs sm:text-sm flex items-center gap-1.5 transition shadow">
+              <button onclick="switchTab('fuelLog')" class="bg-amber-600 hover:bg-amber-500 text-slate-950 font-bold px-3.5 py-2.5 rounded-xl text-xs sm:text-sm flex items-center gap-1.5 transition shadow">
                 <i class="fa-solid fa-droplet"></i> Pengisian Solar
               </button>
             </div>
@@ -1508,7 +1511,7 @@
                     <i class="fa-solid fa-bucket text-amber-400 mr-1"></i> Jam Kerja Bucket
                   </label>
                   <div class="relative">
-                    <input type="number" step="0.1" min="0" max="24" id="logBucketHours" oninput="calculateTotalAttachmentHours()" required placeholder="0.0" value="0" class="w-full bg-amber-500/10 border-2 border-amber-500/40 rounded-lg py-2 px-3 text-sm font-bold text-amber-400 focus:outline-none focus:border-amber-400">
+                    <input type="number" step="0.1" min="0" max="24" id="logBucketHours" oninput="calculateTotalAttachmentHours()" placeholder="0.0" value="0" class="w-full bg-amber-500/10 border-2 border-amber-500/40 rounded-lg py-2 px-3 text-sm font-bold text-amber-400 focus:outline-none focus:border-amber-400">
                     <span class="absolute right-3 top-2.5 text-xs text-amber-400/80 font-semibold">Jam</span>
                   </div>
                   <p class="text-[10px] text-slate-400 mt-1">Galian / loading standar</p>
@@ -1519,7 +1522,7 @@
                     <i class="fa-solid fa-hammer text-orange-400 mr-1"></i> Jam Kerja Breaker
                   </label>
                   <div class="relative">
-                    <input type="number" step="0.1" min="0" max="24" id="logBreakerHours" oninput="calculateTotalAttachmentHours()" required placeholder="0.0" value="0" class="w-full bg-orange-500/10 border-2 border-orange-500/40 rounded-lg py-2 px-3 text-sm font-bold text-orange-400 focus:outline-none focus:border-orange-400">
+                    <input type="number" step="0.1" min="0" max="24" id="logBreakerHours" oninput="calculateTotalAttachmentHours()" placeholder="0.0" value="0" class="w-full bg-orange-500/10 border-2 border-orange-500/40 rounded-lg py-2 px-3 text-sm font-bold text-orange-400 focus:outline-none focus:border-orange-400">
                     <span class="absolute right-3 top-2.5 text-xs text-orange-400/80 font-semibold">Jam</span>
                   </div>
                   <p class="text-[10px] text-slate-400 mt-1">Pemecahan batu / cor beton</p>
@@ -1587,7 +1590,7 @@
                 <label class="block text-xs font-semibold text-slate-300">
                   <i class="fa-solid fa-camera text-amber-500 mr-1"></i> Foto Dokumentasi / Angka HM Fisik
                 </label>
-                <span class="text-[10px] bg-slate-800 text-slate-400 px-2 py-0.5 rounded-full font-medium">Opsional</span>
+                <span class="text-[10px] bg-slate-800 text-slate-400 px-2 py-0.5 rounded-full font-medium">Auto Upload ke Google Drive</span>
               </div>
               
               <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4">
@@ -1596,7 +1599,10 @@
                   <span>Pilih / Ambil Foto</span>
                   <input type="file" id="logImageInput" accept="image/*" class="hidden" onchange="handleImageSelection(event)">
                 </label>
-                <span id="logImageFileName" class="text-[11px] text-slate-500 truncate max-w-xs">Belum ada foto yang dipilih</span>
+                <div class="flex flex-col">
+                  <span id="logImageFileName" class="text-[11px] text-slate-500 truncate max-w-xs">Belum ada foto yang dipilih</span>
+                  <span id="uploadStatusNotice" class="text-[10px] text-sky-400 hidden"><i class="fa-solid fa-circle-notch fa-spin mr-1"></i> Menyimpan foto langsung ke Google Drive...</span>
+                </div>
               </div>
 
               <div id="imagePreviewContainer" class="hidden relative inline-block mt-2">
@@ -1609,7 +1615,7 @@
 
             <div class="pt-3 flex gap-3">
               <button type="submit" id="saveLogBtn" class="flex-1 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold py-3 rounded-xl shadow-lg shadow-amber-500/20 active:scale-[0.99] transition flex items-center justify-center gap-2">
-                <i class="fa-solid fa-floppy-disk"></i> Simpan Log Jam Kerja (HM)
+                <i class="fa-solid fa-floppy-disk"></i> <span id="saveLogBtnText">Simpan Log Jam Kerja (HM)</span>
               </button>
               <button type="reset" onclick="resetLogForm()" class="px-5 bg-slate-800 hover:bg-slate-700 text-slate-300 font-semibold py-3 rounded-xl transition">
                 Reset
@@ -2702,7 +2708,7 @@
           <ol class="text-xs text-slate-300 space-y-1.5 list-decimal list-inside leading-relaxed">
             <li>Buka dokumen <strong>Google Spreadsheet</strong> baru milik Anda.</li>
             <li>Klik menu <strong>Extensions (Ekstensi) &gt; Apps Script</strong>.</li>
-            <li>Hapus semua kode lama, lalu tempel kode skrip di bawah ini. Skrip ini akan <strong>otomatis membuat tab/sheet baru sesuai nama alat</strong> bila belum ada.</li>
+            <li>Hapus semua kode lama, lalu tempel kode skrip di bawah ini. Skrip ini akan <strong>otomatis membuat tab per unit alat dan menyimpan foto ke folder Google Drive "DOKUMENTASI_HM_PIT_RENTAL"</strong>.</li>
             <li>Klik <strong>Deploy &gt; New deployment</strong> (atau <em>Manage deployments &gt; Edit &gt; Version: New version</em> jika memperbarui).</li>
             <li>Ubah <em>Who has access</em> menjadi <strong>Anyone (Siapa saja)</strong>, lalu klik <strong>Deploy</strong>.</li>
             <li>Salin URL Web App yang dihasilkan dan tempel pada input di atas.</li>
@@ -2727,8 +2733,33 @@ function doPost(e) {
     } else if (e && e.parameter) {
       data = e.parameter;
     }
+
+    // 2. Handler Khusus: Upload Foto Langsung ke Google Drive
+    if (data.action === "uploadImage" || (data.imageBlobBase64 && data.isPhotoUploadOnly)) {
+      var folderName = "DOKUMENTASI_HM_PIT_RENTAL";
+      var folders = DriveApp.getFoldersByName(folderName);
+      var targetFolder = folders.hasNext() ? folders.next() : DriveApp.createFolder(folderName);
+
+      var contentType = data.imageMimeType || "image/jpeg";
+      var rawBase64 = data.imageBlobBase64.replace(/^data:image\/\w+;base64,/, "");
+      var decodedBytes = Utilities.base64Decode(rawBase64);
+      var fileName = (data.fileName || "FOTO_HM_" + new Date().getTime()) + ".jpg";
+      var fileBlob = Utilities.newBlob(decodedBytes, contentType, fileName);
+
+      var driveFile = targetFolder.createFile(fileBlob);
+      driveFile.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW);
+
+      var fileUrl = "https://drive.google.com/uc?export=view&id=" + driveFile.getId();
+
+      return ContentService.createTextOutput(JSON.stringify({
+        status: "success",
+        fileUrl: fileUrl,
+        fileId: driveFile.getId(),
+        message: "Foto berhasil diunggah ke Google Drive!"
+      })).setMimeType(ContentService.MimeType.JSON);
+    }
     
-    // 2. Ambil nama unit alat lengkap untuk dijadikan nama Sheet/Tab
+    // 3. Ambil nama unit alat lengkap untuk dijadikan nama Sheet/Tab
     var rawSheetName = (e && e.parameter && e.parameter.sheetTargetName) 
                        || data.sheetTargetName 
                        || data.equipmentCode 
@@ -2746,13 +2777,13 @@ function doPost(e) {
       cleanSheetName = cleanSheetName.substring(0, 90).trim();
     }
     
-    // 3. Cari sheet dengan nama unit alat tersebut, atau buat baru jika belum ada
+    // 4. Cari sheet dengan nama unit alat tersebut, atau buat baru jika belum ada
     var sheet = ss.getSheetByName(cleanSheetName);
     if (!sheet) {
       sheet = ss.insertSheet(cleanSheetName);
     }
     
-    // 4. Buat baris header jika tab ini baru dibuat / masih kosong
+    // 5. Buat baris header jika tab ini baru dibuat / masih kosong
     if (sheet.getLastRow() === 0) {
       var headers = [
         "ID Log", 
@@ -2769,6 +2800,7 @@ function doPost(e) {
         "HM Akhir", 
         "Total HM", 
         "Catatan Pekerjaan", 
+        "Link Foto Google Drive",
         "Waktu Sinkronisasi"
       ];
       sheet.appendRow(headers);
@@ -2780,8 +2812,23 @@ function doPost(e) {
       headerRange.setHorizontalAlignment("center");
       sheet.setFrozenRows(1);
     }
+
+    // 6. Jika ada foto disertakan bersama log dan belum diupload terpisah
+    var finalPhotoUrl = data.photoUrl || "";
+    if (!finalPhotoUrl && data.imageData && data.imageData.startsWith("data:image")) {
+      try {
+        var folderName2 = "DOKUMENTASI_HM_PIT_RENTAL";
+        var folders2 = DriveApp.getFoldersByName(folderName2);
+        var f2 = folders2.hasNext() ? folders2.next() : DriveApp.createFolder(folderName2);
+        var bytes = Utilities.base64Decode(data.imageData.replace(/^data:image\/\w+;base64,/, ""));
+        var fBlob = Utilities.newBlob(bytes, "image/jpeg", "HM_" + (data.equipmentCode||"UNIT") + "_" + new Date().getTime() + ".jpg");
+        var upFile = f2.createFile(fBlob);
+        upFile.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW);
+        finalPhotoUrl = "https://drive.google.com/uc?export=view&id=" + upFile.getId();
+      } catch (errPhoto) {}
+    }
     
-    // 5. Masukkan baris log
+    // 7. Masukkan baris log
     var unitFullName = data.equipmentCode || cleanSheetName;
     var operatorName = data.operator || "-";
     
@@ -2800,16 +2847,18 @@ function doPost(e) {
       Number(data.hmAkhir) || 0,
       Number(data.totalHm) || 0,
       data.notes || "",
+      finalPhotoUrl || "-",
       new Date().toLocaleString("id-ID", { timeZone: "Asia/Jakarta" })
     ]);
     
-    for (var col = 1; col <= 15; col++) {
+    for (var col = 1; col <= 16; col++) {
       sheet.autoResizeColumn(col);
     }
     
     return ContentService.createTextOutput(JSON.stringify({
       status: "success",
       sheetName: cleanSheetName,
+      photoUrl: finalPhotoUrl,
       message: "Sukses tersimpan di sheet tab: " + cleanSheetName
     })).setMimeType(ContentService.MimeType.JSON);
     
@@ -3239,49 +3288,11 @@ function doPost(e) {
       { id: 'USR-04', username: 'kasir_site', password: 'password123', name: 'Kasir Operasional', role: 'kasir' }
     ];
 
-    /* Default Master Data Truk */
-    const DEFAULT_TRUCKS = [
-      { id: 'TRK-01', name: 'Dump Truck 01 (Hino 500)', plateNumber: 'DK 8101 AB', model: 'Hino 500 FM 260 Ti', defaultDriver: 'Wayan Sudira', phone: '081234567801', status: 'Aktif' },
-      { id: 'TRK-02', name: 'Dump Truck 02 (Fuso Fighter)', plateNumber: 'DK 8202 BC', model: 'Mitsubishi Fuso FN 527', defaultDriver: 'Ketut Astawa', phone: '081234567802', status: 'Aktif' },
-      { id: 'TRK-03', name: 'Colt Diesel 03 (Canter HD)', plateNumber: 'DK 8303 CD', model: 'Mitsubishi Canter FE 74 HD', defaultDriver: 'Gede Suartama', phone: '081234567803', status: 'Standby' }
-    ];
+    /* Default Master Data Truk (Dikosongkan total tanpa dummy) */
+    const DEFAULT_TRUCKS = [];
 
-    /* Default Data Kiriman Truk */
-    const DEFAULT_TRUCK_SHIPMENTS = [
-      {
-        id: 'SHP-101',
-        date: '2026-11-04',
-        truckId: 'TRK-01',
-        truckName: 'Dump Truck 01 (Hino 500) - DK 8101 AB',
-        driverName: 'Wayan Sudira',
-        destination: 'Proyek Tol Denpasar-Gilimanuk STA 14',
-        doNumber: 'SJ-2026/088',
-        items: [
-          { name: 'Batu Belah 15/20', quantity: '12', unit: 'M3' },
-          { name: 'Pasir Cor Extra', quantity: '8', unit: 'M3' }
-        ],
-        paymentStatus: 'Lunas', // Lunas, Bon, COD
-        paymentAmount: 1850000,
-        clientName: 'PT Wikan Triyuda',
-        notes: 'Diterima oleh mandor proyek di lokasi.'
-      },
-      {
-        id: 'SHP-102',
-        date: '2026-11-04',
-        truckId: 'TRK-02',
-        truckName: 'Dump Truck 02 (Fuso Fighter) - DK 8202 BC',
-        driverName: 'Ketut Astawa',
-        destination: 'Quarry Buleleng Sektor Utara',
-        doNumber: 'SJ-2026/089',
-        items: [
-          { name: 'Sirtu Urugan Pilihan', quantity: '2', unit: 'Ritase' }
-        ],
-        paymentStatus: 'Bon',
-        paymentAmount: 950000,
-        clientName: 'CV Antos Future',
-        notes: 'Nota tagihan jatuh tempo 7 hari.'
-      }
-    ];
+    /* Default Data Kiriman Truk (Dikosongkan total tanpa dummy) */
+    const DEFAULT_TRUCK_SHIPMENTS = [];
 
     /* Default Equipments */
     const DEFAULT_EQUIPMENTS = [
@@ -3291,68 +3302,14 @@ function doPost(e) {
       { id: 'EQ-04', code: 'DT-18', category: 'Dump Truck', model: 'Hino 500 FM 260 Ti', currentHM: 3120.0 }
     ];
 
-    const DEFAULT_LOGS = [
-      {
-        id: 'LOG-101',
-        date: '2026-11-03',
-        equipmentId: 'EQ-01',
-        equipmentCode: 'EX-201 (Excavator - Komatsu PC200-8)',
-        operator: 'Budi Hartono',
-        location: 'Quarry Pit Sektor A',
-        startTime: '08:00',
-        endTime: '17:00',
-        bucketHours: 5.5,
-        breakerHours: 2.5,
-        totalHours: 8.0,
-        hmAwal: 2452.5,
-        hmAkhir: 2460.5,
-        totalHm: 8.0,
-        notes: 'Pekerjaan bongkar batu keras di pit selatan.',
-        synced: false
-      }
-    ];
+    // Dihapus total tanpa data dummy agar bersih
+    const DEFAULT_LOGS = [];
 
-    const DEFAULT_FUEL_LOGS = [
-      {
-        id: 'FUEL-101',
-        date: '2026-11-03',
-        time: '07:30',
-        equipmentId: 'EQ-01',
-        equipmentCode: 'EX-201 (Excavator - Komatsu PC200-8)',
-        liters: 150,
-        location: 'Quarry Pit Sektor A',
-        operatorName: 'Budi Hartono',
-        helperName: 'Ketut Helper',
-        voucherNo: 'SL-8801',
-        notes: 'Pengisian pagi awal shift dari truk tangki.'
-      },
-      {
-        id: 'FUEL-102',
-        date: '2026-11-03',
-        time: '12:30',
-        equipmentId: 'EQ-02',
-        equipmentCode: 'BD-05 (Bulldozer - Caterpillar D6R XL)',
-        liters: 120,
-        location: 'Hauling Road KM 12',
-        operatorName: 'Ahmad Faisal',
-        helperName: 'Ketut Helper',
-        voucherNo: 'SL-8802',
-        notes: 'Top-up tengah hari.'
-      }
-    ];
+    // Pastikan DEFAULT_FUEL_LOGS kosong total tanpa data dummy
+    const DEFAULT_FUEL_LOGS = [];
 
-    const DEFAULT_SERVICES = [
-      {
-        id: 'SRV-01',
-        equipmentId: 'EQ-01',
-        serviceType: 'Servis Berkala 250 Jam (PS 250)',
-        targetHM: 2500.0,
-        targetDate: '2026-11-10',
-        mechanic: 'PT United Tractors Mekanik',
-        parts: 'Filter oli, filter solar, oli mesin 15W40',
-        status: 'APPROACHING'
-      }
-    ];
+    // Dihapus total tanpa data dummy agar bersih
+    const DEFAULT_SERVICES = [];
 
     // Current State
     let currentUser = null;
@@ -3476,34 +3433,26 @@ function doPost(e) {
 
       // Master Truk
       onSnapshot(collection(db, 'artifacts', appId, 'public', 'data', 'trucks'), (snapshot) => {
+        const list = [];
         if (!snapshot.empty) {
-          const list = [];
           snapshot.forEach(docSnap => list.push(docSnap.data()));
-          trucks = list;
-          saveAllToStorage();
-          populateTruckDropdowns();
-          renderTruckMasterTable();
-        } else {
-          DEFAULT_TRUCKS.forEach(t => {
-            setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'trucks', t.id), t).catch(console.error);
-          });
         }
+        trucks = list;
+        saveAllToStorage();
+        populateTruckDropdowns();
+        renderTruckMasterTable();
       }, console.error);
 
       // Kiriman Truk
       onSnapshot(collection(db, 'artifacts', appId, 'public', 'data', 'truck_shipments'), (snapshot) => {
+        const list = [];
         if (!snapshot.empty) {
-          const list = [];
           snapshot.forEach(docSnap => list.push(docSnap.data()));
           list.sort((a, b) => (a.date || '').localeCompare(b.date || ''));
-          truckShipments = list;
-          saveAllToStorage();
-          renderTruckShipmentsTable();
-        } else {
-          DEFAULT_TRUCK_SHIPMENTS.forEach(s => {
-            setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'truck_shipments', s.id), s).catch(console.error);
-          });
         }
+        truckShipments = list;
+        saveAllToStorage();
+        renderTruckShipmentsTable();
       }, console.error);
 
       // 1. Equipments
@@ -3536,21 +3485,17 @@ function doPost(e) {
         }
       }, console.error);
 
-      // 3. Fuel Logs (BARU)
+      // 3. Fuel Logs (Murni Real-Time Tanpa Dummy / Auto-Inject)
       onSnapshot(collection(db, 'artifacts', appId, 'public', 'data', 'fuel_logs'), (snapshot) => {
+        const list = [];
         if (!snapshot.empty) {
-          const list = [];
           snapshot.forEach(docSnap => list.push(docSnap.data()));
           list.sort((a, b) => (a.date || '').localeCompare(b.date || ''));
-          fuelLogs = list;
-          saveAllToStorage();
-          updateDashboardKPIs();
-          renderFuelLogsTable();
-        } else {
-          DEFAULT_FUEL_LOGS.forEach(fl => {
-            setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'fuel_logs', fl.id), fl).catch(console.error);
-          });
         }
+        fuelLogs = list;
+        saveAllToStorage();
+        updateDashboardKPIs();
+        renderFuelLogsTable();
       }, console.error);
 
       // 4. Expenses
@@ -3594,6 +3539,7 @@ function doPost(e) {
         const { doc, deleteDoc } = window.__fb_sdk;
         const docRef = doc(db, 'artifacts', appId, 'public', 'data', collectionName, docId);
         await deleteDoc(docRef);
+        console.log(`Berhasil menghapus dokumen ${docId} dari koleksi ${collectionName}`);
       } catch (err) {
         console.error(`Gagal hapus cloud [${collectionName}]:`, err);
       }
@@ -4044,7 +3990,7 @@ function doPost(e) {
         truckShipments = DEFAULT_TRUCK_SHIPMENTS;
         equipments = DEFAULT_EQUIPMENTS;
         dailyLogs = DEFAULT_LOGS;
-        fuelLogs = DEFAULT_FUEL_LOGS;
+        fuelLogs = [];
         serviceSchedules = DEFAULT_SERVICES;
       }
     }
@@ -5112,10 +5058,14 @@ function doPost(e) {
         return;
       }
 
+      // Hapus dari state lokal
       fuelLogs = fuelLogs.filter(f => f.id !== id);
       saveAllToStorage();
+
+      // Hapus dari cloud database
       cloudDeleteDocument('fuel_logs', id);
 
+      // Segarkan tampilan
       renderFuelLogsTable();
       updateDashboardKPIs();
       if (typeof updateHelperDashboard === 'function') updateHelperDashboard();
@@ -5648,8 +5598,12 @@ function doPost(e) {
     }
 
     function calculateTotalAttachmentHours() {
-      const bkt = parseFloat(document.getElementById('logBucketHours')?.value) || 0;
-      const brk = parseFloat(document.getElementById('logBreakerHours')?.value) || 0;
+      const bktInput = document.getElementById('logBucketHours');
+      const brkInput = document.getElementById('logBreakerHours');
+      
+      const bkt = bktInput && bktInput.value !== '' ? parseFloat(bktInput.value) || 0 : 0;
+      const brk = brkInput && brkInput.value !== '' ? parseFloat(brkInput.value) || 0 : 0;
+      
       const total = (bkt + brk).toFixed(1);
       const display = document.getElementById('logTotalAttachmentHoursDisplay');
       if (display) display.innerText = total;
@@ -5663,8 +5617,10 @@ function doPost(e) {
       const warning = document.getElementById('hmWarningMsg');
       const display = document.getElementById('logTotalHmDisplay');
 
-      const bkt = parseFloat(document.getElementById('logBucketHours')?.value) || 0;
-      const brk = parseFloat(document.getElementById('logBreakerHours')?.value) || 0;
+      const bktInput = document.getElementById('logBucketHours');
+      const brkInput = document.getElementById('logBreakerHours');
+      const bkt = bktInput && bktInput.value !== '' ? parseFloat(bktInput.value) || 0 : 0;
+      const brk = brkInput && brkInput.value !== '' ? parseFloat(brkInput.value) || 0 : 0;
       const totalJamAttachment = bkt + brk;
 
       let akhir;
@@ -5742,9 +5698,41 @@ function doPost(e) {
       const input = document.getElementById('logImageInput');
       const label = document.getElementById('logImageFileName');
       const preview = document.getElementById('imagePreviewContainer');
+      const notice = document.getElementById('uploadStatusNotice');
       if (input) input.value = '';
       if (label) label.innerText = 'Belum ada foto yang dipilih';
       if (preview) preview.classList.add('hidden');
+      if (notice) notice.classList.add('hidden');
+    }
+
+    /* Helper Unggah Foto ke Google Drive Melalui Google Apps Script Web App */
+    async function uploadImageToGoogleDrive(base64Data, filename, unitCode) {
+      if (!googleSheetsUrl || !base64Data) return '';
+      try {
+        const payload = {
+          action: 'uploadImage',
+          isPhotoUploadOnly: true,
+          fileName: `HM_${unitCode.replace(/[^a-zA-Z0-9_-]/g, '_')}_${Date.now()}`,
+          imageBlobBase64: base64Data,
+          imageMimeType: 'image/jpeg'
+        };
+
+        const response = await fetch(googleSheetsUrl, {
+          method: 'POST',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify(payload)
+        });
+
+        if (response.ok) {
+          const resJson = await response.json();
+          if (resJson && resJson.fileUrl) {
+            return resJson.fileUrl;
+          }
+        }
+      } catch (err) {
+        console.warn("Upload langsung Drive via JSON gagal, mencoba mode fallback:", err);
+      }
+      return '';
     }
 
     function resetLogForm() {
@@ -5772,7 +5760,7 @@ function doPost(e) {
       calculateTotalHm();
     }
 
-    function handleSaveDailyLog(e) {
+    async function handleSaveDailyLog(e) {
       e.preventDefault();
       const equipId = document.getElementById('logEquipmentSelect').value;
       const equip = equipments.find(e => e.id === equipId);
@@ -5804,6 +5792,33 @@ function doPost(e) {
         return;
       }
 
+      const saveBtn = document.getElementById('saveLogBtn');
+      const saveBtnText = document.getElementById('saveLogBtnText');
+      const notice = document.getElementById('uploadStatusNotice');
+
+      let googleDrivePhotoUrl = '';
+
+      // JIKA ADA FOTO: Upload langsung ke Google Drive agar storage Firestore TIDAK PENUH
+      if (currentUploadedImageData) {
+        if (saveBtn) saveBtn.disabled = true;
+        if (saveBtnText) saveBtnText.innerText = 'Mengunggah Foto ke Google Drive...';
+        if (notice) notice.classList.remove('hidden');
+
+        try {
+          googleDrivePhotoUrl = await uploadImageToGoogleDrive(
+            currentUploadedImageData,
+            `HM_${equip.code}`,
+            equip.code
+          );
+        } catch (errUpload) {
+          console.warn("Gagal unggah foto ke Drive, lanjut simpan log:", errUpload);
+        } finally {
+          if (saveBtn) saveBtn.disabled = false;
+          if (saveBtnText) saveBtnText.innerText = 'Simpan Log Jam Kerja (HM)';
+          if (notice) notice.classList.add('hidden');
+        }
+      }
+
       const newLog = {
         id: 'LOG-' + new Date().getTime(),
         date: document.getElementById('logDate').value,
@@ -5820,7 +5835,9 @@ function doPost(e) {
         hmAkhir: hmAkhir,
         totalHm: totalHm,
         notes: (document.getElementById('logNotes')?.value || '').trim(),
-        imageData: currentUploadedImageData,
+        // Simpan URL Google Drive jika berhasil, atau fallback base64 ringan jika URL gagal
+        imageData: googleDrivePhotoUrl || currentUploadedImageData,
+        photoDriveUrl: googleDrivePhotoUrl || '',
         synced: false
       };
 
@@ -5839,7 +5856,12 @@ function doPost(e) {
       renderDashboardRecentLogs();
       renderDailyLogsTable();
 
-      showToast('Log operasional berhasil disimpan!', 'success');
+      showToast(
+        googleDrivePhotoUrl 
+          ? 'Log & foto berhasil tersimpan di Google Drive!' 
+          : 'Log operasional berhasil disimpan!', 
+        'success'
+      );
 
       if (googleSheetsUrl) {
         sendLogToGoogleSheets(newLog.id);
@@ -6249,9 +6271,9 @@ function doPost(e) {
               <td class="py-3 px-3 font-bold text-white">${log.totalHours || (parseFloat(log.bucketHours||0) + parseFloat(log.breakerHours||0)).toFixed(1)}</td>
               <td class="py-3 px-3 font-mono text-slate-300 text-xs">${log.hmAwal} &rarr; ${log.hmAkhir} <span class="text-amber-400">(${log.totalHm})</span></td>
               <td class="py-3 px-3 text-center">
-                ${log.imageData ? `
-                  <button onclick="openImageViewerModal('${log.imageData}', 'Bukti HM: ${log.equipmentCode}')" class="px-2 py-1 bg-amber-500/10 text-amber-400 border border-amber-500/30 rounded-lg text-[10px] font-semibold">
-                    <i class="fa-solid fa-image"></i> Foto
+                ${log.imageData || log.photoDriveUrl ? `
+                  <button onclick="openImageViewerModal('${log.photoDriveUrl || log.imageData}', 'Bukti HM: ${log.equipmentCode}')" class="px-2 py-1 bg-amber-500/10 text-amber-400 border border-amber-500/30 rounded-lg text-[10px] font-semibold flex items-center justify-center gap-1 mx-auto">
+                    <i class="fa-solid ${log.photoDriveUrl ? 'fa-brands fa-google-drive text-emerald-400' : 'fa-image'}"></i> Foto
                   </button>
                 ` : `<span class="text-slate-600">-</span>`}
               </td>
@@ -6736,6 +6758,7 @@ function doPost(e) {
       dailyLogs = dailyLogs.filter(l => l.id !== id);
       saveAllToStorage();
       cloudDeleteDocument('daily_logs', id);
+      
       renderDailyLogsTable();
       renderDashboardRecentLogs();
       updateDashboardKPIs();
@@ -7668,21 +7691,18 @@ function doPost(e) {
                   <div class="text-xs font-bold text-white">${t.name}</div>
                   <div class="text-[11px] font-mono text-amber-400">${t.plateNumber}</div>
                 </div>
-                <span class="text-[10px] px-2 py-0.5 rounded font-bold border ${t.status === 'Aktif' ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30' : 'bg-slate-800 text-slate-400 border-slate-700'}">${t.status}</span>
+                <span class="px-2 py-0.5 rounded text-[10px] font-bold border ${t.status === 'Aktif' ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30' : 'bg-amber-500/10 text-amber-400 border-amber-500/30'}">${t.status}</span>
               </div>
-              <div class="text-xs text-slate-300 bg-slate-950 p-2.5 rounded-lg space-y-1">
-                <div>Tipe: <strong class="text-white">${t.model}</strong></div>
-                <div>Supir: <strong class="text-white">${t.defaultDriver}</strong> (${t.phone || '-'})</div>
+              <div class="text-xs text-slate-300">
+                Model: <strong>${t.model}</strong><br>
+                Supir: <strong>${t.defaultDriver}</strong> (${t.phone || '-'})
               </div>
-              <div class="flex justify-end items-center gap-2 pt-1">
-                ${currentUser && currentUser.role === 'admin' ? `
-                  <button type="button" onclick="editTruck('${t.id}')" class="text-xs text-amber-400 hover:text-amber-300 flex items-center gap-1 font-semibold">
-                    <i class="fa-solid fa-pen-to-square"></i> Edit
-                  </button>
-                  <span class="text-slate-700">|</span>
-                  <button type="button" onclick="deleteTruck('${t.id}')" class="text-xs text-rose-400 hover:text-rose-300 flex items-center gap-1 font-semibold">
-                    <i class="fa-solid fa-trash-can"></i> Hapus
-                  </button>
+              <div class="flex justify-end pt-1">
+                ${(currentUser && currentUser.role === 'admin') ? `
+                  <div class="flex gap-2">
+                    <button type="button" onclick="editTruck('${t.id}')" class="text-xs text-amber-400 hover:text-amber-300">Edit</button>
+                    <button type="button" onclick="deleteTruck('${t.id}')" class="text-xs text-rose-400 hover:text-rose-300">Hapus</button>
+                  </div>
                 ` : ''}
               </div>
             `;
@@ -7690,6 +7710,31 @@ function doPost(e) {
           });
         }
       }
+    }
+
+    function deleteEquipmentExpense(id) {
+      if (currentUser && currentUser.role !== 'admin') {
+        showToast('Hanya Supervisor / Admin yang dapat menghapus data pengeluaran.', 'warning');
+        return;
+      }
+      equipmentExpenses = equipmentExpenses.filter(e => e.id !== id);
+      saveAllToStorage();
+      cloudDeleteDocument('equipment_expenses', id);
+      updateDashboardKPIs();
+      renderExpensesTable();
+      showToast('Data pengeluaran berhasil dihapus.', 'info');
+    }
+
+    function deleteTruckShipment(id) {
+      if (!currentUser || currentUser.role !== 'admin') {
+        showToast('Akses ditolak: Hanya Supervisor / Admin yang berhak menghapus data kiriman truk!', 'warning');
+        return;
+      }
+      truckShipments = truckShipments.filter(s => s.id !== id);
+      saveAllToStorage();
+      cloudDeleteDocument('truck_shipments', id);
+      renderTruckShipmentsTable();
+      showToast('Data kiriman truk berhasil dihapus.', 'info');
     }
 
     function deleteTruck(id) {
