@@ -5242,6 +5242,11 @@ function doPost(e) {
       const expFilterEquipSelect = document.getElementById('expenseFilterEquipment');
       const filterEquipSelect = document.getElementById('logFilterEquipment');
 
+      // Urutkan daftar unit dari A ke Z berdasarkan kode unit / nama unit
+      const sortedEquipments = equipments.slice().sort((a, b) => {
+        return (a.code || '').localeCompare(b.code || '', undefined, { numeric: true, sensitivity: 'base' });
+      });
+
       const selects = [
         { el: logSelect, defaultText: 'Pilih Unit Alat...' },
         { el: fuelSelect, defaultText: 'Pilih Unit Alat...' },
@@ -5254,7 +5259,7 @@ function doPost(e) {
         if (!el) return;
         const currentVal = el.value;
         el.innerHTML = `<option value="" disabled ${!currentVal ? 'selected' : ''}>${defaultText}</option>`;
-        equipments.forEach(eq => {
+        sortedEquipments.forEach(eq => {
           const opt = document.createElement('option');
           opt.value = eq.id;
           opt.textContent = `${eq.code} (${eq.category} - ${eq.model}) [HM: ${eq.currentHM}]`;
@@ -5266,7 +5271,7 @@ function doPost(e) {
       if (fuelFilterEquip) {
         const cur = fuelFilterEquip.value || 'ALL';
         fuelFilterEquip.innerHTML = '<option value="ALL">Semua Unit Alat</option>';
-        equipments.forEach(eq => {
+        sortedEquipments.forEach(eq => {
           const opt = document.createElement('option');
           opt.value = eq.id;
           opt.textContent = `${eq.code} - ${eq.model}`;
@@ -5278,7 +5283,7 @@ function doPost(e) {
       if (expFilterEquipSelect) {
         const curExpFilter = expFilterEquipSelect.value || 'ALL';
         expFilterEquipSelect.innerHTML = '<option value="ALL">Semua Unit Alat</option>';
-        equipments.forEach(eq => {
+        sortedEquipments.forEach(eq => {
           const opt = document.createElement('option');
           opt.value = eq.id;
           opt.textContent = `${eq.code} - ${eq.model}`;
@@ -5290,7 +5295,7 @@ function doPost(e) {
       if (filterEquipSelect) {
         const curFilter = filterEquipSelect.value || 'ALL';
         filterEquipSelect.innerHTML = '<option value="ALL">Semua Unit Alat</option>';
-        equipments.forEach(eq => {
+        sortedEquipments.forEach(eq => {
           const opt = document.createElement('option');
           opt.value = eq.id;
           opt.textContent = `${eq.code} - ${eq.model}`;
@@ -5330,8 +5335,12 @@ function doPost(e) {
 
       const currentEquip = equipSelect.value || 'ALL';
 
+      const sortedEquipments = equipments.slice().sort((a, b) => 
+        (a.code || '').localeCompare(b.code || '', undefined, { numeric: true, sensitivity: 'base' })
+      );
+
       equipSelect.innerHTML = '<option value="ALL">Semua Unit Alat</option>';
-      equipments.forEach(eq => {
+      sortedEquipments.forEach(eq => {
         const opt = document.createElement('option');
         opt.value = eq.id;
         opt.textContent = `${eq.code} (${eq.category} - ${eq.model})`;
@@ -7057,7 +7066,11 @@ function doPost(e) {
         return;
       }
 
-      equipments.forEach(eq => {
+      const sortedEquipments = equipments.slice().sort((a, b) => 
+        (a.code || '').localeCompare(b.code || '', undefined, { numeric: true, sensitivity: 'base' })
+      );
+
+      sortedEquipments.forEach(eq => {
         const div = document.createElement('div');
         div.className = 'py-3 flex items-center justify-between text-xs hover:bg-slate-800/40 px-2 rounded-xl transition';
         div.innerHTML = `
